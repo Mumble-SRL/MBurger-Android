@@ -1,20 +1,20 @@
-package mumble.nooko3.Datatypes.NElements;
+package mumble.nooko3.sdk.NData.NElements;
 
 import java.util.ArrayList;
-import mumble.nooko3.Datatypes.Const;
-import mumble.nooko3.Datatypes.NAtomic.NClass;
-import mumble.nooko3.Datatypes.NElements.NSubElements.NFile;
+import mumble.nooko3.sdk.Const;
+import mumble.nooko3.sdk.NData.NAtomic.NClass;
+import mumble.nooko3.sdk.NData.NElements.NSubElements.NFile;
 
 /**
  * Identifies an array of files, it will always be and array even if the file added in the backend is unique
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.Datatypes.Const#version}
+ * @version {@value mumble.nooko3.sdk.Const#version}
  */
 public class NEMedia extends NClass {
 
     /**
-     * Array of {@link mumble.nooko3.Datatypes.NElements.NSubElements.NFile NFiles}
+     * Array of {@link mumble.nooko3.sdk.NData.NElements.NSubElements.NFile NFiles}
      */
     private ArrayList<NFile> files;
 

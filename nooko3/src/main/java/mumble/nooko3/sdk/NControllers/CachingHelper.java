@@ -1,4 +1,4 @@
-package mumble.nooko3.Datatypes.NControllers;
+package mumble.nooko3.sdk.NControllers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,28 +6,41 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DBHelper extends SQLiteOpenHelper {
+import mumble.nooko3.sdk.UserConst;
 
+/**
+ * Database instance used for offline caching
+ *
+ * @author Enrico Ori
+ * @version {@value mumble.nooko3.sdk.Const#version}
+ */
+public class CachingHelper extends SQLiteOpenHelper {
+
+    /** Caching database name */
     public static final String DATABASE_NAME = "cache.sqlite";
+
+    /** Caching database version */
     private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_REQUESTS = "requests";
-
     public static final String COLUMN_REQUESTS_API = "api";
     public static final String COLUMN_REQUESTS_RESPONSE = "response";
+    public static final String COLUMN_REQUESTS_API_TIME = "time";
 
-    private static final String DATABASE_CREATE_SLIDESHOW_IMAGES =
+    /** Caching database creator */
+    private static final String DATABASE_CREATE_CACHING_TABLE =
             "CREATE TABLE " + TABLE_REQUESTS + " ( " +
                     COLUMN_REQUESTS_API + " TEXT PRIMARY KEY, " +
-                    COLUMN_REQUESTS_RESPONSE + " TEXT)";
+                    COLUMN_REQUESTS_RESPONSE + " TEXT, " +
+                    COLUMN_REQUESTS_API_TIME + " TEXT)";
 
-    public DBHelper(Context context) {
+    public CachingHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DATABASE_CREATE_SLIDESHOW_IMAGES);
+        db.execSQL(DATABASE_CREATE_CACHING_TABLE);
     }
 
     @Override
@@ -35,6 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REQUESTS);
     }
 
+    /** Adds a new request to the caching db with the current device time */
     public void addRequest(String api, String result) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = createContentValuesRequest(api, result);
@@ -46,6 +60,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    /** Given the API gets a response from the caching DB, if it's too old, returns null and deletes the row from the DB*/
     public String getRequestResponse(String api) {
         String response = null;
         String query = "SELECT * FROM " + TABLE_REQUESTS + " WHERE " + COLUMN_REQUESTS_API + " = " + api;
@@ -55,6 +70,11 @@ public class DBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 response = cursor.getString(1);
+                long responseTime = cursor.getLong(2);
+                if (!isResponseValid(responseTime)) {
+                    response = null;
+                    deleteResponse(api);
+                }
             } while (cursor.moveToNext());
         }
 
@@ -64,13 +84,22 @@ public class DBHelper extends SQLiteOpenHelper {
         return response;
     }
 
-    public ContentValues createContentValuesRequest(String api, String response){
+    /** Given the API deletes a response*/
+    public int deleteResponse(String api) {
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete(TABLE_REQUESTS, COLUMN_REQUESTS_API + " = " + api, null);
+    }
+
+    /** Given the API deletes a response*/
+    public ContentValues createContentValuesRequest(String api, String response) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_REQUESTS_API, api);
         values.put(COLUMN_REQUESTS_RESPONSE, response);
+        values.put(COLUMN_REQUESTS_API_TIME, System.currentTimeMillis());
         return values;
     }
 
+    /** Checks if there is already a cached element with the given API "key"*/
     public boolean isDataAlreadyInDBorNot(String api) {
         SQLiteDatabase sqldb = getWritableDatabase();
         String Query = "Select * from " + TABLE_REQUESTS + " where " + COLUMN_REQUESTS_API + " = " + api;
@@ -80,6 +109,16 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         }
         cursor.close();
+        return true;
+    }
+
+    /** Checks if the response is valid considering caching time*/
+    public static boolean isResponseValid(long responseTime) {
+        long diff = System.currentTimeMillis() - responseTime;
+        if (diff > UserConst.cachingTime) {
+            return false;
+        }
+
         return true;
     }
 

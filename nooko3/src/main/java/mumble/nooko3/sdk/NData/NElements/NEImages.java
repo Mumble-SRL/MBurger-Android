@@ -1,15 +1,15 @@
-package mumble.nooko3.Datatypes.NElements;
+package mumble.nooko3.sdk.NData.NElements;
 
 import java.util.ArrayList;
-import mumble.nooko3.Datatypes.Const;
-import mumble.nooko3.Datatypes.NAtomic.NClass;
-import mumble.nooko3.Datatypes.NElements.NSubElements.NImage;
+import mumble.nooko3.sdk.Const;
+import mumble.nooko3.sdk.NData.NAtomic.NClass;
+import mumble.nooko3.sdk.NData.NElements.NSubElements.NImage;
 
 /**
  * Identifies an array of images, it will always be and array even if the image added in the backend is unique
  *
  * @author  Enrico Ori
- * @version {@value mumble.nooko3.Datatypes.Const#version}
+ * @version {@value mumble.nooko3.sdk.Const#version}
  */
 public class NEImages extends NClass {
 

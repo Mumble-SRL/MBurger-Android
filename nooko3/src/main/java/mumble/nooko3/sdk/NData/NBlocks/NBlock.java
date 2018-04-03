@@ -1,14 +1,15 @@
-package mumble.nooko3.Datatypes.NBlocks;
+package mumble.nooko3.sdk.NData.NBlocks;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Map;
-import mumble.nooko3.Datatypes.NSections.NSection;
+import mumble.nooko3.sdk.NData.NSections.NSection;
 
 /**
  * Identifies a Nooko block, eg Home, News, POI...
  *
  * @author  Enrico Ori
- * @version {@value mumble.nooko3.Datatypes.Const#version}
+ * @version {@value mumble.nooko3.sdk.Const#version}
  */
 public class NBlock implements Serializable{
 
@@ -18,10 +19,10 @@ public class NBlock implements Serializable{
     /**Name of the block*/
     private String name;
 
-    /**Block sections given by section id*/
-    private Map<Long, NSection> sections;
+    /**Block sections array*/
+    private ArrayList<NSection> sections;
 
-    public NBlock(long id, String name, Map<Long, NSection> sections) {
+    public NBlock(long id, String name, ArrayList<NSection> sections) {
         this.id = id;
         this.name = name;
         this.sections = sections;
@@ -47,24 +48,13 @@ public class NBlock implements Serializable{
         this.name = name;
     }
 
-    /**Get block map sections*/
-    public Map<Long, NSection> getSections() {
+    /**Get block sections*/
+    public ArrayList<NSection> getSections() {
         return sections;
     }
 
-    /**Set block map sections*/
-    public void setSections(Map<Long, NSection> sections) {
+    /**Set block sections array*/
+    public void setSections(ArrayList<NSection> sections) {
         this.sections = sections;
-    }
-
-    /**Get single section given the section id, if not present returns null*/
-    public NSection getSection(Long id){
-        if(sections != null){
-            if(sections.containsKey(id)) {
-                return sections.get(id);
-            }
-        }
-
-        return null;
     }
 }

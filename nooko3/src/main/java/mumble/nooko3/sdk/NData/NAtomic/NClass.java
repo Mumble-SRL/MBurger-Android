@@ -1,11 +1,11 @@
-package mumble.nooko3.Datatypes.NAtomic;
+package mumble.nooko3.sdk.NData.NAtomic;
 import java.io.Serializable;
 
 /**
  * Basic class which all blocks are extending
  *
  * @author  Enrico Ori
- * @version 1.0
+ * @version {@value mumble.nooko3.sdk.Const#version}
  */
 public abstract class NClass implements Serializable{
 
@@ -15,7 +15,7 @@ public abstract class NClass implements Serializable{
     /** Name of the element */
     private String name;
 
-    /** Type of the element, you can see all element types in the {@link mumble.nooko3.Datatypes.Const Const.java} file */
+    /** Type of the element, you can see all element types in the {@link mumble.nooko3.sdk.Const Const.java} file */
     private String type;
 
     /** Every element must be initialized with id, name, type */

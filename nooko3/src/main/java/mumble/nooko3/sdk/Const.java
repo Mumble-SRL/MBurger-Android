@@ -1,6 +1,4 @@
-package mumble.nooko3.Datatypes;
-
-import mumble.nooko3.BuildConfig;
+package mumble.nooko3.sdk;
 
 /**
  * Constants used with the SDK.
@@ -11,8 +9,9 @@ import mumble.nooko3.BuildConfig;
 public class Const {
 
     /**Version*/
-    public static String version = BuildConfig.VERSION_NAME;
+    public static String version = "1.0";
 
+    //OBJECT TYPES
     /**Text type*/
     public static String type_text = "text";
 
@@ -30,4 +29,10 @@ public class Const {
 
     /**Address type*/
     public static String type_address = "address";
+
+    /**Title type*/
+    public static String type_title = "title";
+
+    /**Checkbox type*/
+    public static String type_checkbox = "checkbox";
 }

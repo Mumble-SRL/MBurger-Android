@@ -1,12 +1,12 @@
-package mumble.nooko3.Datatypes.NElements.NSubElements;
+package mumble.nooko3.sdk.NData.NElements.NSubElements;
 
 import java.io.Serializable;
 
 /**
- * Single image inside the {@link mumble.nooko3.Datatypes.NElements.NEImages NEImages}
+ * Single image inside the {@link mumble.nooko3.sdk.NData.NElements.NEImages NEImages}
  *
  * @author  Enrico Ori
- * @version {@value mumble.nooko3.Datatypes.Const#version}
+ * @version {@value mumble.nooko3.sdk.Const#version}
  */
 public class NImage implements Serializable{
 

@@ -1,12 +1,12 @@
-package mumble.nooko3.Datatypes.NElements;
-import mumble.nooko3.Datatypes.Const;
-import mumble.nooko3.Datatypes.NAtomic.NClass;
+package mumble.nooko3.sdk.NData.NElements;
+import mumble.nooko3.sdk.Const;
+import mumble.nooko3.sdk.NData.NAtomic.NClass;
 
 /**
  * Identifies an address with latitude and longitude
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.Datatypes.Const#version}
+ * @version {@value mumble.nooko3.sdk.Const#version}
  */
 public class NEAddress extends NClass {
 

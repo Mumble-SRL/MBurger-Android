@@ -1,17 +1,17 @@
-package mumble.nooko3.Datatypes.NElements;
+package mumble.nooko3.sdk.NData.NElements;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import mumble.nooko3.Datatypes.Const;
-import mumble.nooko3.Datatypes.NAtomic.NClass;
+import mumble.nooko3.sdk.Const;
+import mumble.nooko3.sdk.NData.NAtomic.NClass;
 
 /**
  * Identifies a date class with some utility methods to format and get milliseconds instead of seconds
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.Datatypes.Const#version}
+ * @version {@value mumble.nooko3.sdk.Const#version}
  */
 public class NEDate extends NClass {
 
