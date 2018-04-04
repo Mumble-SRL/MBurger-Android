@@ -18,7 +18,7 @@ public class NEImages extends NClass {
 
     public NEImages(long id, String name, ArrayList<NImage> images) {
         this.images = images;
-        initialize(id, name, Const.type_images);
+        initialize(id, name, Const.type_image);
     }
 
     @Override

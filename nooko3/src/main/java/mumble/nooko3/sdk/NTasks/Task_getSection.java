@@ -32,6 +32,7 @@ public class Task_getSection extends AsyncTask<Void, Void, Void> {
     private WeakReference<Context> weakContext;
     private String action = NAMCONF.ACTION_GET_SECTION;
     private boolean getElements = false;
+    private String[] objectNames = null;
 
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
     private String error;
@@ -39,15 +40,17 @@ public class Task_getSection extends AsyncTask<Void, Void, Void> {
 
     private NSection section;
 
-    public Task_getSection(Context context, boolean getElements) {
+    public Task_getSection(Context context, boolean getElements, String[] objectNames) {
         this.weakContext = new WeakReference<>(context);
         this.getElements = getElements;
+        this.objectNames = objectNames;
     }
 
-    public Task_getSection(Context context, String custom_action, boolean getElements) {
+    public Task_getSection(Context context, String custom_action, boolean getElements, String[] objectNames) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getElements = getElements;
+        this.objectNames = objectNames;
     }
 
     @Override
@@ -91,7 +94,7 @@ public class Task_getSection extends AsyncTask<Void, Void, Void> {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
             JSONArray jSections = jPayload.getJSONArray("body");
-            section = NParser.parseSection(jSections.getJSONArray(0), getElements);
+            section = NParser.parseSection(jSections.getJSONObject(0), getElements, objectNames);
         } catch (JSONException e) {
             e.printStackTrace();
         }

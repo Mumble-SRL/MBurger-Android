@@ -16,7 +16,7 @@ public class Const {
     public static String type_text = "text";
 
     /**Array images type*/
-    public static String type_images = "images";
+    public static String type_image = "image";
 
     /**Array media type*/
     public static String type_media = "media";
@@ -35,4 +35,21 @@ public class Const {
 
     /**Checkbox type*/
     public static String type_checkbox = "checkbox";
+
+    /**Dropdown type*/
+    public static String type_dropdown = "dropdown";
+
+    //MEDIA TYPES
+    /**Media type file*/
+    public static String type_media_file = "file";
+
+    /**Media type document*/
+    public static String type_media_document = "document";
+
+    /**Media type audio*/
+    public static String type_media_audio = "audio";
+
+    /**Media type video*/
+    public static String type_media_video = "video";
+
 }

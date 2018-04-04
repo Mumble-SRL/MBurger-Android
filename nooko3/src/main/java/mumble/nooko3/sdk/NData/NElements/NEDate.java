@@ -15,7 +15,9 @@ import mumble.nooko3.sdk.NData.NAtomic.NClass;
  */
 public class NEDate extends NClass {
 
-    /** Timestamp in seconds */
+    /**
+     * Timestamp in seconds
+     */
     private long timestamp;
 
     public NEDate(long id, String name, long timestamp) {
@@ -30,18 +32,31 @@ public class NEDate extends NClass {
         super.setType(type);
     }
 
-    /** Get timestamp in milliseconds in order to be used better on Android */
+    /**
+     * Get timestamp in seconds
+     */
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    /**
+     * Get timestamp in milliseconds in order to be used better on Android
+     */
     public long getTimestampMillisec() {
         return TimeUnit.SECONDS.toMillis(timestamp);
     }
 
-    /** Format timestamp with the given format using the default device locale*/
+    /**
+     * Format timestamp with the given format using the default device locale
+     */
     public String formatDate(String format) {
         SimpleDateFormat df = new SimpleDateFormat(format, Locale.getDefault());
         return df.format(timestamp);
     }
 
-    /** Format timestamp with the given format and locale*/
+    /**
+     * Format timestamp with the given format and locale
+     */
     public String formatDate(String format, Locale locale) {
         SimpleDateFormat df = new SimpleDateFormat(format, locale);
         return df.format(timestamp);

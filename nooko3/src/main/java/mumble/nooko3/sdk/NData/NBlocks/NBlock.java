@@ -22,10 +22,14 @@ public class NBlock implements Serializable{
     /**Block sections array*/
     private ArrayList<NSection> sections;
 
-    public NBlock(long id, String name, ArrayList<NSection> sections) {
+    /**Order of the block inside the project*/
+    private int order;
+
+    public NBlock(long id, String name, ArrayList<NSection> sections, int order) {
         this.id = id;
         this.name = name;
         this.sections = sections;
+        this.order = order;
     }
 
     /**Get block id*/
@@ -56,5 +60,15 @@ public class NBlock implements Serializable{
     /**Set block sections array*/
     public void setSections(ArrayList<NSection> sections) {
         this.sections = sections;
+    }
+
+    /**Get block order*/
+    public int getOrder() {
+        return order;
+    }
+
+    /**Set block order*/
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

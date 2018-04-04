@@ -31,8 +31,10 @@ import mumble.nooko3.sdk.NData.NBlocks.NBlock;
 public class Task_getBlocks extends AsyncTask<Void, Void, Void> {
 
     private WeakReference<Context> weakContext;
-    private String action = NAMCONF.ACTION_GET_BLOCKS;
+    private ArrayList<Object> filters;
     private boolean getSections = false, getElements = false;
+    private String[] objectNames;
+    private String action = NAMCONF.ACTION_GET_BLOCKS;
 
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
     private String error;
@@ -40,28 +42,34 @@ public class Task_getBlocks extends AsyncTask<Void, Void, Void> {
 
     private ArrayList<NBlock> blocks;
 
-    public Task_getBlocks(Context context, boolean getSections) {
+    public Task_getBlocks(Context context, ArrayList<Object> filters, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
         this.getSections = getSections;
+        this.filters = filters;
     }
 
-    public Task_getBlocks(Context context, boolean getSections, boolean getElements) {
+    public Task_getBlocks(Context context, ArrayList<Object> filters, boolean getSections, boolean getElements, String[] objectNames) {
         this.weakContext = new WeakReference<>(context);
         this.getSections = getSections;
         this.getElements = getElements;
+        this.objectNames = objectNames;
+        this.filters = filters;
     }
 
-    public Task_getBlocks(Context context, String custom_action, boolean getSections) {
+    public Task_getBlocks(Context context, ArrayList<Object> filters, String custom_action, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getSections = getSections;
+        this.filters = filters;
     }
 
-    public Task_getBlocks(Context context, String custom_action, boolean getSections, boolean getElements) {
+    public Task_getBlocks(Context context, ArrayList<Object> filters, String custom_action, boolean getSections, boolean getElements, String[] objectNames) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getSections = getSections;
         this.getElements = getElements;
+        this.objectNames = objectNames;
+        this.filters = filters;
     }
 
     @Override
@@ -104,10 +112,10 @@ public class Task_getBlocks extends AsyncTask<Void, Void, Void> {
     public void getPayload(String sPayload) {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
-            JSONArray jBlocks = jPayload.getJSONArray("body");
+            JSONArray jBlocks = jPayload.getJSONArray("items");
             blocks = new ArrayList<>();
             for (int i = 0; i < jBlocks.length(); i++) {
-                blocks.add(NParser.parseBlock(jBlocks.getJSONObject(i), getSections, getElements));
+                blocks.add(NParser.parseBlock(jBlocks.getJSONObject(i), getSections, getElements, objectNames));
             }
         } catch (JSONException e) {
             e.printStackTrace();

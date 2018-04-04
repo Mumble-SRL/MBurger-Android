@@ -14,6 +14,7 @@ import mumble.nooko3.sdk.NData.NBlocks.NBlock;
 import mumble.nooko3.sdk.NData.NElements.NEAddress;
 import mumble.nooko3.sdk.NData.NElements.NECheckbox;
 import mumble.nooko3.sdk.NData.NElements.NEDate;
+import mumble.nooko3.sdk.NData.NElements.NEDropdown;
 import mumble.nooko3.sdk.NData.NElements.NEImages;
 import mumble.nooko3.sdk.NData.NElements.NEMedia;
 import mumble.nooko3.sdk.NData.NElements.NEText;
@@ -57,9 +58,10 @@ public class NParser {
     /**
      * Parses a complete block
      */
-    public static NBlock parseBlock(JSONObject jsonObject, boolean getSections, boolean getElements) {
+    public static NBlock parseBlock(JSONObject jsonObject, boolean getSections, boolean getElements, String[] objectsNames) {
         long id = -1;
         String name = null;
+        int order = 0;
         ArrayList<NSection> sections = null;
 
         try {
@@ -67,31 +69,35 @@ public class NParser {
                 id = jsonObject.getLong("id");
             }
 
-            if (NCommonMethods.isJSONOk(jsonObject, "name")) {
-                name = jsonObject.getString("name");
+            if (NCommonMethods.isJSONOk(jsonObject, "title")) {
+                name = jsonObject.getString("title");
             }
 
-            if(getSections) {
+            if (NCommonMethods.isJSONOk(jsonObject, "order")) {
+                order = jsonObject.getInt("order");
+            }
+
+            if (getSections) {
                 if (NCommonMethods.isJSONOk(jsonObject, "sections")) {
-                    sections = parseSections(jsonObject.getJSONArray("sections"), getElements);
+                    sections = parseSections(jsonObject.getJSONArray("sections"), getElements, objectsNames);
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return new NBlock(id, name, sections);
+        return new NBlock(id, name, sections, order);
     }
 
     /**
      * Parses sections for the block
      */
-    public static ArrayList<NSection> parseSections(JSONArray jSections, boolean getElements) {
-        ArrayList<NSection> sections = null;
+    public static ArrayList<NSection> parseSections(JSONArray jSections, boolean getElements, String[] objectsNames) {
+        ArrayList<NSection> sections = new ArrayList<>();
         try {
             for (int i = 0; i < jSections.length(); i++) {
-                JSONArray jSect = jSections.getJSONArray(i);
-                NSection section = parseSection(jSect, getElements);
+                JSONObject jSect = jSections.getJSONObject(i);
+                NSection section = parseSection(jSect, getElements, objectsNames);
                 sections.add(section);
             }
         } catch (JSONException e) {
@@ -103,46 +109,48 @@ public class NParser {
     /**
      * Parses a single section
      */
-    public static NSection parseSection(JSONArray jSection, boolean getElement) {
+    public static NSection parseSection(JSONObject jSection, boolean getElements, String[] objectsNames) {
         Map<String, NClass> data = new HashMap<>();
         long id = -1;
-        String name = null;
+        int order = 0;
 
         try {
-            for (int i = 0; i < jSection.length(); i++) {
-                JSONObject jElem = jSection.getJSONObject(i);
-                String type = null;
-                NClass nObj = null;
-                if (NCommonMethods.isJSONOk(jElem, "id")) {
-                    id = jElem.getLong("id");
-                    continue;
-                }
+            if (NCommonMethods.isJSONOk(jSection, "id")) {
+                id = jSection.getLong("id");
+            }
 
-                if (NCommonMethods.isJSONOk(jElem, "name")) {
-                    name = jElem.getString("name");
-                    continue;
-                }
+            if (NCommonMethods.isJSONOk(jSection, "order")) {
+                order = jSection.getInt("order");
+            }
 
-                if(getElement) {
-                    if (NCommonMethods.isJSONOk(jElem, "type")) {
-                        nObj = getNClassFromElem(jElem.get("value"), id, name, type);
+            if (getElements && (objectsNames != null)) {
+                if(NCommonMethods.isJSONOk(jSection, "elements")) {
+                    JSONObject jElements = jSection.getJSONObject("elements");
+                    for (int i = 0; i < objectsNames.length; i++) {
+                        String objName = objectsNames[i];
+                        JSONObject jElem = jElements.getJSONObject(objName);
+                        String type = null;
+                        NClass nObj = null;
+                        if (NCommonMethods.isJSONOk(jElem, "type")) {
+                            nObj = getNClassFromElem(jElem.get("value"), id, objName, jElem.getString("type"));
+                        }
+
+                        if (nObj != null) {
+                            data.put(objName, nObj);
+                        }
                     }
-
-                    if (nObj != null) {
-                        data.put(name, nObj);
-                    }
-                }
-                else{
-                    data.put(name, nObj);
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return new NSection(id, name, data);
+        return new NSection(id, order, data);
     }
 
+    /**
+     * Gets a single Nooko class from type working with the value
+     */
     private static NClass getNClassFromElem(Object value, long id, String name, String type) {
         NClass nObj = null;
 
@@ -151,22 +159,67 @@ public class NParser {
                 nObj = new NEText(id, name, (String) value);
             }
 
-            if (type.equals(Const.type_images)) {
-                JSONArray jImages = new JSONArray((String) value);
+            if (type.equals(Const.type_image)) {
+                JSONArray jImages = (JSONArray) value;
                 ArrayList<NImage> nImages = new ArrayList<>();
                 for (int i = 0; i < jImages.length(); i++) {
-                    String url = jImages.getString(i);
-                    nImages.add(new NImage(url));
+                    JSONObject jImg = jImages.getJSONObject(i);
+                    long img_id = -1;
+                    String img_url = null;
+                    long img_size = -1;
+                    String img_mime_type = null;
+
+                    if (NCommonMethods.isJSONOk(jImg, "id")) {
+                        id = jImg.getLong("id");
+                    }
+
+                    if (NCommonMethods.isJSONOk(jImg, "url")) {
+                        img_url = jImg.getString("url");
+                    }
+
+                    if (NCommonMethods.isJSONOk(jImg, "size")) {
+                        img_size = jImg.getLong("size");
+                    }
+
+                    if (NCommonMethods.isJSONOk(jImg, "mime_type")) {
+                        img_mime_type = jImg.getString("mime_type");
+                    }
+
+                    nImages.add(new NImage(img_id, img_url, img_mime_type, img_size));
                 }
                 nObj = new NEImages(id, name, nImages);
             }
 
-            if (type.equals(Const.type_media)) {
+            if (type.equals(Const.type_media_audio) ||
+                    type.equals(Const.type_media_document) ||
+                    type.equals(Const.type_media_file) ||
+                    type.equals(Const.type_media_video)) {
                 JSONArray jMedia = new JSONArray((String) value);
                 ArrayList<NFile> nFiles = new ArrayList<>();
                 for (int i = 0; i < jMedia.length(); i++) {
-                    String url = jMedia.getString(i);
-                    nFiles.add(new NFile(url));
+                    JSONObject jF = jMedia.getJSONObject(i);
+                    long file_id = -1;
+                    String file_url = null;
+                    long file_size = -1;
+                    String file_mime_type = null;
+
+                    if (NCommonMethods.isJSONOk(jF, "id")) {
+                        file_id = jF.getLong("id");
+                    }
+
+                    if (NCommonMethods.isJSONOk(jF, "url")) {
+                        file_url = jF.getString("url");
+                    }
+
+                    if (NCommonMethods.isJSONOk(jF, "size")) {
+                        file_size = jF.getLong("size");
+                    }
+
+                    if (NCommonMethods.isJSONOk(jF, "mime_type")) {
+                        file_mime_type = jF.getString("mime_type");
+                    }
+
+                    nFiles.add(new NFile(file_id, file_mime_type, file_size, file_url, type));
                 }
                 nObj = new NEMedia(id, name, nFiles);
             }
@@ -180,7 +233,7 @@ public class NParser {
             }
 
             if (type.equals(Const.type_address)) {
-                JSONObject jAddress = new JSONObject((String) value);
+                JSONObject jAddress = (JSONObject) value;
                 String address = null;
                 double latitude = -1, longitude = -1;
                 if (NCommonMethods.isJSONOk(jAddress, "address")) {
@@ -205,6 +258,11 @@ public class NParser {
             if (type.equals(Const.type_checkbox)) {
                 nObj = new NECheckbox(id, name, (boolean) value);
             }
+
+            if (type.equals(Const.type_dropdown)) {
+                nObj = new NEDropdown(id, name, (String) value);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

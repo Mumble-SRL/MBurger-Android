@@ -33,8 +33,10 @@ import mumble.nooko3.sdk.NData.NSections.NSection;
 public class Task_getSections extends AsyncTask<Void, Void, Void> {
 
     private WeakReference<Context> weakContext;
-    private String action = NAMCONF.ACTION_GET_SECTIONS;
+    private ArrayList<Object> filters;
     private boolean getElements = false;
+    private String[] objectNames = null;
+    private String action = NAMCONF.ACTION_GET_SECTIONS;
 
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
     private String error;
@@ -42,15 +44,19 @@ public class Task_getSections extends AsyncTask<Void, Void, Void> {
 
     private ArrayList<NSection> sections;
 
-    public Task_getSections(Context context, boolean getElements) {
+    public Task_getSections(Context context, ArrayList<Object> filters, boolean getElements, String[] objectNames) {
         this.weakContext = new WeakReference<>(context);
         this.getElements = getElements;
+        this.objectNames = objectNames;
+        this.filters = filters;
     }
 
-    public Task_getSections(Context context, String custom_action, boolean getElements) {
+    public Task_getSections(Context context, ArrayList<Object> filters, String custom_action, boolean getElements, String[] objectNames) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getElements = getElements;
+        this.objectNames = objectNames;
+        this.filters = filters;
     }
 
     @Override
@@ -93,10 +99,10 @@ public class Task_getSections extends AsyncTask<Void, Void, Void> {
     public void getPayload(String sPayload) {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
-            JSONArray jSections = jPayload.getJSONArray("body");
+            JSONArray jSections = jPayload.getJSONArray("items");
             sections = new ArrayList<>();
             for (int i = 0; i < jSections.length(); i++) {
-                sections.add(NParser.parseSection(jSections.getJSONArray(i), getElements));
+                sections.add(NParser.parseSection(jSections.getJSONObject(i), getElements, objectNames));
             }
         } catch (JSONException e) {
             e.printStackTrace();

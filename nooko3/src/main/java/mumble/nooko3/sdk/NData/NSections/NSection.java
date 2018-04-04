@@ -17,15 +17,15 @@ public class NSection implements Serializable {
     /**Unique id of the section*/
     private long id;
 
-    /**Name of the section*/
-    private String name;
+    /**Numeric order of the section*/
+    private int order;
 
     /**A Map which contains all the fields, identified by name*/
     private Map<String, NClass> data;
 
-    public NSection(long id, String name, Map<String, NClass> data) {
+    public NSection(long id, int order, Map<String, NClass> data) {
         this.id = id;
-        this.name = name;
+        this.order = order;
         this.data = data;
     }
 
@@ -37,16 +37,6 @@ public class NSection implements Serializable {
     /**Set unique id of the section*/
     public void setId(long id) {
         this.id = id;
-    }
-
-    /**Get the name of the section*/
-    public String getName() {
-        return name;
-    }
-
-    /**Set the name of the section*/
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**Get Map with the fields*/
@@ -68,5 +58,15 @@ public class NSection implements Serializable {
         }
 
         return null;
+    }
+
+    /**Get the numeric order of the section*/
+    public int getOrder() {
+        return order;
+    }
+
+    /**Set the numeric order of the section*/
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

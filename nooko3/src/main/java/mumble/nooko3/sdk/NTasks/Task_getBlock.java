@@ -33,6 +33,7 @@ public class Task_getBlock extends AsyncTask<Void, Void, Void> {
     private WeakReference<Context> weakContext;
     private String action = NAMCONF.ACTION_GET_BLOCK;
     private boolean getSections = false, getElements = false;
+    private String[] objectNames;
 
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
     private String error;
@@ -45,10 +46,11 @@ public class Task_getBlock extends AsyncTask<Void, Void, Void> {
         this.getSections = getSections;
     }
 
-    public Task_getBlock(Context context, boolean getSections, boolean getElements) {
+    public Task_getBlock(Context context, boolean getSections, boolean getElements, String[] objectNames) {
         this.weakContext = new WeakReference<>(context);
         this.getSections = getSections;
         this.getElements = getElements;
+        this.objectNames = objectNames;
     }
 
     public Task_getBlock(Context context, String custom_action, boolean getSections) {
@@ -57,11 +59,12 @@ public class Task_getBlock extends AsyncTask<Void, Void, Void> {
         this.getSections = getSections;
     }
 
-    public Task_getBlock(Context context, String custom_action, boolean getSections, boolean getElements) {
+    public Task_getBlock(Context context, String custom_action, boolean getSections, boolean getElements, String[] objectNames) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getSections = getSections;
         this.getElements = getElements;
+        this.objectNames = objectNames;
     }
 
     @Override
@@ -105,7 +108,7 @@ public class Task_getBlock extends AsyncTask<Void, Void, Void> {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
             JSONArray jBlocks = jPayload.getJSONArray("body");
-            block = NParser.parseBlock(jBlocks.getJSONObject(0), getSections, getElements);
+            block = NParser.parseBlock(jBlocks.getJSONObject(0), getSections, getElements, objectNames);
         } catch (JSONException e) {
             e.printStackTrace();
         }

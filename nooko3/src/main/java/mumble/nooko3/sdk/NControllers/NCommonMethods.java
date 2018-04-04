@@ -1,12 +1,12 @@
 package mumble.nooko3.sdk.NControllers;
 
-import android.os.Bundle;
-
 import org.json.JSONObject;
 
 public class NCommonMethods {
 
-    /**Checks if a JSON has a key and is not null*/
+    /**
+     * Checks if a JSON has a key and is not null
+     */
     public static boolean isJSONOk(JSONObject json, String key) {
         if (json.has(key)) {
             if (!json.isNull(key)) {
