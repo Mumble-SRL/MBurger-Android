@@ -27,7 +27,7 @@ import mumble.nooko3.sdk.NData.NBlocks.NBlock;
  * @author Enrico Ori
  * @version {@value NConst#version}
  */
-public class Task_getBlock extends AsyncTask<Void, Void, Void> {
+public class ATask_getBlock extends AsyncTask<Void, Void, Void> {
 
     /**Context reference used to send data to Activity/Fragment*/
     private WeakReference<Context> weakContext;
@@ -47,24 +47,24 @@ public class Task_getBlock extends AsyncTask<Void, Void, Void> {
 
     private NBlock block;
 
-    public Task_getBlock(Context context, boolean getSections) {
+    public ATask_getBlock(Context context, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
         this.getSections = getSections;
     }
 
-    public Task_getBlock(Context context, boolean getSections, boolean getElements) {
+    public ATask_getBlock(Context context, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.getSections = getSections;
         this.getElements = getElements;
     }
 
-    public Task_getBlock(Context context, String custom_action, boolean getSections) {
+    public ATask_getBlock(Context context, String custom_action, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getSections = getSections;
     }
 
-    public Task_getBlock(Context context, String custom_action, boolean getSections, boolean getElements) {
+    public ATask_getBlock(Context context, String custom_action, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getSections = getSections;

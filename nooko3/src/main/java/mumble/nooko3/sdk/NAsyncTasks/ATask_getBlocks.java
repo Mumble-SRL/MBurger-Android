@@ -28,7 +28,7 @@ import mumble.nooko3.sdk.NData.NBlocks.NBlock;
  * @author Enrico Ori
  * @version {@value NConst#version}
  */
-public class Task_getBlocks extends AsyncTask<Void, Void, Void> {
+public class ATask_getBlocks extends AsyncTask<Void, Void, Void> {
 
     /**Context reference used to send data to Activity/Fragment*/
     private WeakReference<Context> weakContext;
@@ -51,27 +51,27 @@ public class Task_getBlocks extends AsyncTask<Void, Void, Void> {
 
     private ArrayList<NBlock> blocks;
 
-    public Task_getBlocks(Context context, ArrayList<Object> filters, boolean getSections) {
+    public ATask_getBlocks(Context context, ArrayList<Object> filters, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
         this.getSections = getSections;
         this.filters = filters;
     }
 
-    public Task_getBlocks(Context context, ArrayList<Object> filters, boolean getSections, boolean getElements) {
+    public ATask_getBlocks(Context context, ArrayList<Object> filters, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.getSections = getSections;
         this.getElements = getElements;
         this.filters = filters;
     }
 
-    public Task_getBlocks(Context context, ArrayList<Object> filters, String custom_action, boolean getSections) {
+    public ATask_getBlocks(Context context, ArrayList<Object> filters, String custom_action, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getSections = getSections;
         this.filters = filters;
     }
 
-    public Task_getBlocks(Context context, ArrayList<Object> filters, String custom_action, boolean getSections, boolean getElements) {
+    public ATask_getBlocks(Context context, ArrayList<Object> filters, String custom_action, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getSections = getSections;

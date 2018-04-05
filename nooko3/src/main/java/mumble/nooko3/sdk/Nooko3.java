@@ -29,7 +29,9 @@ import mumble.nooko3.sdk.NData.NElements.NEText;
 import mumble.nooko3.sdk.NData.NElements.NEWYSIWYG;
 import mumble.nooko3.sdk.NData.NSections.NSection;
 import mumble.nooko3.sdk.NExceptions.NSDKInitializeException;
-import mumble.nooko3.sdk.NTasks.Task_getProject;
+import mumble.nooko3.sdk.NAsyncTasks.ATask_getBlocks;
+import mumble.nooko3.sdk.NAsyncTasks.ATask_getProject;
+import mumble.nooko3.sdk.NAsyncTasks.ATask_getSections;
 
 /**
  * Basic init class for Nooko3, which sets an array of constants used runtime.
@@ -282,7 +284,7 @@ public class Nooko3 {
     /**Asks project data from API*/
     public static void askForProject(Context context){
         if(NUserConst.apiKey != null) {
-            new Task_getProject(context, null).execute();
+            new ATask_getProject(context, null).execute();
         }
         else{
             throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
@@ -292,11 +294,73 @@ public class Nooko3 {
     /**Asks project data from API with custom action return*/
     public static void askForProject(Context context, String custom_action){
         if(NUserConst.apiKey != null) {
-            new Task_getProject(context, custom_action).execute();
+            new ATask_getProject(context, custom_action).execute();
         }
         else{
             throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
     }
+
+    /**Asks blocks data from API with or without sections*/
+    public static void askForBlocks(Context context, ArrayList<Object> filters, boolean getSections){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlocks(context, filters, getSections).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks blocks data from API with or without sections and elements*/
+    public static void askForBlocks(Context context, ArrayList<Object> filters, boolean getSections, boolean getElements){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlocks(context, filters, getSections, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks blocks data from API with or without sections with a custom action return*/
+    public static void askForBlocks(Context context, ArrayList<Object> filters, boolean getSections, String custom_action){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlocks(context, filters, custom_action, getSections).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks blocks data from API with or without sections and elements with a custom action return*/
+    public static void askForBlocks(Context context, ArrayList<Object> filters, boolean getSections, boolean getElements, String custom_action){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlocks(context, filters, custom_action, getSections, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks sections data from API with or without elements*/
+    public static void askForSections(Context context, ArrayList<Object> filters, boolean getElements){
+        if(NUserConst.apiKey != null) {
+            new ATask_getSections(context, filters, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks sections data from API with or without elements with a custom action return*/
+    public static void askForSections(Context context, ArrayList<Object> filters, boolean getElements, String custom_action){
+        if(NUserConst.apiKey != null) {
+            new ATask_getSections(context, filters, custom_action, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+
 
 }

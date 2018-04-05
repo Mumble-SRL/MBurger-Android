@@ -27,7 +27,7 @@ import mumble.nooko3.sdk.NData.NSections.NSection;
  * @author Enrico Ori
  * @version {@value NConst#version}
  */
-public class Task_getSection extends AsyncTask<Void, Void, Void> {
+public class ATask_getSection extends AsyncTask<Void, Void, Void> {
 
     /**Context reference used to send data to Activity/Fragment*/
     private WeakReference<Context> weakContext;
@@ -44,12 +44,12 @@ public class Task_getSection extends AsyncTask<Void, Void, Void> {
 
     private NSection section;
 
-    public Task_getSection(Context context, boolean getElements) {
+    public ATask_getSection(Context context, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.getElements = getElements;
     }
 
-    public Task_getSection(Context context, String custom_action, boolean getElements) {
+    public ATask_getSection(Context context, String custom_action, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getElements = getElements;
