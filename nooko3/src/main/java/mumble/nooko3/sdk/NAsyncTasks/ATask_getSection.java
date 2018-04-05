@@ -1,4 +1,4 @@
-package mumble.nooko3.sdk.NTasks;
+package mumble.nooko3.sdk.NAsyncTasks;
 
 import android.content.ContentValues;
 import android.content.Context;
