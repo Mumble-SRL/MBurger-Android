@@ -264,7 +264,7 @@ public class NAPIManager3 {
         postData.put("os", NAMCONF.OS);
         postData.put("locale", Locale.getDefault().getLanguage());
         postData.put("version", NAMCONF.API_VERSION);
-        postData.put("api_key", NAMCONF.API_KEY);
+        postData.put("api_key", NUserConst.apiKey);
     }
 
 }

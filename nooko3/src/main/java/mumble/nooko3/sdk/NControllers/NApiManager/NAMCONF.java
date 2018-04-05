@@ -12,7 +12,6 @@ public class NAMCONF {
 
     public static String endpoint = "http://nooko3.mumbleserver.it";
     public static String SERVER_HOSTNAME = "nooko3.mumbleserver.it";
-    public static String API_KEY = "W2dYUFkUVKZdlmfmhd4yJcwHCCUsLE9f";
     public static final String OS = "android";
     public static final String API_VERSION = "1";
 

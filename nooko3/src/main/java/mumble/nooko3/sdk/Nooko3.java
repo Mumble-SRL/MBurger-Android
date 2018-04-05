@@ -7,13 +7,16 @@ import android.content.Context;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javadz.beanutils.BeanUtils;
+import mumble.nooko3.R;
 import mumble.nooko3.sdk.NConstants.NConst;
-import mumble.nooko3.sdk.NControllers.NApiResultListener;
+import mumble.nooko3.sdk.NConstants.NMappingArgs;
+import mumble.nooko3.sdk.NConstants.NUserConst;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
+import mumble.nooko3.sdk.NControllers.NApiResultListener;
+import mumble.nooko3.sdk.NControllers.NFieldsMapping;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 import mumble.nooko3.sdk.NData.NElements.NEAddress;
 import mumble.nooko3.sdk.NData.NElements.NECheckbox;
@@ -25,7 +28,8 @@ import mumble.nooko3.sdk.NData.NElements.NEMedia;
 import mumble.nooko3.sdk.NData.NElements.NEText;
 import mumble.nooko3.sdk.NData.NElements.NEWYSIWYG;
 import mumble.nooko3.sdk.NData.NSections.NSection;
-import mumble.nooko3.sdk.NConstants.NUserConst;
+import mumble.nooko3.sdk.NExceptions.NSDKInitializeException;
+import mumble.nooko3.sdk.NTasks.Task_getProject;
 
 /**
  * Basic init class for Nooko3, which sets an array of constants used runtime.
@@ -40,21 +44,23 @@ public class Nooko3 {
      * Caching = false
      * CachingTime = 3 days
      */
-    public static void initialize(Context context) {
-
+    public static void initialize(String api_key) {
+        NUserConst.apiKey = api_key;
     }
 
     /**
      * Initialize the SDK with user parameters about caching on/off with the default caching time (3 days)
      */
-    public static void initialize(Context context, boolean cachingEnabled) {
+    public static void initialize(String api_key, boolean cachingEnabled) {
+        NUserConst.apiKey = api_key;
         NUserConst.cachingEnabled = cachingEnabled;
     }
 
     /**
      * Initialize the SDK with user parameters about caching duration, default caching is OFF but this method turn it ON
      */
-    public static void initialize(Context context, long cachingDuration) {
+    public static void initialize(String api_key, long cachingDuration) {
+        NUserConst.apiKey = api_key;
         NUserConst.cachingEnabled = true;
         NUserConst.cachingTime = cachingDuration;
     }
@@ -63,54 +69,89 @@ public class Nooko3 {
      * Initialize an activity/fragment to receive project informations from API
      */
     public static BroadcastReceiver initializeNookoReceiverForProject(Activity activity, NApiResultListener listener) {
-        String[] receivers = new String[]{NAMCONF.ACTION_GET_PROJECT};
-        return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        if(NUserConst.apiKey != null) {
+            String[] receivers = new String[]{NAMCONF.ACTION_GET_PROJECT};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        }
+        else{
+            throw new NSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
     }
 
     /**
      * Initialize an activity/fragment to receive blocks from API
      */
     public static BroadcastReceiver initializeNookoReceiverForBlocks(Activity activity, NApiResultListener listener) {
-        String[] receivers = new String[]{NAMCONF.ACTION_GET_BLOCKS};
-        return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        if(NUserConst.apiKey != null) {
+            String[] receivers = new String[]{NAMCONF.ACTION_GET_BLOCKS};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        }
+        else{
+            throw new NSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
     }
 
     /**
      * Initialize an activity/fragment to receive a single block from API
      */
     public static BroadcastReceiver initializeNookoReceiverForBlock(Activity activity, NApiResultListener listener) {
-        String[] receivers = new String[]{NAMCONF.ACTION_GET_BLOCK};
-        return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        if(NUserConst.apiKey != null) {
+            String[] receivers = new String[]{NAMCONF.ACTION_GET_BLOCK};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        }
+        else{
+            throw new NSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
     }
 
     /**
      * Initialize an activity/fragment to receive sections from API
      */
     public static BroadcastReceiver initializeNookoReceiverForSections(Activity activity, NApiResultListener listener) {
-        String[] receivers = new String[]{NAMCONF.ACTION_GET_SECTIONS};
-        return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        if(NUserConst.apiKey != null) {
+            String[] receivers = new String[]{NAMCONF.ACTION_GET_SECTIONS};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        }
+        else{
+            throw new NSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
     }
 
     /**
      * Initialize an activity/fragment to receive a single section from API
      */
     public static BroadcastReceiver initializeNookoReceiverForSection(Activity activity, NApiResultListener listener) {
-        String[] receivers = new String[]{NAMCONF.ACTION_GET_SECTION};
-        return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        if(NUserConst.apiKey != null) {
+            String[] receivers = new String[]{NAMCONF.ACTION_GET_SECTION};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        }
+        else{
+            throw new NSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
     }
 
     /**
      * Initialize an activity/fragment to receive custom data with custom actions
      */
     public static BroadcastReceiver initializeNookoReceiverCustom(Activity activity, NApiResultListener listener, String[] receivers) {
-        return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        if(NUserConst.apiKey != null) {
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        }
+        else{
+            throw new NSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
     }
 
     /**
      * Removes the Nooko receiver from the activity/fragment, must pass BroadcastReceiver from initialization
      */
     public static void pauseNookoReceiver(Activity activity, BroadcastReceiver broadcastReceiver) {
-        NAMActivityUtils.unregisterForApiManager(activity, broadcastReceiver);
+        if(NUserConst.apiKey != null) {
+            NAMActivityUtils.unregisterForApiManager(activity, broadcastReceiver);
+        }
+        else{
+            throw new NSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
     }
 
     /**
@@ -123,9 +164,9 @@ public class Nooko3 {
      *                          images, addresses and media has special fields to obtain the first element or
      *                          just part of the object
      * @param destinationObject is an empty user object, which has at least getters and setters
-     * @param getSimpleValues    represents if for media and images you wish to have only the url of the media or the whole object
+     * @param getSimpleValues   represents if for media and images you wish to have only the url of the media or the whole object
      */
-    public static Object mapToCustomObject(NSection section, HashMap<String, String> fieldsMap,
+    public static Object mapToCustomObject(NSection section, NFieldsMapping fieldsMap,
                                            Object destinationObject, boolean getSimpleValues) {
         Field[] fields = destinationObject.getClass().getDeclaredFields();
         for (Field field : fields) {
@@ -139,7 +180,7 @@ public class Nooko3 {
 
                         if (sectionObject instanceof NEImages) {
                             NEImages nImages = (NEImages) sectionObject;
-                            if (secondPart.equals("getFirstImage")) {
+                            if (secondPart.equals(NMappingArgs.mapping_first_image_media)) {
                                 if (getSimpleValues) {
                                     BeanUtils.setProperty(destinationObject, field.getName(), nImages.getFirstImage().getUrl());
                                 } else {
@@ -150,7 +191,7 @@ public class Nooko3 {
 
                         if (sectionObject instanceof NEMedia) {
                             NEMedia nMedia = (NEMedia) sectionObject;
-                            if (secondPart.equals("getFirstMedia")) {
+                            if (secondPart.equals(NMappingArgs.mapping_first_image_media)) {
                                 if (getSimpleValues) {
                                     BeanUtils.setProperty(destinationObject, field.getName(), nMedia.getFirstMedia().getUrl());
                                 } else {
@@ -161,18 +202,19 @@ public class Nooko3 {
 
                         if (sectionObject instanceof NEAddress) {
                             NEAddress neAddress = (NEAddress) sectionObject;
-                            if (secondPart.equals("getLatitude")) {
+                            if (secondPart.equals(NMappingArgs.mapping_latitude)) {
                                 BeanUtils.setProperty(destinationObject, field.getName(), neAddress.getLatitude());
                             }
 
-                            if (secondPart.equals("getLongitude")) {
+                            if (secondPart.equals(NMappingArgs.mapping_longitude)) {
                                 BeanUtils.setProperty(destinationObject, field.getName(), neAddress.getLongitude());
                             }
 
-                            if (secondPart.equals("getAddress")) {
+                            if (secondPart.equals(NMappingArgs.mapping_address)) {
                                 BeanUtils.setProperty(destinationObject, field.getName(), neAddress.getAddress());
                             }
                         }
+
                     } else {
                         NClass sectionObject = section.getField(sectionKey);
                         if (sectionObject instanceof NECheckbox) {
@@ -236,4 +278,25 @@ public class Nooko3 {
 
         return destinationObject;
     }
+
+    /**Asks project data from API*/
+    public static void askForProject(Context context){
+        if(NUserConst.apiKey != null) {
+            new Task_getProject(context, null).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks project data from API with custom action return*/
+    public static void askForProject(Context context, String custom_action){
+        if(NUserConst.apiKey != null) {
+            new Task_getProject(context, custom_action).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
 }
