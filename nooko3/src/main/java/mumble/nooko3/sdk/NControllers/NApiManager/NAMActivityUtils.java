@@ -7,15 +7,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
-import mumble.nooko3.sdk.NConstants.Const;
-import mumble.nooko3.sdk.NControllers.ApiResultListener;
+import mumble.nooko3.sdk.NConstants.NConst;
+import mumble.nooko3.sdk.NControllers.NApiResultListener;
 import mumble.nooko3.sdk.NData.APIResponse;
 
 /**
  * Activity and Fragment utilities for retrieving data from Nooko3 APIs
  *
  * @author Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NAMActivityUtils {
 
@@ -23,7 +23,7 @@ public class NAMActivityUtils {
      * Initialize the listener for obtaining the API result when called, needs to be implemented in Activities or Fragments which retrieve data from API,
      * must be called in onResume and obtain the BroadcastReceiver
      */
-    public static BroadcastReceiver initializeReceiverForApiManager(Activity activity, final ApiResultListener apiResultListener, String[] actions) {
+    public static BroadcastReceiver initializeReceiverForApiManager(Activity activity, final NApiResultListener apiResultListener, String[] actions) {
         IntentFilter intentFilter = new IntentFilter();
         for (int i = 0; i < actions.length; i++) {
             intentFilter.addAction(actions[i]);

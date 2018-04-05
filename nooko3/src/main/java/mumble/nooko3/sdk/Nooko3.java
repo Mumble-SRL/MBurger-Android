@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javadz.beanutils.BeanUtils;
-import mumble.nooko3.sdk.NConstants.Const;
-import mumble.nooko3.sdk.NControllers.ApiResultListener;
+import mumble.nooko3.sdk.NConstants.NConst;
+import mumble.nooko3.sdk.NControllers.NApiResultListener;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
@@ -19,19 +19,19 @@ import mumble.nooko3.sdk.NData.NElements.NEAddress;
 import mumble.nooko3.sdk.NData.NElements.NECheckbox;
 import mumble.nooko3.sdk.NData.NElements.NEDate;
 import mumble.nooko3.sdk.NData.NElements.NEDropdown;
+import mumble.nooko3.sdk.NData.NElements.NEGeneric;
 import mumble.nooko3.sdk.NData.NElements.NEImages;
 import mumble.nooko3.sdk.NData.NElements.NEMedia;
 import mumble.nooko3.sdk.NData.NElements.NEText;
-import mumble.nooko3.sdk.NData.NElements.NETitle;
 import mumble.nooko3.sdk.NData.NElements.NEWYSIWYG;
 import mumble.nooko3.sdk.NData.NSections.NSection;
-import mumble.nooko3.sdk.NConstants.UserConst;
+import mumble.nooko3.sdk.NConstants.NUserConst;
 
 /**
  * Basic init class for Nooko3, which sets an array of constants used runtime.
  *
  * @author Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class Nooko3 {
 
@@ -48,21 +48,21 @@ public class Nooko3 {
      * Initialize the SDK with user parameters about caching on/off with the default caching time (3 days)
      */
     public static void initialize(Context context, boolean cachingEnabled) {
-        UserConst.cachingEnabled = cachingEnabled;
+        NUserConst.cachingEnabled = cachingEnabled;
     }
 
     /**
      * Initialize the SDK with user parameters about caching duration, default caching is OFF but this method turn it ON
      */
     public static void initialize(Context context, long cachingDuration) {
-        UserConst.cachingEnabled = true;
-        UserConst.cachingTime = cachingDuration;
+        NUserConst.cachingEnabled = true;
+        NUserConst.cachingTime = cachingDuration;
     }
 
     /**
      * Initialize an activity/fragment to receive project informations from API
      */
-    public static BroadcastReceiver initializeNookoReceiverForProject(Activity activity, ApiResultListener listener) {
+    public static BroadcastReceiver initializeNookoReceiverForProject(Activity activity, NApiResultListener listener) {
         String[] receivers = new String[]{NAMCONF.ACTION_GET_PROJECT};
         return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
     }
@@ -70,7 +70,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive blocks from API
      */
-    public static BroadcastReceiver initializeNookoReceiverForBlocks(Activity activity, ApiResultListener listener) {
+    public static BroadcastReceiver initializeNookoReceiverForBlocks(Activity activity, NApiResultListener listener) {
         String[] receivers = new String[]{NAMCONF.ACTION_GET_BLOCKS};
         return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
     }
@@ -78,7 +78,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive a single block from API
      */
-    public static BroadcastReceiver initializeNookoReceiverForBlock(Activity activity, ApiResultListener listener) {
+    public static BroadcastReceiver initializeNookoReceiverForBlock(Activity activity, NApiResultListener listener) {
         String[] receivers = new String[]{NAMCONF.ACTION_GET_BLOCK};
         return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
     }
@@ -86,7 +86,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive sections from API
      */
-    public static BroadcastReceiver initializeNookoReceiverForSections(Activity activity, ApiResultListener listener) {
+    public static BroadcastReceiver initializeNookoReceiverForSections(Activity activity, NApiResultListener listener) {
         String[] receivers = new String[]{NAMCONF.ACTION_GET_SECTIONS};
         return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
     }
@@ -94,7 +94,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive a single section from API
      */
-    public static BroadcastReceiver initializeNookoReceiverForSection(Activity activity, ApiResultListener listener) {
+    public static BroadcastReceiver initializeNookoReceiverForSection(Activity activity, NApiResultListener listener) {
         String[] receivers = new String[]{NAMCONF.ACTION_GET_SECTION};
         return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
     }
@@ -102,7 +102,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive custom data with custom actions
      */
-    public static BroadcastReceiver initializeNookoReceiverCustom(Activity activity, ApiResultListener listener, String[] receivers) {
+    public static BroadcastReceiver initializeNookoReceiverCustom(Activity activity, NApiResultListener listener, String[] receivers) {
         return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
     }
 
@@ -123,10 +123,10 @@ public class Nooko3 {
      *                          images, addresses and media has special fields to obtain the first element or
      *                          just part of the object
      * @param destinationObject is an empty user object, which has at least getters and setters
-     * @param getSimpleValue    represents if for media and images you wish to have only the url of the media or the whole object
+     * @param getSimpleValues    represents if for media and images you wish to have only the url of the media or the whole object
      */
     public static Object mapToCustomObject(NSection section, HashMap<String, String> fieldsMap,
-                                           Object destinationObject, boolean getSimpleValue) {
+                                           Object destinationObject, boolean getSimpleValues) {
         Field[] fields = destinationObject.getClass().getDeclaredFields();
         for (Field field : fields) {
             if (fieldsMap.containsKey(field.getName())) {
@@ -140,7 +140,7 @@ public class Nooko3 {
                         if (sectionObject instanceof NEImages) {
                             NEImages nImages = (NEImages) sectionObject;
                             if (secondPart.equals("getFirstImage")) {
-                                if (getSimpleValue) {
+                                if (getSimpleValues) {
                                     BeanUtils.setProperty(destinationObject, field.getName(), nImages.getFirstImage().getUrl());
                                 } else {
                                     BeanUtils.setProperty(destinationObject, field.getName(), nImages.getFirstImage());
@@ -151,7 +151,7 @@ public class Nooko3 {
                         if (sectionObject instanceof NEMedia) {
                             NEMedia nMedia = (NEMedia) sectionObject;
                             if (secondPart.equals("getFirstMedia")) {
-                                if (getSimpleValue) {
+                                if (getSimpleValues) {
                                     BeanUtils.setProperty(destinationObject, field.getName(), nMedia.getFirstMedia().getUrl());
                                 } else {
                                     BeanUtils.setProperty(destinationObject, field.getName(), nMedia.getFirstMedia());
@@ -211,11 +211,6 @@ public class Nooko3 {
                             BeanUtils.setProperty(destinationObject, field.getName(), nText.getContent());
                         }
 
-                        if (sectionObject instanceof NETitle) {
-                            NETitle nTitle = (NETitle) sectionObject;
-                            BeanUtils.setProperty(destinationObject, field.getName(), nTitle.getContent());
-                        }
-
                         if (sectionObject instanceof NEWYSIWYG) {
                             NEWYSIWYG nWYSIWYG = (NEWYSIWYG) sectionObject;
                             BeanUtils.setProperty(destinationObject, field.getName(), nWYSIWYG.getContent());
@@ -224,6 +219,11 @@ public class Nooko3 {
                         if (sectionObject instanceof NEDropdown) {
                             NEDropdown nWYSIWYG = (NEDropdown) sectionObject;
                             BeanUtils.setProperty(destinationObject, field.getName(), nWYSIWYG.getContent());
+                        }
+
+                        if (sectionObject instanceof NEGeneric) {
+                            NEGeneric nGeneric = (NEGeneric) sectionObject;
+                            BeanUtils.setProperty(destinationObject, field.getName(), nGeneric.getContent());
                         }
 
                     }

@@ -2,13 +2,13 @@ package mumble.nooko3.sdk.NData.NProjects;
 
 import java.io.Serializable;
 
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 
 /**
  * Identifies a Nooko project, pretty much it's an abstraction of a Nooko app
  *
  * @author Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NProject implements Serializable {
 

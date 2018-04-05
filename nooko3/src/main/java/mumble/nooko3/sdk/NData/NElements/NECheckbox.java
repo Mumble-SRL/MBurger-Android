@@ -1,13 +1,13 @@
 package mumble.nooko3.sdk.NData.NElements;
 
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 
 /**
  * Identifies a boolean class
  *
  * @author  Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NECheckbox extends NClass {
 
@@ -16,7 +16,7 @@ public class NECheckbox extends NClass {
 
     public NECheckbox(long id, String name, boolean content) {
         this.content = content;
-        initialize(id, name, Const.type_checkbox);
+        initialize(id, name, NConst.type_checkbox);
     }
 
     @Override

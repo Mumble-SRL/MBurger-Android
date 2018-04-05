@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 
 /**
  * Identifies a Nooko section, eg. a simple news.
  *
  * @author  Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NSection implements Serializable {
 

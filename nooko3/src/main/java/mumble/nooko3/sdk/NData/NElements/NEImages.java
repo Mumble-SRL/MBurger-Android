@@ -1,7 +1,7 @@
 package mumble.nooko3.sdk.NData.NElements;
 
 import java.util.ArrayList;
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 import mumble.nooko3.sdk.NData.NElements.NSubElements.NImage;
 
@@ -9,7 +9,7 @@ import mumble.nooko3.sdk.NData.NElements.NSubElements.NImage;
  * Identifies an array of images, it will always be and array even if the image added in the backend is unique
  *
  * @author  Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NEImages extends NClass {
 
@@ -18,7 +18,7 @@ public class NEImages extends NClass {
 
     public NEImages(long id, String name, ArrayList<NImage> images) {
         this.images = images;
-        initialize(id, name, Const.type_image);
+        initialize(id, name, NConst.type_image);
     }
 
     @Override

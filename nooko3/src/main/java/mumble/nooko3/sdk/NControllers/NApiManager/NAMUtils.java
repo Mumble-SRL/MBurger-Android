@@ -17,13 +17,13 @@ import java.util.Set;
 
 import fslogger.lizsoft.lv.fslogger.FSLogger;
 import mumble.nooko3.BuildConfig;
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 
 /**
  * Utilities with the {@link NAPIManager3 NAPIManager3 class}
  *
  * @author  Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NAMUtils {
 

@@ -4,14 +4,14 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 
 /**
  * Identifies a date class with some utility methods to format and get milliseconds instead of seconds
  *
  * @author Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NEDate extends NClass {
 
@@ -22,7 +22,7 @@ public class NEDate extends NClass {
 
     public NEDate(long id, String name, long timestamp) {
         this.timestamp = timestamp;
-        initialize(id, name, Const.type_date);
+        initialize(id, name, NConst.type_date);
     }
 
     @Override

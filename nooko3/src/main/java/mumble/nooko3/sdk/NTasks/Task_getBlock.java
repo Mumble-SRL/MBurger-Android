@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
@@ -25,7 +25,7 @@ import mumble.nooko3.sdk.NData.NBlocks.NBlock;
  * Bundle will return object "block" which is a {@link NBlock NBlock}
  *
  * @author Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class Task_getBlock extends AsyncTask<Void, Void, Void> {
 

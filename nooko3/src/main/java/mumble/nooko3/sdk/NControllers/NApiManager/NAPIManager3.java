@@ -19,28 +19,32 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import mumble.nooko3.sdk.NConstants.Const;
-import mumble.nooko3.sdk.NControllers.CachingHelper;
-import mumble.nooko3.sdk.NConstants.UserConst;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+
+import mumble.nooko3.sdk.NConstants.NConst;
+import mumble.nooko3.sdk.NControllers.NCachingHelper;
+import mumble.nooko3.sdk.NConstants.NUserConst;
 import mumble.nooko3.R;
 
 /**
  * Static method class that wrps up web API calls and handles errors returning them to the user
  *
  * @author  Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NAPIManager3 {
 
-    /**Call api or check for cache*/
+    /**Call api or check for cache if internet connection is not available*/
     public static Map<String, Object> callApi(Context context, String api, ContentValues data, int type, boolean payload) {
         Map<String, Object> map = new HashMap<>();
-        CachingHelper helper3 = new CachingHelper(context);
+        NCachingHelper helper3 = new NCachingHelper(context);
         if (NAMUtils.isNetworkAvailable(context)) {
             NAMUtils.installCertificates(context);
             map = callForData(context, api, data, type, payload);
             if (map != null) {
-                if (UserConst.cachingEnabled) {
+                if (NUserConst.cachingEnabled) {
                     if (payload) {
                         if (NAMUtils.hasMapOkResults(map, true)) {
                             String api_params = NAMUtils.createApiValuesString(api, data);
@@ -56,7 +60,7 @@ public class NAPIManager3 {
                 }
             }
         } else {
-            if (UserConst.cachingEnabled) {
+            if (NUserConst.cachingEnabled) {
                 addNecessaryPostData(context, data);
                 String api_params = NAMUtils.createApiValuesString(api, data);
                 if (helper3.isDataAlreadyInDBorNot(api_params)) {
@@ -82,7 +86,7 @@ public class NAPIManager3 {
         return map;
     }
 
-    /**Call api and retrieve data*/
+    /**Call api and retrieve data from web, if an error is present it will be saved inside the returning Map*/
     private static Map<String, Object> callForData(Context context, String api, ContentValues postData, int mode, boolean payload) {
         StringBuilder builder;
         Map<String, Object> map = new HashMap<>();
@@ -200,23 +204,23 @@ public class NAPIManager3 {
         }
     }
 
-    /**Initialize connection with method (POST, PUT, DELETE)*/
+    /**Initialize connection with method (POST, PUT, DELETE) with all data inside the ContentValues*/
     private static HttpURLConnection initializePostDeleteConnection(Context context, String api, ContentValues postData, String method)
             throws IOException {
         URL url = new URL(NAMCONF.endpoint + api);
         addNecessaryPostData(context, postData);
 
-        /*HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+        HostnameVerifier hostnameVerifier = new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {
                 HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                return hv.verify(AMCONF.SERVER_HOSTNAME, session);
+                return hv.verify(NAMCONF.SERVER_HOSTNAME, session);
             }
-        };*/
+        };
 
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         urlConnection.setRequestMethod(method);
-        //urlConnection.setHostnameVerifier(hostnameVerifier);
+        urlConnection.setHostnameVerifier(hostnameVerifier);
         urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(false);
@@ -232,22 +236,21 @@ public class NAPIManager3 {
         return urlConnection;
     }
 
-    /**Initialize GET connection*/
+    /**Initialize a GET connection with all data inside the ContentValues*/
     private static HttpURLConnection initializeGetConnection(Context context, String api, ContentValues postData) throws IOException{
         URL url = new URL(NAMCONF.endpoint + api + NAMUtils.getGETQuery(postData));
         addNecessaryPostData(context, postData);
 
-        /*HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+        HostnameVerifier hostnameVerifier = new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {
                 HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                return hv.verify(AMCONF.SERVER_HOSTNAME, session);
+                return hv.verify(NAMCONF.SERVER_HOSTNAME, session);
             }
-        };*/
+        };
 
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-        //urlConnection.setHostnameVerifier(hostnameVerifier);
+        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+        urlConnection.setHostnameVerifier(hostnameVerifier);
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(false);
         urlConnection.setRequestMethod("GET");

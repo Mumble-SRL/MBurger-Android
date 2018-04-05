@@ -1,12 +1,12 @@
 package mumble.nooko3.sdk.NControllers.NApiManager;
 
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 
 /**
  * Static fields for API configuration
  *
  * @author Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NAMCONF {
 

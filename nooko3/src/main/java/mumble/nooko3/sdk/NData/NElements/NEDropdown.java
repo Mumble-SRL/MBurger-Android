@@ -1,13 +1,13 @@
 package mumble.nooko3.sdk.NData.NElements;
 
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 
 /**
  * Identifies a dropdown value, may be linked to a poll or a list
  *
  * @author Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NEDropdown extends NClass {
 
@@ -18,7 +18,7 @@ public class NEDropdown extends NClass {
 
     public NEDropdown(long id, String name, String content) {
         this.content = content;
-        initialize(id, name, Const.type_text);
+        initialize(id, name, NConst.type_text);
     }
 
     @Override

@@ -9,17 +9,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 import mumble.nooko3.sdk.NData.NBlocks.NBlock;
 import mumble.nooko3.sdk.NData.NElements.NEAddress;
 import mumble.nooko3.sdk.NData.NElements.NECheckbox;
 import mumble.nooko3.sdk.NData.NElements.NEDate;
 import mumble.nooko3.sdk.NData.NElements.NEDropdown;
+import mumble.nooko3.sdk.NData.NElements.NEGeneric;
 import mumble.nooko3.sdk.NData.NElements.NEImages;
 import mumble.nooko3.sdk.NData.NElements.NEMedia;
 import mumble.nooko3.sdk.NData.NElements.NEText;
-import mumble.nooko3.sdk.NData.NElements.NETitle;
 import mumble.nooko3.sdk.NData.NElements.NEWYSIWYG;
 import mumble.nooko3.sdk.NData.NElements.NSubElements.NFile;
 import mumble.nooko3.sdk.NData.NElements.NSubElements.NImage;
@@ -30,7 +30,7 @@ import mumble.nooko3.sdk.NData.NSections.NSection;
  * Parsing class for converting API response in objects.
  *
  * @author Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NParser {
 
@@ -125,8 +125,10 @@ public class NParser {
             }
 
             if (getElements) {
-                if(NCommonMethods.isJSONOk(jSection, "elements")) {
+                if (NCommonMethods.isJSONOk(jSection, "elements")) {
                     JSONObject jElements = jSection.getJSONObject("elements");
+
+                    /*Iterates through the elements keys in order to obtain the objects needed*/
                     Iterator<String> iter = jElements.keys();
                     while (iter.hasNext()) {
                         String key = iter.next();
@@ -141,6 +143,7 @@ public class NParser {
                                 data.put(key, nObj);
                             }
                         } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -153,17 +156,21 @@ public class NParser {
     }
 
     /**
-     * Gets a single Nooko class from type working with the value
+     * Gets a single Nooko class from type working with the value, if a known type is not found, a generic element will be created, which
+     * has the value of a basic object
      */
     private static NClass getNClassFromElem(Object value, long id, String name, String type) {
         NClass nObj = null;
+        boolean found = false;
 
         try {
-            if (type.equals(Const.type_text)) {
+            if (type.equals(NConst.type_text)) {
+                found = true;
                 nObj = new NEText(id, name, (String) value);
             }
 
-            if (type.equals(Const.type_image)) {
+            if (type.equals(NConst.type_image)) {
+                found = true;
                 JSONArray jImages = (JSONArray) value;
                 ArrayList<NImage> nImages = new ArrayList<>();
                 for (int i = 0; i < jImages.length(); i++) {
@@ -194,10 +201,11 @@ public class NParser {
                 nObj = new NEImages(id, name, nImages);
             }
 
-            if (type.equals(Const.type_media_audio) ||
-                    type.equals(Const.type_media_document) ||
-                    type.equals(Const.type_media_file) ||
-                    type.equals(Const.type_media_video)) {
+            if (type.equals(NConst.type_media_audio) ||
+                    type.equals(NConst.type_media_document) ||
+                    type.equals(NConst.type_media_file) ||
+                    type.equals(NConst.type_media_video)) {
+                found = true;
                 JSONArray jMedia = new JSONArray((String) value);
                 ArrayList<NFile> nFiles = new ArrayList<>();
                 for (int i = 0; i < jMedia.length(); i++) {
@@ -228,15 +236,18 @@ public class NParser {
                 nObj = new NEMedia(id, name, nFiles);
             }
 
-            if (type.equals(Const.type_wysiwyg)) {
+            if (type.equals(NConst.type_wysiwyg)) {
+                found = true;
                 nObj = new NEWYSIWYG(id, name, (String) value);
             }
 
-            if (type.equals(Const.type_date)) {
+            if (type.equals(NConst.type_date)) {
+                found = true;
                 nObj = new NEDate(id, name, (long) value);
             }
 
-            if (type.equals(Const.type_address)) {
+            if (type.equals(NConst.type_address)) {
+                found = true;
                 JSONObject jAddress = (JSONObject) value;
                 String address = null;
                 double latitude = -1, longitude = -1;
@@ -255,16 +266,18 @@ public class NParser {
                 nObj = new NEAddress(id, name, address, latitude, longitude);
             }
 
-            if (type.equals(Const.type_title)) {
-                nObj = new NETitle(id, name, (String) value);
-            }
-
-            if (type.equals(Const.type_checkbox)) {
+            if (type.equals(NConst.type_checkbox)) {
+                found = true;
                 nObj = new NECheckbox(id, name, (boolean) value);
             }
 
-            if (type.equals(Const.type_dropdown)) {
+            if (type.equals(NConst.type_dropdown)) {
+                found = true;
                 nObj = new NEDropdown(id, name, (String) value);
+            }
+
+            if (!found) {
+                nObj = new NEGeneric(id, name, value);
             }
 
         } catch (JSONException e) {

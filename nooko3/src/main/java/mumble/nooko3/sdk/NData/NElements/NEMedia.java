@@ -1,7 +1,7 @@
 package mumble.nooko3.sdk.NData.NElements;
 
 import java.util.ArrayList;
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 import mumble.nooko3.sdk.NData.NElements.NSubElements.NFile;
 
@@ -9,7 +9,7 @@ import mumble.nooko3.sdk.NData.NElements.NSubElements.NFile;
  * Identifies an array of files, it will always be and array even if the file added in the backend is unique
  *
  * @author Enrico Ori
- * @version {@value Const#version}
+ * @version {@value NConst#version}
  */
 public class NEMedia extends NClass {
 
@@ -20,7 +20,7 @@ public class NEMedia extends NClass {
 
     public NEMedia(long id, String name, ArrayList<NFile> files) {
         this.files = files;
-        initialize(id, name, Const.type_media);
+        initialize(id, name, NConst.type_media);
     }
 
     @Override
