@@ -1,4 +1,4 @@
-package mumble.nooko3.sdk.NControllers;
+package mumble.nooko3.sdk;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javadz.beanutils.BeanUtils;
+import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NControllers.ApiResultListener;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
@@ -23,13 +25,13 @@ import mumble.nooko3.sdk.NData.NElements.NEText;
 import mumble.nooko3.sdk.NData.NElements.NETitle;
 import mumble.nooko3.sdk.NData.NElements.NEWYSIWYG;
 import mumble.nooko3.sdk.NData.NSections.NSection;
-import mumble.nooko3.sdk.UserConst;
+import mumble.nooko3.sdk.NConstants.UserConst;
 
 /**
  * Basic init class for Nooko3, which sets an array of constants used runtime.
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class Nooko3 {
 
@@ -114,15 +116,17 @@ public class Nooko3 {
     /**
      * Maps a section into a custom user object. You must provide a Map of "section keys" -> "object fields" in order to do a correct
      * matching with the section data, make also sure that all the fields are the same type as the matching field.
-     * You should not make innested objects with this method but you are able to create any abstract object you wish
+     * You should not make objects with objects inside (a part from the Nooko classes) with this method.
      *
      * @param section           is the section you wish to map
      * @param fieldsMap         is a map which contains the user object fields as keys and the section key as value,
      *                          images, addresses and media has special fields to obtain the first element or
      *                          just part of the object
      * @param destinationObject is an empty user object, which has at least getters and setters
+     * @param getSimpleValue    represents if for media and images you wish to have only the url of the media or the whole object
      */
-    public static Object mapToCustomObject(NSection section, HashMap<String, String> fieldsMap, Object destinationObject) {
+    public static Object mapToCustomObject(NSection section, HashMap<String, String> fieldsMap,
+                                           Object destinationObject, boolean getSimpleValue) {
         Field[] fields = destinationObject.getClass().getDeclaredFields();
         for (Field field : fields) {
             if (fieldsMap.containsKey(field.getName())) {
@@ -136,14 +140,22 @@ public class Nooko3 {
                         if (sectionObject instanceof NEImages) {
                             NEImages nImages = (NEImages) sectionObject;
                             if (secondPart.equals("getFirstImage")) {
-                                BeanUtils.setProperty(destinationObject, field.getName(), nImages.getFirstImage());
+                                if (getSimpleValue) {
+                                    BeanUtils.setProperty(destinationObject, field.getName(), nImages.getFirstImage().getUrl());
+                                } else {
+                                    BeanUtils.setProperty(destinationObject, field.getName(), nImages.getFirstImage());
+                                }
                             }
                         }
 
                         if (sectionObject instanceof NEMedia) {
                             NEMedia nMedia = (NEMedia) sectionObject;
                             if (secondPart.equals("getFirstMedia")) {
-                                BeanUtils.setProperty(destinationObject, field.getName(), nMedia.getFirstMedia());
+                                if (getSimpleValue) {
+                                    BeanUtils.setProperty(destinationObject, field.getName(), nMedia.getFirstMedia().getUrl());
+                                } else {
+                                    BeanUtils.setProperty(destinationObject, field.getName(), nMedia.getFirstMedia());
+                                }
                             }
                         }
 

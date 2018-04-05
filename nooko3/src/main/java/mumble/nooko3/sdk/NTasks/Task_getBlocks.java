@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +13,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Map;
 
+import mumble.nooko3.sdk.NConstants.Const;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
@@ -26,14 +26,23 @@ import mumble.nooko3.sdk.NData.NBlocks.NBlock;
  * Bundle will return object "blocks" which is an ArrayList of {@link NBlock NBlocks}
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class Task_getBlocks extends AsyncTask<Void, Void, Void> {
 
+    /**Context reference used to send data to Activity/Fragment*/
     private WeakReference<Context> weakContext;
+
+    /**An array of filters/sorters which may result in changes to the result of the API*/
     private ArrayList<Object> filters;
-    private boolean getSections = false, getElements = false;
-    private String[] objectNames;
+
+    /**If you wish to obtain the sections for each block*/
+    private boolean getSections = false;
+
+    /**If you wish to obtain the elements for each section in block, should be true only if getSections is true*/
+    private boolean getElements = false;
+
+    /**If you wish to change the action that accompanies the API result*/
     private String action = NAMCONF.ACTION_GET_BLOCKS;
 
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
@@ -48,11 +57,10 @@ public class Task_getBlocks extends AsyncTask<Void, Void, Void> {
         this.filters = filters;
     }
 
-    public Task_getBlocks(Context context, ArrayList<Object> filters, boolean getSections, boolean getElements, String[] objectNames) {
+    public Task_getBlocks(Context context, ArrayList<Object> filters, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.getSections = getSections;
         this.getElements = getElements;
-        this.objectNames = objectNames;
         this.filters = filters;
     }
 
@@ -63,12 +71,11 @@ public class Task_getBlocks extends AsyncTask<Void, Void, Void> {
         this.filters = filters;
     }
 
-    public Task_getBlocks(Context context, ArrayList<Object> filters, String custom_action, boolean getSections, boolean getElements, String[] objectNames) {
+    public Task_getBlocks(Context context, ArrayList<Object> filters, String custom_action, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getSections = getSections;
         this.getElements = getElements;
-        this.objectNames = objectNames;
         this.filters = filters;
     }
 
@@ -115,7 +122,7 @@ public class Task_getBlocks extends AsyncTask<Void, Void, Void> {
             JSONArray jBlocks = jPayload.getJSONArray("items");
             blocks = new ArrayList<>();
             for (int i = 0; i < jBlocks.length(); i++) {
-                blocks.add(NParser.parseBlock(jBlocks.getJSONObject(i), getSections, getElements, objectNames));
+                blocks.add(NParser.parseBlock(jBlocks.getJSONObject(i), getSections, getElements));
             }
         } catch (JSONException e) {
             e.printStackTrace();

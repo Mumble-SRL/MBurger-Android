@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,12 +11,12 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
+import mumble.nooko3.sdk.NConstants.Const;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAPIManager3;
 import mumble.nooko3.sdk.NControllers.NParser;
-import mumble.nooko3.sdk.NData.NElements.NSubElements.NImage;
 import mumble.nooko3.sdk.NData.NProjects.NProject;
 
 /**
@@ -25,11 +24,14 @@ import mumble.nooko3.sdk.NData.NProjects.NProject;
  * Bundle will return object "project" which is {@link NProject NProject}
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class Task_getProject extends AsyncTask<Void, Void, Void> {
 
+    /**Context reference used to send data to Activity/Fragment*/
     private WeakReference<Context> weakContext;
+
+    /**If you wish to change the action that accompanies the API result*/
     private String action = NAMCONF.ACTION_GET_PROJECT;
 
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;

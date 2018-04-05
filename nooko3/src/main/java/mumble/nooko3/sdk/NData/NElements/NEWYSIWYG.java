@@ -1,13 +1,13 @@
 package mumble.nooko3.sdk.NData.NElements;
 
-import mumble.nooko3.sdk.Const;
+import mumble.nooko3.sdk.NConstants.Const;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 
 /**
  * Identifies a class with title HTML text
  *
  * @author  Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class NEWYSIWYG extends NClass {
 

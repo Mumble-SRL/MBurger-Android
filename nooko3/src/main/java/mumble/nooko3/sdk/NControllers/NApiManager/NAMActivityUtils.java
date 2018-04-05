@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
+import mumble.nooko3.sdk.NConstants.Const;
 import mumble.nooko3.sdk.NControllers.ApiResultListener;
 import mumble.nooko3.sdk.NData.APIResponse;
 
@@ -14,7 +15,7 @@ import mumble.nooko3.sdk.NData.APIResponse;
  * Activity and Fragment utilities for retrieving data from Nooko3 APIs
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class NAMActivityUtils {
 
@@ -63,7 +64,8 @@ public class NAMActivityUtils {
     }
 
     /**
-     * Commodity class to send LocalBroadcastMessages
+     * Commodity class to send LocalBroadcastMessages, which is the method used for sending data from async API to
+     * the user
      */
     public static void sendBroadcastMessage(Context context, Intent in) {
         LocalBroadcastManager.getInstance(context).sendBroadcast(in);

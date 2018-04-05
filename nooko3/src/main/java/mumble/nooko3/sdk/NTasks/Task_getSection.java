@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +12,7 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
+import mumble.nooko3.sdk.NConstants.Const;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
@@ -25,14 +25,18 @@ import mumble.nooko3.sdk.NData.NSections.NSection;
  * Bundle will return object "section" which is a {@link NSection NSection}
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class Task_getSection extends AsyncTask<Void, Void, Void> {
 
+    /**Context reference used to send data to Activity/Fragment*/
     private WeakReference<Context> weakContext;
-    private String action = NAMCONF.ACTION_GET_SECTION;
+
+    /**If you wish to obtain the elements for each section*/
     private boolean getElements = false;
-    private String[] objectNames = null;
+
+    /**If you wish to change the action that accompanies the API result*/
+    private String action = NAMCONF.ACTION_GET_SECTION;
 
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
     private String error;
@@ -40,17 +44,15 @@ public class Task_getSection extends AsyncTask<Void, Void, Void> {
 
     private NSection section;
 
-    public Task_getSection(Context context, boolean getElements, String[] objectNames) {
+    public Task_getSection(Context context, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.getElements = getElements;
-        this.objectNames = objectNames;
     }
 
-    public Task_getSection(Context context, String custom_action, boolean getElements, String[] objectNames) {
+    public Task_getSection(Context context, String custom_action, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.getElements = getElements;
-        this.objectNames = objectNames;
     }
 
     @Override
@@ -94,7 +96,7 @@ public class Task_getSection extends AsyncTask<Void, Void, Void> {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
             JSONArray jSections = jPayload.getJSONArray("body");
-            section = NParser.parseSection(jSections.getJSONObject(0), getElements, objectNames);
+            section = NParser.parseSection(jSections.getJSONObject(0), getElements);
         } catch (JSONException e) {
             e.printStackTrace();
         }

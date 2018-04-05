@@ -6,9 +6,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
-import mumble.nooko3.sdk.Const;
+import mumble.nooko3.sdk.NConstants.Const;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 import mumble.nooko3.sdk.NData.NBlocks.NBlock;
 import mumble.nooko3.sdk.NData.NElements.NEAddress;
@@ -29,7 +30,7 @@ import mumble.nooko3.sdk.NData.NSections.NSection;
  * Parsing class for converting API response in objects.
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class NParser {
 
@@ -56,9 +57,9 @@ public class NParser {
     }
 
     /**
-     * Parses a complete block
+     * Parses a complete block with option to have sections and elements (if getElements = true, getSections should be = true)
      */
-    public static NBlock parseBlock(JSONObject jsonObject, boolean getSections, boolean getElements, String[] objectsNames) {
+    public static NBlock parseBlock(JSONObject jsonObject, boolean getSections, boolean getElements) {
         long id = -1;
         String name = null;
         int order = 0;
@@ -79,7 +80,7 @@ public class NParser {
 
             if (getSections) {
                 if (NCommonMethods.isJSONOk(jsonObject, "sections")) {
-                    sections = parseSections(jsonObject.getJSONArray("sections"), getElements, objectsNames);
+                    sections = parseSections(jsonObject.getJSONArray("sections"), getElements);
                 }
             }
         } catch (JSONException e) {
@@ -90,14 +91,14 @@ public class NParser {
     }
 
     /**
-     * Parses sections for the block
+     * Parses an array of sections using the names decided on the Nooko3 dashboard
      */
-    public static ArrayList<NSection> parseSections(JSONArray jSections, boolean getElements, String[] objectsNames) {
+    public static ArrayList<NSection> parseSections(JSONArray jSections, boolean getElements) {
         ArrayList<NSection> sections = new ArrayList<>();
         try {
             for (int i = 0; i < jSections.length(); i++) {
                 JSONObject jSect = jSections.getJSONObject(i);
-                NSection section = parseSection(jSect, getElements, objectsNames);
+                NSection section = parseSection(jSect, getElements);
                 sections.add(section);
             }
         } catch (JSONException e) {
@@ -107,9 +108,9 @@ public class NParser {
     }
 
     /**
-     * Parses a single section
+     * Parses a single section using the names decided in the dashboard
      */
-    public static NSection parseSection(JSONObject jSection, boolean getElements, String[] objectsNames) {
+    public static NSection parseSection(JSONObject jSection, boolean getElements) {
         Map<String, NClass> data = new HashMap<>();
         long id = -1;
         int order = 0;
@@ -123,20 +124,23 @@ public class NParser {
                 order = jSection.getInt("order");
             }
 
-            if (getElements && (objectsNames != null)) {
+            if (getElements) {
                 if(NCommonMethods.isJSONOk(jSection, "elements")) {
                     JSONObject jElements = jSection.getJSONObject("elements");
-                    for (int i = 0; i < objectsNames.length; i++) {
-                        String objName = objectsNames[i];
-                        JSONObject jElem = jElements.getJSONObject(objName);
-                        String type = null;
-                        NClass nObj = null;
-                        if (NCommonMethods.isJSONOk(jElem, "type")) {
-                            nObj = getNClassFromElem(jElem.get("value"), id, objName, jElem.getString("type"));
-                        }
+                    Iterator<String> iter = jElements.keys();
+                    while (iter.hasNext()) {
+                        String key = iter.next();
+                        try {
+                            JSONObject jElem = jElements.getJSONObject(key);
+                            NClass nObj = null;
+                            if (NCommonMethods.isJSONOk(jElem, "type")) {
+                                nObj = getNClassFromElem(jElem.get("value"), id, key, jElem.getString("type"));
+                            }
 
-                        if (nObj != null) {
-                            data.put(objName, nObj);
+                            if (nObj != null) {
+                                data.put(key, nObj);
+                            }
+                        } catch (JSONException e) {
                         }
                     }
                 }
@@ -170,7 +174,7 @@ public class NParser {
                     String img_mime_type = null;
 
                     if (NCommonMethods.isJSONOk(jImg, "id")) {
-                        id = jImg.getLong("id");
+                        img_id = jImg.getLong("id");
                     }
 
                     if (NCommonMethods.isJSONOk(jImg, "url")) {

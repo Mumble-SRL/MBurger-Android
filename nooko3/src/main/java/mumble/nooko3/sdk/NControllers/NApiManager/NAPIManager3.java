@@ -19,15 +19,16 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import mumble.nooko3.sdk.NConstants.Const;
 import mumble.nooko3.sdk.NControllers.CachingHelper;
-import mumble.nooko3.sdk.UserConst;
+import mumble.nooko3.sdk.NConstants.UserConst;
 import mumble.nooko3.R;
 
 /**
  * Static method class that wrps up web API calls and handles errors returning them to the user
  *
  * @author  Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class NAPIManager3 {
 

@@ -2,14 +2,15 @@ package mumble.nooko3.sdk.NData.NBlocks;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Map;
+
+import mumble.nooko3.sdk.NConstants.Const;
 import mumble.nooko3.sdk.NData.NSections.NSection;
 
 /**
  * Identifies a Nooko block, eg Home, News, POI...
  *
  * @author  Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class NBlock implements Serializable{
 

@@ -2,11 +2,13 @@ package mumble.nooko3.sdk.NData.NElements.NSubElements;
 
 import java.io.Serializable;
 
+import mumble.nooko3.sdk.NConstants.Const;
+
 /**
  * Single file inside the {@link mumble.nooko3.sdk.NData.NElements.NEMedia NEMedia}
  *
  * @author  Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class NFile implements Serializable{
 

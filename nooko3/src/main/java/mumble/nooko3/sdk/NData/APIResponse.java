@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import java.io.Serializable;
 
+import mumble.nooko3.sdk.NConstants.Const;
+
 /**
  * Identifies a Nooko API response:
  * Result which says if API resulted ok or not
@@ -11,7 +13,7 @@ import java.io.Serializable;
  * Payload is a bundle which contains the payload of the api
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class APIResponse implements Serializable {
 

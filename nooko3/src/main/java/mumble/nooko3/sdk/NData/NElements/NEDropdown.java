@@ -1,6 +1,6 @@
 package mumble.nooko3.sdk.NData.NElements;
 
-import mumble.nooko3.sdk.Const;
+import mumble.nooko3.sdk.NConstants.Const;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 
 /**

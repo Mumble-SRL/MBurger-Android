@@ -2,11 +2,13 @@ package mumble.nooko3.sdk.NControllers.NApiManager.NApiFilters;
 
 import java.io.Serializable;
 
+import mumble.nooko3.sdk.NConstants.Const;
+
 /**
  * Class to paginate API calls
  *
  * @author Enrico Ori
- * @version {@value mumble.nooko3.sdk.Const#version}
+ * @version {@value Const#version}
  */
 public class NPaginationParam implements Serializable {
 
