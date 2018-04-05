@@ -173,7 +173,6 @@ public class Nooko3 {
                                 BeanUtils.setProperty(destinationObject, field.getName(), neAddress.getAddress());
                             }
                         }
-
                     } else {
                         NClass sectionObject = section.getField(sectionKey);
                         if (sectionObject instanceof NECheckbox) {
