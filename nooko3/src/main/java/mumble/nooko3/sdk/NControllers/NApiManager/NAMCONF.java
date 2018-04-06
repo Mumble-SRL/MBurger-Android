@@ -10,7 +10,7 @@ import mumble.nooko3.sdk.NConstants.NConst;
  */
 public class NAMCONF {
 
-    public static String endpoint = "http://nooko3.mumbleserver.it";
+    public static String endpoint = "https://nooko3.mumbleserver.it";
     public static String SERVER_HOSTNAME = "nooko3.mumbleserver.it";
     public static final String OS = "android";
     public static final String API_VERSION = "1";
@@ -23,9 +23,9 @@ public class NAMCONF {
     /**
      * API
      */
-    public static final String API_PROJECT = "project";
-    public static final String API_BLOCK = "block";
-    public static final String API_SECTION = "section";
+    public static final String API_PROJECT = "/api/project";
+    public static final String API_BLOCK = "/api/blocks";
+    public static final String API_SECTION = "/api/sections";
 
     /**
      * ERRORS

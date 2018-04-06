@@ -1,13 +1,13 @@
 package mumble.nooko3.sdk.NData.NElements;
 
-import mumble.nooko3.sdk.NConstants.Const;
+import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 
 /**
  * Identifies a class title
  *
  * @author  Enrico Ori
- * @version {@value Const#version}
+ * @version {@value mumble.nooko3.sdk.NConstants.NConst#version}
  */
 public class NETitle extends NClass {
 
@@ -16,7 +16,7 @@ public class NETitle extends NClass {
 
     public NETitle(long id, String name, String content) {
         this.content = content;
-        initialize(id, name, Const.type_text);
+        initialize(id, name, NConst.type_text);
     }
 
     @Override

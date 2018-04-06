@@ -10,12 +10,19 @@ import java.util.ArrayList;
 
 import javadz.beanutils.BeanUtils;
 import mumble.nooko3.R;
+import mumble.nooko3.sdk.NAsyncTasks.ATask_getBlock;
+import mumble.nooko3.sdk.NAsyncTasks.ATask_getSection;
 import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NConstants.NMappingArgs;
 import mumble.nooko3.sdk.NConstants.NUserConst;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
-import mumble.nooko3.sdk.NControllers.NApiResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiBlockResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiBlocksResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiProjectResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiSectionResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiSectionsResultListener;
+import mumble.nooko3.sdk.NControllers.NGenericApiResultListener;
 import mumble.nooko3.sdk.NControllers.NFieldsMapping;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 import mumble.nooko3.sdk.NData.NElements.NEAddress;
@@ -70,7 +77,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive project informations from API
      */
-    public static BroadcastReceiver initializeNookoReceiverForProject(Activity activity, NApiResultListener listener) {
+    public static BroadcastReceiver initializeNookoReceiverForProject(Activity activity, NGenericApiResultListener listener) {
         if(NUserConst.apiKey != null) {
             String[] receivers = new String[]{NAMCONF.ACTION_GET_PROJECT};
             return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
@@ -83,7 +90,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive blocks from API
      */
-    public static BroadcastReceiver initializeNookoReceiverForBlocks(Activity activity, NApiResultListener listener) {
+    public static BroadcastReceiver initializeNookoReceiverForBlocks(Activity activity, NGenericApiResultListener listener) {
         if(NUserConst.apiKey != null) {
             String[] receivers = new String[]{NAMCONF.ACTION_GET_BLOCKS};
             return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
@@ -96,7 +103,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive a single block from API
      */
-    public static BroadcastReceiver initializeNookoReceiverForBlock(Activity activity, NApiResultListener listener) {
+    public static BroadcastReceiver initializeNookoReceiverForBlock(Activity activity, NGenericApiResultListener listener) {
         if(NUserConst.apiKey != null) {
             String[] receivers = new String[]{NAMCONF.ACTION_GET_BLOCK};
             return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
@@ -109,7 +116,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive sections from API
      */
-    public static BroadcastReceiver initializeNookoReceiverForSections(Activity activity, NApiResultListener listener) {
+    public static BroadcastReceiver initializeNookoReceiverForSections(Activity activity, NGenericApiResultListener listener) {
         if(NUserConst.apiKey != null) {
             String[] receivers = new String[]{NAMCONF.ACTION_GET_SECTIONS};
             return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
@@ -122,7 +129,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive a single section from API
      */
-    public static BroadcastReceiver initializeNookoReceiverForSection(Activity activity, NApiResultListener listener) {
+    public static BroadcastReceiver initializeNookoReceiverForSection(Activity activity, NGenericApiResultListener listener) {
         if(NUserConst.apiKey != null) {
             String[] receivers = new String[]{NAMCONF.ACTION_GET_SECTION};
             return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
@@ -135,7 +142,7 @@ public class Nooko3 {
     /**
      * Initialize an activity/fragment to receive custom data with custom actions
      */
-    public static BroadcastReceiver initializeNookoReceiverCustom(Activity activity, NApiResultListener listener, String[] receivers) {
+    public static BroadcastReceiver initializeNookoReceiverCustom(Activity activity, NGenericApiResultListener listener, String[] receivers) {
         if(NUserConst.apiKey != null) {
             return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
         }
@@ -284,7 +291,7 @@ public class Nooko3 {
     /**Asks project data from API*/
     public static void askForProject(Context context){
         if(NUserConst.apiKey != null) {
-            new ATask_getProject(context, null).execute();
+            new ATask_getProject(context).execute();
         }
         else{
             throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
@@ -295,6 +302,16 @@ public class Nooko3 {
     public static void askForProject(Context context, String custom_action){
         if(NUserConst.apiKey != null) {
             new ATask_getProject(context, custom_action).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks project data from API with listener*/
+    public static void askForProject(Context context, NApiProjectResultListener listener){
+        if(NUserConst.apiKey != null) {
+            new ATask_getProject(context, listener).execute();
         }
         else{
             throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
@@ -331,10 +348,30 @@ public class Nooko3 {
         }
     }
 
+    /**Asks blocks data from API with or without sections with listener*/
+    public static void askForBlocks(Context context, ArrayList<Object> filters, boolean getSections, NApiBlocksResultListener listener){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlocks(context, filters, listener, getSections).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
     /**Asks blocks data from API with or without sections and elements with a custom action return*/
     public static void askForBlocks(Context context, ArrayList<Object> filters, boolean getSections, boolean getElements, String custom_action){
         if(NUserConst.apiKey != null) {
             new ATask_getBlocks(context, filters, custom_action, getSections, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks blocks data from API with or without sections and elements with listener*/
+    public static void askForBlocks(Context context, ArrayList<Object> filters, boolean getSections, boolean getElements, NApiBlocksResultListener listener){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlocks(context, filters, listener, getSections, getElements).execute();
         }
         else{
             throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
@@ -361,6 +398,105 @@ public class Nooko3 {
         }
     }
 
+    /**Asks sections data from API with or without elements with listener*/
+    public static void askForSections(Context context, ArrayList<Object> filters, boolean getElements, NApiSectionsResultListener listener){
+        if(NUserConst.apiKey != null) {
+            new ATask_getSections(context, filters, listener, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
 
+    /**Asks section data from API with or without elements with listener*/
+    public static void askForSection(Context context, long section_id, boolean getElements){
+        if(NUserConst.apiKey != null) {
+            new ATask_getSection(context, section_id, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+
+    /**Asks section data from API with or without elements with custom action*/
+    public static void askForSection(Context context, long section_id, boolean getElements, String custom_action){
+        if(NUserConst.apiKey != null) {
+            new ATask_getSection(context, section_id, custom_action, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks section data from API with or without elements with listener*/
+    public static void askForSection(Context context, long section_id, boolean getElements, NApiSectionResultListener listener){
+        if(NUserConst.apiKey != null) {
+            new ATask_getSection(context, section_id, listener, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks blocks data from API with or without sections*/
+    public static void askForBlock(Context context, long block_id, boolean getSections){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlock(context, block_id, getSections).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks blocks data from API with or without sections and elements*/
+    public static void askForBlock(Context context, long block_id, boolean getSections, boolean getElements){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlock(context, block_id, getSections, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks blocks data from API with or without sections with a custom action return*/
+    public static void askForBlock(Context context, long block_id, boolean getSections, String custom_action){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlock(context, block_id, custom_action, getSections).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks blocks data from API with or without sections with listener*/
+    public static void askForBlock(Context context, long block_id, boolean getSections, NApiBlockResultListener listener){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlock(context, block_id, listener, getSections).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks blocks data from API with or without sections and elements with a custom action return*/
+    public static void askForBlock(Context context, long block_id, boolean getSections, boolean getElements, String custom_action){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlock(context, block_id, custom_action, getSections, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**Asks blocks data from API with or without sections and elements with listener*/
+    public static void askForBlock(Context context, long block_id, boolean getSections, boolean getElements, NApiBlockResultListener listener){
+        if(NUserConst.apiKey != null) {
+            new ATask_getBlock(context, block_id, listener, getSections, getElements).execute();
+        }
+        else{
+            throw new NSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
 
 }

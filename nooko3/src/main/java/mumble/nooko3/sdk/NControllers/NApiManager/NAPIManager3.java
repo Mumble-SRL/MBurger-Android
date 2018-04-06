@@ -205,7 +205,7 @@ public class NAPIManager3 {
     }
 
     /**Initialize connection with method (POST, PUT, DELETE) with all data inside the ContentValues*/
-    private static HttpURLConnection initializePostDeleteConnection(Context context, String api, ContentValues postData, String method)
+    private static HttpsURLConnection initializePostDeleteConnection(Context context, String api, ContentValues postData, String method)
             throws IOException {
         URL url = new URL(NAMCONF.endpoint + api);
         addNecessaryPostData(context, postData);
@@ -221,7 +221,11 @@ public class NAPIManager3 {
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         urlConnection.setRequestMethod(method);
         urlConnection.setHostnameVerifier(hostnameVerifier);
-        urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        //urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        urlConnection.setRequestProperty("X-Nooko-Token", NUserConst.apiKey);
+        urlConnection.setRequestProperty("X-Nooko-Version", "2");
+        urlConnection.setRequestProperty("Accept", "application/json");
+
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(false);
 
@@ -237,7 +241,7 @@ public class NAPIManager3 {
     }
 
     /**Initialize a GET connection with all data inside the ContentValues*/
-    private static HttpURLConnection initializeGetConnection(Context context, String api, ContentValues postData) throws IOException{
+    private static HttpsURLConnection initializeGetConnection(Context context, String api, ContentValues postData) throws IOException{
         URL url = new URL(NAMCONF.endpoint + api + NAMUtils.getGETQuery(postData));
         addNecessaryPostData(context, postData);
 
@@ -254,17 +258,15 @@ public class NAPIManager3 {
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(false);
         urlConnection.setRequestMethod("GET");
-        urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        //urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        urlConnection.setRequestProperty("X-Nooko-Token", NUserConst.apiKey);
+        urlConnection.setRequestProperty("X-Nooko-Version", "2");
+        urlConnection.setRequestProperty("Accept", "application/json");
         return urlConnection;
     }
 
     /**Adds basic data common to all calls, handled automatically so the developer has not to worry about it*/
     private static void addNecessaryPostData(Context context, ContentValues postData) {
-        postData.put("device_id", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
-        postData.put("os", NAMCONF.OS);
-        postData.put("locale", Locale.getDefault().getLanguage());
-        postData.put("version", NAMCONF.API_VERSION);
-        postData.put("api_key", NUserConst.apiKey);
     }
 
 }

@@ -18,7 +18,11 @@ import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAPIManager3;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiBlocksResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiSectionsResultListener;
+import mumble.nooko3.sdk.NControllers.NCommonMethods;
 import mumble.nooko3.sdk.NControllers.NParser;
+import mumble.nooko3.sdk.NData.NPaginationInfos;
 import mumble.nooko3.sdk.NData.NSections.NSection;
 
 /**
@@ -42,11 +46,15 @@ public class ATask_getSections extends AsyncTask<Void, Void, Void> {
     /**If you wish to change the action that accompanies the API result*/
     private String action = NAMCONF.ACTION_GET_SECTIONS;
 
+    /**If you wish to use a listener to retrieve the data instead of the ApiListener*/
+    private NApiSectionsResultListener listener;
+
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
 
     private ArrayList<NSection> sections;
+    private NPaginationInfos paginationInfos;
 
     public ATask_getSections(Context context, ArrayList<Object> filters, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
@@ -57,6 +65,13 @@ public class ATask_getSections extends AsyncTask<Void, Void, Void> {
     public ATask_getSections(Context context, ArrayList<Object> filters, String custom_action, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
+        this.getElements = getElements;
+        this.filters = filters;
+    }
+
+    public ATask_getSections(Context context, ArrayList<Object> filters, NApiSectionsResultListener listener, boolean getElements) {
+        this.weakContext = new WeakReference<>(context);
+        this.listener = listener;
         this.getElements = getElements;
         this.filters = filters;
     }
@@ -85,23 +100,57 @@ public class ATask_getSections extends AsyncTask<Void, Void, Void> {
 
     protected void onPostExecute(Void postResult) {
         if (weakContext != null) {
-            Intent i = new Intent(action);
-            i.putExtra("result", result);
-            i.putExtra("error", error);
-            i.putExtra("sections", sections);
-            NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
+            if(listener == null) {
+                Intent i = new Intent(action);
+                i.putExtra("result", result);
+                i.putExtra("error", error);
+                i.putExtra("sections", sections);
+                i.putExtra("paginationInfos", paginationInfos);
+                NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
+            }
+            else{
+                if (error != null) {
+                    listener.onSectionsApiError(error);
+                } else {
+                    listener.onSectionsApiResult(sections, paginationInfos);
+                }
+            }
         }
     }
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        map = NAPIManager3.callApi(weakContext.get(), NAMCONF.API_SECTION, values, NAMCONF.MODE_POST, true);
+        if(getElements){
+            values.put("include", "elements");
+        }
+
+        map = NAPIManager3.callApi(weakContext.get(), NAMCONF.API_SECTION, values, NAMCONF.MODE_GET, true);
     }
 
     public void getPayload(String sPayload) {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
-            JSONArray jSections = jPayload.getJSONArray("items");
+            JSONObject jBody = jPayload.getJSONObject("body");
+            JSONObject jMeta = jBody.getJSONObject("meta");
+            int from = 0;
+            int to = 0;
+            int total = 0;
+
+            if (NCommonMethods.isJSONOk(jMeta, "from")) {
+                from = jMeta.getInt("from");
+            }
+
+            if (NCommonMethods.isJSONOk(jMeta, "to")) {
+                to = jMeta.getInt("to");
+            }
+
+            if (NCommonMethods.isJSONOk(jMeta, "total")) {
+                total = jMeta.getInt("total");
+            }
+
+            paginationInfos = new NPaginationInfos(from, to, total);
+
+            JSONArray jSections = jBody.getJSONArray("items");
             sections = new ArrayList<>();
             for (int i = 0; i < jSections.length(); i++) {
                 sections.add(NParser.parseSection(jSections.getJSONObject(i), getElements));

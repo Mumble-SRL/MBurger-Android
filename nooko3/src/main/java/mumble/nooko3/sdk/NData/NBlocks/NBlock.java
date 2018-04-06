@@ -17,8 +17,11 @@ public class NBlock implements Serializable{
     /**Unique id of the block*/
     private long id;
 
+    /**Title of the block*/
+    private String title;
+
     /**Name of the block*/
-    private String name;
+    private String subtitle;
 
     /**Block sections array*/
     private ArrayList<NSection> sections;
@@ -26,9 +29,10 @@ public class NBlock implements Serializable{
     /**Order of the block inside the project*/
     private int order;
 
-    public NBlock(long id, String name, ArrayList<NSection> sections, int order) {
+    public NBlock(long id, String title, String subtitle, ArrayList<NSection> sections, int order) {
         this.id = id;
-        this.name = name;
+        this.title = title;
+        this.subtitle = subtitle;
         this.sections = sections;
         this.order = order;
     }
@@ -44,13 +48,13 @@ public class NBlock implements Serializable{
     }
 
     /**Get block name*/
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     /**Set block name*/
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**Get block sections*/
@@ -71,5 +75,15 @@ public class NBlock implements Serializable{
     /**Set block order*/
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    /**Get block subtitle*/
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    /**Set block subtitle*/
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 }

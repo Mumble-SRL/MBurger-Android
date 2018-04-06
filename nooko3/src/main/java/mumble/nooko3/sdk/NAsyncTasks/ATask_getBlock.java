@@ -17,6 +17,7 @@ import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAPIManager3;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiBlockResultListener;
 import mumble.nooko3.sdk.NControllers.NParser;
 import mumble.nooko3.sdk.NData.NBlocks.NBlock;
 
@@ -32,6 +33,9 @@ public class ATask_getBlock extends AsyncTask<Void, Void, Void> {
     /**Context reference used to send data to Activity/Fragment*/
     private WeakReference<Context> weakContext;
 
+    /**ID of the block asking for from API*/
+    private long block_id = -1;
+
     /**If you wish to obtain the sections for each block*/
     private boolean getSections = false;
 
@@ -41,32 +45,54 @@ public class ATask_getBlock extends AsyncTask<Void, Void, Void> {
     /**If you wish to change the action that accompanies the API result*/
     private String action = NAMCONF.ACTION_GET_BLOCK;
 
+    /**If you wish to use a listener to retrieve the data*/
+    private NApiBlockResultListener listener;
+
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
 
     private NBlock block;
 
-    public ATask_getBlock(Context context, boolean getSections) {
+    public ATask_getBlock(Context context, long block_id, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
+        this.block_id = block_id;
         this.getSections = getSections;
     }
 
-    public ATask_getBlock(Context context, boolean getSections, boolean getElements) {
+    public ATask_getBlock(Context context, long block_id, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
+        this.getSections = getSections;
+        this.block_id = block_id;
+        this.getElements = getElements;
+    }
+
+    public ATask_getBlock(Context context, long block_id, String custom_action, boolean getSections) {
+        this.weakContext = new WeakReference<>(context);
+        this.action = custom_action;
+        this.block_id = block_id;
+        this.getSections = getSections;
+    }
+
+    public ATask_getBlock(Context context, long block_id, String custom_action, boolean getSections, boolean getElements) {
+        this.weakContext = new WeakReference<>(context);
+        this.action = custom_action;
+        this.block_id = block_id;
         this.getSections = getSections;
         this.getElements = getElements;
     }
 
-    public ATask_getBlock(Context context, String custom_action, boolean getSections) {
+    public ATask_getBlock(Context context, long block_id, NApiBlockResultListener listener, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
-        this.action = custom_action;
+        this.listener = listener;
+        this.block_id = block_id;
         this.getSections = getSections;
     }
 
-    public ATask_getBlock(Context context, String custom_action, boolean getSections, boolean getElements) {
+    public ATask_getBlock(Context context, long block_id, NApiBlockResultListener listener, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
-        this.action = custom_action;
+        this.listener = listener;
+        this.block_id = block_id;
         this.getSections = getSections;
         this.getElements = getElements;
     }
@@ -95,24 +121,44 @@ public class ATask_getBlock extends AsyncTask<Void, Void, Void> {
 
     protected void onPostExecute(Void postResult) {
         if (weakContext != null) {
-            Intent i = new Intent(action);
-            i.putExtra("result", result);
-            i.putExtra("error", error);
-            i.putExtra("block", block);
-            NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
+            if(listener == null) {
+                Intent i = new Intent(action);
+                i.putExtra("result", result);
+                i.putExtra("error", error);
+                i.putExtra("block", block);
+                NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
+            }
+            else{
+                if(error != null){
+                    listener.onBlockApiError(error);
+                }
+                else{
+                    listener.onBlockApiResult(block);
+                }
+            }
         }
     }
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        map = NAPIManager3.callApi(weakContext.get(), NAMCONF.API_BLOCK, values, NAMCONF.MODE_POST, true);
+        String api = NAMCONF.API_BLOCK + "/" + Long.toString(block_id);
+        if(getSections){
+            if(getElements){
+                values.put("include", "sections.elements");
+            }
+            else {
+                values.put("include", "sections");
+            }
+        }
+
+        map = NAPIManager3.callApi(weakContext.get(), api, values, NAMCONF.MODE_GET, true);
     }
 
     public void getPayload(String sPayload) {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
-            JSONArray jBlocks = jPayload.getJSONArray("body");
-            block = NParser.parseBlock(jBlocks.getJSONObject(0), getSections, getElements);
+            JSONObject jBlock = jPayload.getJSONObject("body");
+            block = NParser.parseBlock(jBlock, getSections, getElements);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -40,20 +40,47 @@ public class NParser {
     public static NProject parseProject(JSONObject jsonObject) {
         long id = -1;
         String name = null;
+        boolean hasBeacons = false;
+        boolean hasUsers = false;
+        boolean hasMultilanguage = false;
+        boolean hasLiveMessages = false;
+        boolean hasEvidence = false;
+        boolean hasPush = false;
 
         try {
             if (NCommonMethods.isJSONOk(jsonObject, "id")) {
                 id = jsonObject.getLong("id");
             }
 
-            if (NCommonMethods.isJSONOk(jsonObject, "name")) {
-                name = jsonObject.getString("name");
+            if (NCommonMethods.isJSONOk(jsonObject, "has_beacons")) {
+                hasBeacons = jsonObject.getBoolean("has_beacons");
             }
+
+            if (NCommonMethods.isJSONOk(jsonObject, "has_users")) {
+                hasUsers = jsonObject.getBoolean("has_users");
+            }
+
+            if (NCommonMethods.isJSONOk(jsonObject, "has_multilanguage")) {
+                hasMultilanguage = jsonObject.getBoolean("has_multilanguage");
+            }
+
+            if (NCommonMethods.isJSONOk(jsonObject, "has_live_messages")) {
+                hasLiveMessages = jsonObject.getBoolean("has_live_messages");
+            }
+
+            if (NCommonMethods.isJSONOk(jsonObject, "has_evidence")) {
+                hasEvidence = jsonObject.getBoolean("has_evidence");
+            }
+
+            if (NCommonMethods.isJSONOk(jsonObject, "has_push")) {
+                hasPush = jsonObject.getBoolean("has_push");
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return new NProject(id, name);
+        return new NProject(id, name, hasBeacons, hasUsers, hasMultilanguage, hasLiveMessages, hasEvidence, hasPush);
     }
 
     /**
@@ -61,7 +88,7 @@ public class NParser {
      */
     public static NBlock parseBlock(JSONObject jsonObject, boolean getSections, boolean getElements) {
         long id = -1;
-        String name = null;
+        String title = null, subtitle = null;
         int order = 0;
         ArrayList<NSection> sections = null;
 
@@ -71,7 +98,11 @@ public class NParser {
             }
 
             if (NCommonMethods.isJSONOk(jsonObject, "title")) {
-                name = jsonObject.getString("title");
+                title = jsonObject.getString("title");
+            }
+
+            if (NCommonMethods.isJSONOk(jsonObject, "subtitle")) {
+                subtitle = jsonObject.getString("subtitle");
             }
 
             if (NCommonMethods.isJSONOk(jsonObject, "order")) {
@@ -87,7 +118,7 @@ public class NParser {
             e.printStackTrace();
         }
 
-        return new NBlock(id, name, sections, order);
+        return new NBlock(id, title, subtitle, sections, order);
     }
 
     /**

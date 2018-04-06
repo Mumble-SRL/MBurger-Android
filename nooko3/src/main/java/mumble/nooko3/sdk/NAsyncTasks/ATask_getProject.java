@@ -16,6 +16,8 @@ import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAPIManager3;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiBlockResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiProjectResultListener;
 import mumble.nooko3.sdk.NControllers.NParser;
 import mumble.nooko3.sdk.NData.NProjects.NProject;
 
@@ -34,6 +36,9 @@ public class ATask_getProject extends AsyncTask<Void, Void, Void> {
     /**If you wish to change the action that accompanies the API result*/
     private String action = NAMCONF.ACTION_GET_PROJECT;
 
+    /**If you wish to use a listener to retrieve the data*/
+    private NApiProjectResultListener listener;
+
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
@@ -47,6 +52,11 @@ public class ATask_getProject extends AsyncTask<Void, Void, Void> {
     public ATask_getProject(Context context, String custom_action) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
+    }
+
+    public ATask_getProject(Context context, NApiProjectResultListener listener) {
+        this.weakContext = new WeakReference<>(context);
+        this.listener = listener;
     }
 
     @Override
@@ -73,17 +83,27 @@ public class ATask_getProject extends AsyncTask<Void, Void, Void> {
 
     protected void onPostExecute(Void postResult) {
         if (weakContext != null) {
-            Intent i = new Intent(action);
-            i.putExtra("result", result);
-            i.putExtra("error", error);
-            i.putExtra("project", project);
-            NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
+            if(listener == null) {
+                Intent i = new Intent(action);
+                i.putExtra("result", result);
+                i.putExtra("error", error);
+                i.putExtra("project", project);
+                NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
+            }
+            else{
+                if(error != null){
+                    listener.onProjectApiError(error);
+                }
+                else{
+                    listener.onProjectApiResult(project);
+                }
+            }
         }
     }
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        map = NAPIManager3.callApi(weakContext.get(), NAMCONF.API_PROJECT, values, NAMCONF.MODE_POST, true);
+        map = NAPIManager3.callApi(weakContext.get(), NAMCONF.API_PROJECT, values, NAMCONF.MODE_GET, true);
     }
 
     public void getPayload(String sPayload) {

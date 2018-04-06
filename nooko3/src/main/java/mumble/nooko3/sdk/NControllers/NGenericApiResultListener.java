@@ -5,6 +5,6 @@ import mumble.nooko3.sdk.NData.APIResponse;
  * Interface to retrieve Nooko api result, must be implemented in Activities or Fragments
  * which are working with the API
  */
-public interface NApiResultListener {
+public interface NGenericApiResultListener {
     void onApiResult(APIResponse response);
 }

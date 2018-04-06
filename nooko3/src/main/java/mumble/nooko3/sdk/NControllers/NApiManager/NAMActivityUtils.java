@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
 import mumble.nooko3.sdk.NConstants.NConst;
-import mumble.nooko3.sdk.NControllers.NApiResultListener;
+import mumble.nooko3.sdk.NControllers.NGenericApiResultListener;
 import mumble.nooko3.sdk.NData.APIResponse;
 
 /**
@@ -23,7 +23,7 @@ public class NAMActivityUtils {
      * Initialize the listener for obtaining the API result when called, needs to be implemented in Activities or Fragments which retrieve data from API,
      * must be called in onResume and obtain the BroadcastReceiver
      */
-    public static BroadcastReceiver initializeReceiverForApiManager(Activity activity, final NApiResultListener apiResultListener, String[] actions) {
+    public static BroadcastReceiver initializeReceiverForApiManager(Activity activity, final NGenericApiResultListener apiResultListener, String[] actions) {
         IntentFilter intentFilter = new IntentFilter();
         for (int i = 0; i < actions.length; i++) {
             intentFilter.addAction(actions[i]);
@@ -41,7 +41,7 @@ public class NAMActivityUtils {
                     }
                 }
 
-                apiResultListener.onApiResult(new APIResponse(boolResult, error, intent.getExtras()));
+                apiResultListener.onApiResult(new APIResponse(boolResult, error, intent.getAction(), intent.getExtras()));
             }
         };
         try {

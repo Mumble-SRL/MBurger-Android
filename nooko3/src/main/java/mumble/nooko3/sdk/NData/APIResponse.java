@@ -19,11 +19,13 @@ public class APIResponse implements Serializable {
 
     private boolean result;
     private String error;
+    private String apiAction;
     private Bundle payload;
 
-    public APIResponse(boolean result, String error, Bundle payload) {
+    public APIResponse(boolean result, String error, String apiAction, Bundle payload) {
         this.result = result;
         this.error = error;
+        this.apiAction = apiAction;
         this.payload = payload;
     }
 
@@ -50,5 +52,14 @@ public class APIResponse implements Serializable {
     /**Sets a payload bundle, which contains the objects from the APIs*/
     public void setPayload(Bundle payload) {
         this.payload = payload;
+    }
+
+    /**Get API action associated with the API called*/
+    public String getApiAction() {
+        return apiAction;
+    }
+
+    public void setApiAction(String apiAction) {
+        this.apiAction = apiAction;
     }
 }
