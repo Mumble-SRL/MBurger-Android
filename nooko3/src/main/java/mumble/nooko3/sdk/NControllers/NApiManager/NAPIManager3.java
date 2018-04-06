@@ -48,7 +48,7 @@ public class NAPIManager3 {
                     if (payload) {
                         if (NAMUtils.hasMapOkResults(map, true)) {
                             String api_params = NAMUtils.createApiValuesString(api, data);
-                            helper3.addRequest(api_params, (String) map.get(NAMCONF.AM_PAYLOAD));
+                            helper3.addRequest(api_params, (String) map.get(NAMCONF.AM_RESPONSE));
                         }
                     }
                 }
@@ -187,6 +187,7 @@ public class NAPIManager3 {
             map.put(NAMCONF.AM_RESULT, iResponse);
         }
 
+        map.put(NAMCONF.AM_RESPONSE, builder.toString());
         return map;
     }
 

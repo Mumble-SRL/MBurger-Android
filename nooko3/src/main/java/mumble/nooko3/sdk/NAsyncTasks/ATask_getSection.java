@@ -19,6 +19,7 @@ import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAPIManager3;
 import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiProjectResultListener;
 import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiSectionResultListener;
+import mumble.nooko3.sdk.NControllers.NCommonMethods;
 import mumble.nooko3.sdk.NControllers.NParser;
 import mumble.nooko3.sdk.NData.NSections.NSection;
 
@@ -88,7 +89,7 @@ public class ATask_getSection extends AsyncTask<Void, Void, Void> {
             if (map.containsKey(NAMCONF.AM_ERROR)) {
                 error = (String) map.get(NAMCONF.AM_ERROR);
             } else {
-                result = NAMCONF.COMMON_INTERNAL_ERROR;
+                error = NCommonMethods.getErrorMessageFromResult(weakContext.get(), result);
             }
         }
         return null;

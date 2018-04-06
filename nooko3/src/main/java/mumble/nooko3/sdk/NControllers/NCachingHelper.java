@@ -64,10 +64,10 @@ public class NCachingHelper extends SQLiteOpenHelper {
     public void addRequest(String api, String result) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = createContentValuesRequest(api, result);
-        if (isDataAlreadyInDBorNot(api)) {
+        if (!isDataAlreadyInDBorNot(api)) {
             db.insert(TABLE_REQUESTS, null, values);
         } else {
-            db.update(TABLE_REQUESTS, values, COLUMN_REQUESTS_API + " = " + api, null);
+            db.update(TABLE_REQUESTS, values, COLUMN_REQUESTS_API + " = '" + api + "'", null);
         }
         db.close();
     }
@@ -77,7 +77,7 @@ public class NCachingHelper extends SQLiteOpenHelper {
      */
     public String getRequestResponse(String api) {
         String response = null;
-        String query = "SELECT * FROM " + TABLE_REQUESTS + " WHERE " + COLUMN_REQUESTS_API + " = " + api;
+        String query = "SELECT * FROM " + TABLE_REQUESTS + " WHERE " + COLUMN_REQUESTS_API + " = '" + api + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -103,7 +103,7 @@ public class NCachingHelper extends SQLiteOpenHelper {
      */
     private int deleteResponse(String api) {
         SQLiteDatabase db = getWritableDatabase();
-        return db.delete(TABLE_REQUESTS, COLUMN_REQUESTS_API + " = " + api, null);
+        return db.delete(TABLE_REQUESTS, COLUMN_REQUESTS_API + " = '" + api + "'", null);
     }
 
     /**
@@ -122,7 +122,7 @@ public class NCachingHelper extends SQLiteOpenHelper {
      */
     public boolean isDataAlreadyInDBorNot(String api) {
         SQLiteDatabase sqldb = getWritableDatabase();
-        String Query = "Select * from " + TABLE_REQUESTS + " where " + COLUMN_REQUESTS_API + " = " + api;
+        String Query = "Select * from " + TABLE_REQUESTS + " where " + COLUMN_REQUESTS_API + " = '" + api + "'";
         Cursor cursor = sqldb.rawQuery(Query, null);
         if (cursor.getCount() <= 0) {
             cursor.close();

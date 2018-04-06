@@ -18,6 +18,7 @@ import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAPIManager3;
 import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiBlockResultListener;
+import mumble.nooko3.sdk.NControllers.NCommonMethods;
 import mumble.nooko3.sdk.NControllers.NParser;
 import mumble.nooko3.sdk.NData.NBlocks.NBlock;
 
@@ -113,7 +114,7 @@ public class ATask_getBlock extends AsyncTask<Void, Void, Void> {
             if (map.containsKey(NAMCONF.AM_ERROR)) {
                 error = (String) map.get(NAMCONF.AM_ERROR);
             } else {
-                result = NAMCONF.COMMON_INTERNAL_ERROR;
+                error = NCommonMethods.getErrorMessageFromResult(weakContext.get(), result);
             }
         }
         return null;

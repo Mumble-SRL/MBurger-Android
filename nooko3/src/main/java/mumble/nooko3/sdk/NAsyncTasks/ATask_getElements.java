@@ -95,7 +95,7 @@ public class ATask_getElements extends AsyncTask<Void, Void, Void> {
             if (map.containsKey(NAMCONF.AM_ERROR)) {
                 error = (String) map.get(NAMCONF.AM_ERROR);
             } else {
-                result = NAMCONF.COMMON_INTERNAL_ERROR;
+                error = NCommonMethods.getErrorMessageFromResult(weakContext.get(), result);
             }
         }
         return null;

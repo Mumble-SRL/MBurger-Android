@@ -45,6 +45,7 @@ public class NAMCONF {
      */
     public static final String AM_RESULT = "result";
     public static final String AM_PAYLOAD = "payload";
+    public static final String AM_RESPONSE = "response";
     public static final String AM_ERROR = "error";
 
     public static final String ACTION_GET_PROJECT = "mumble.nooko3.ACTION_GET_PROJECT";
