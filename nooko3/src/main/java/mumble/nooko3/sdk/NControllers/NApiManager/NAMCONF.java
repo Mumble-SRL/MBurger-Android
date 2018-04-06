@@ -25,7 +25,8 @@ public class NAMCONF {
      */
     public static final String API_PROJECT = "/api/project";
     public static final String API_BLOCK = "/api/blocks";
-    public static final String API_SECTION = "/api/sections";
+    public static final String API_SECTION = "/sections";
+    public static final String API_ELEMENTS = "/elements";
 
     /**
      * ERRORS
@@ -51,5 +52,6 @@ public class NAMCONF {
     public static final String ACTION_GET_BLOCK = "mumble.nooko3.ACTION_GET_BLOCK";
     public static final String ACTION_GET_SECTION = "mumble.nooko3.ACTION_GET_SECTION";
     public static final String ACTION_GET_SECTIONS = "mumble.nooko3.ACTION_GET_SECTIONS";
+    public static final String ACTION_GET_ELEMENTS = "mumble.nooko3.ACTION_GET_ELEMENTS";
 }
 

@@ -15,14 +15,14 @@ import mumble.nooko3.sdk.NConstants.NConst;
  * @author Enrico Ori
  * @version {@value NConst#version}
  */
-public class APIResponse implements Serializable {
+public class NAPIResponse implements Serializable {
 
     private boolean result;
     private String error;
     private String apiAction;
     private Bundle payload;
 
-    public APIResponse(boolean result, String error, String apiAction, Bundle payload) {
+    public NAPIResponse(boolean result, String error, String apiAction, Bundle payload) {
         this.result = result;
         this.error = error;
         this.apiAction = apiAction;

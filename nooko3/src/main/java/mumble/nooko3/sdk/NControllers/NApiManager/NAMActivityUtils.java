@@ -9,7 +9,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NControllers.NGenericApiResultListener;
-import mumble.nooko3.sdk.NData.APIResponse;
+import mumble.nooko3.sdk.NData.NAPIResponse;
 
 /**
  * Activity and Fragment utilities for retrieving data from Nooko3 APIs
@@ -41,7 +41,7 @@ public class NAMActivityUtils {
                     }
                 }
 
-                apiResultListener.onApiResult(new APIResponse(boolResult, error, intent.getAction(), intent.getExtras()));
+                apiResultListener.onApiResult(new NAPIResponse(boolResult, error, intent.getAction(), intent.getExtras()));
             }
         };
         try {

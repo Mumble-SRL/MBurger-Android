@@ -1,14 +1,13 @@
-package mumble.nooko3.sdk.NControllers;
+package mumble.nooko3.sdk.NMapper;
 
 import java.util.HashMap;
 
 import mumble.nooko3.sdk.NConstants.NConst;
 import mumble.nooko3.sdk.NData.NSections.NSection;
-import mumble.nooko3.sdk.NMapper.NMappingArgs;
 
 /**
  * Commodity class for mapping fields in custom objects to fields from Nooko3 sections, it is used with the method
- * {@link mumble.nooko3.sdk.Nooko3#mapToCustomObject(NSection, NFieldsMapping, Object, boolean)} Nooko3.mapToCustomObject}.
+ * {@link mumble.nooko3.sdk.NMapper.Nooko3Mapper#mapToCustomObject(NSection, NFieldsMapping, Object, boolean)}}.
  * You can specify different arguments to get specific data from fields (like the first image
  * or only the latitude from a {@link mumble.nooko3.sdk.NData.NElements.NEAddress NEAddress} object.
  * You can find all the arguments and how to use them in {@link NMappingArgs }

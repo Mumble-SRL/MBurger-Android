@@ -116,7 +116,7 @@ public class ATask_getSection extends AsyncTask<Void, Void, Void> {
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        String api = NAMCONF.API_SECTION + "/" + Long.toString(section_id);
+        String api = "/api" + NAMCONF.API_SECTION + "/" + Long.toString(section_id);
         if(getElements){
             values.put("include", "elements");
         }

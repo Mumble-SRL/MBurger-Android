@@ -167,7 +167,7 @@ public class NParser {
                             JSONObject jElem = jElements.getJSONObject(key);
                             NClass nObj = null;
                             if (NCommonMethods.isJSONOk(jElem, "type")) {
-                                nObj = getNClassFromElem(jElem.get("value"), id, key, jElem.getString("type"));
+                                nObj = getNClassFromElem(jElem.get("value"), jElem.getLong("id"), key, jElem.getString("type"));
                             }
 
                             if (nObj != null) {
@@ -184,6 +184,34 @@ public class NParser {
         }
 
         return new NSection(id, order, data);
+    }
+
+    /**
+     * Gets a map of elements from a JSONObject
+     */
+    public static Map<String, NClass> parseElements(JSONObject jObj) {
+        Map<String, NClass> element = new HashMap<>();
+
+        /*Iterates through the elements keys in order to obtain the objects needed*/
+        Iterator<String> iter = jObj.keys();
+        while (iter.hasNext()) {
+            String key = iter.next();
+            try {
+                JSONObject jElem = jObj.getJSONObject(key);
+                NClass nObj = null;
+                if (NCommonMethods.isJSONOk(jElem, "type")) {
+                    nObj = getNClassFromElem(jElem.get("value"), jElem.getLong("id"), key, jElem.getString("type"));
+                }
+
+                if (nObj != null) {
+                    element.put(key, nObj);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return element;
     }
 
     /**

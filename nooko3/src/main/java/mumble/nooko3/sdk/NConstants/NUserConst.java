@@ -15,7 +15,7 @@ import mumble.nooko3.sdk.Nooko3;
  */
 public class NUserConst {
 
-    /**API key for using the API's, initialized with {@link Nooko3#initialize(Context, String)} Nooko3.initialize} method*/
+    /**API key for using the API's, initialized with {@link Nooko3#initialize(String)} method*/
     public static String apiKey = null;
 
     /**Default caching time for the data taken down by API (3 days)*/

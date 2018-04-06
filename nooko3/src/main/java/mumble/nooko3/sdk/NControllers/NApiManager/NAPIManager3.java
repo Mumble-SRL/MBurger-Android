@@ -29,7 +29,7 @@ import mumble.nooko3.sdk.NConstants.NUserConst;
 import mumble.nooko3.R;
 
 /**
- * Static method class that wrps up web API calls and handles errors returning them to the user
+ * Static method class that wraps up web API calls and handles errors returning them to the user
  *
  * @author  Enrico Ori
  * @version {@value NConst#version}

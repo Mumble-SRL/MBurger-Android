@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import mumble.nooko3.sdk.NConstants.NConst;
@@ -16,18 +19,22 @@ import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAPIManager3;
-import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiProjectResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiElementsResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiSectionsResultListener;
+import mumble.nooko3.sdk.NControllers.NCommonMethods;
 import mumble.nooko3.sdk.NControllers.NParser;
-import mumble.nooko3.sdk.NData.NProjects.NProject;
+import mumble.nooko3.sdk.NData.NAtomic.NClass;
+import mumble.nooko3.sdk.NData.NPaginationInfos;
+import mumble.nooko3.sdk.NData.NSections.NSection;
 
 /**
- * Task which returns the basic Nooko project data
- * Bundle will return object "project" which is {@link NProject NProject}
+ * Task which returns the all elements from a particular section
+ * Bundle will return object "elements" which is an HashMap of {@link mumble.nooko3.sdk.NData.NAtomic.NClass NClasses}
  *
  * @author Enrico Ori
  * @version {@value NConst#version}
  */
-public class ATask_getProject extends AsyncTask<Void, Void, Void> {
+public class ATask_getElements extends AsyncTask<Void, Void, Void> {
 
     /**
      * Context reference used to send data to Activity/Fragment
@@ -35,32 +42,40 @@ public class ATask_getProject extends AsyncTask<Void, Void, Void> {
     private WeakReference<Context> weakContext;
 
     /**
-     * If you wish to change the action that accompanies the API result
+     * If you wish to obtain the elements for a section
      */
-    private String action = NAMCONF.ACTION_GET_PROJECT;
+    private long section_id = -1;
 
     /**
-     * If you wish to use a listener to retrieve the data
+     * If you wish to change the action that accompanies the API result
      */
-    private NApiProjectResultListener listener;
+    private String action = NAMCONF.ACTION_GET_ELEMENTS;
+
+    /**
+     * If you wish to use a listener to retrieve the data instead of the ApiListener
+     */
+    private NApiElementsResultListener listener;
 
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
 
-    private NProject project;
+    private Map<String, NClass> elements;
 
-    public ATask_getProject(Context context) {
+    public ATask_getElements(Context context, long section_id) {
         this.weakContext = new WeakReference<>(context);
+        this.section_id = section_id;
     }
 
-    public ATask_getProject(Context context, String custom_action) {
+    public ATask_getElements(Context context, long section_id, String custom_action) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
+        this.section_id = section_id;
     }
 
-    public ATask_getProject(Context context, NApiProjectResultListener listener) {
+    public ATask_getElements(Context context, long section_id, NApiElementsResultListener listener) {
         this.weakContext = new WeakReference<>(context);
+        this.section_id = section_id;
         this.listener = listener;
     }
 
@@ -89,16 +104,21 @@ public class ATask_getProject extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void postResult) {
         if (weakContext != null) {
             if (listener == null) {
+                HashMap<String, String> hashMap =
+                        (map instanceof HashMap)
+                                ? (HashMap) map
+                                : new HashMap<>(elements);
+
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
-                i.putExtra("project", project);
+                i.putExtra("sections", hashMap);
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
-                    listener.onProjectApiError(error);
+                    listener.onElementsApiError(error);
                 } else {
-                    listener.onProjectApiResult(project);
+                    listener.onElementsApiResult(elements);
                 }
             }
         }
@@ -106,14 +126,16 @@ public class ATask_getProject extends AsyncTask<Void, Void, Void> {
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        map = NAPIManager3.callApi(weakContext.get(), NAMCONF.API_PROJECT, values, NAMCONF.MODE_GET, true);
+        String api = "/api" + NAMCONF.API_SECTION + "/" + Long.toString(section_id) + NAMCONF.API_ELEMENTS;
+        map = NAPIManager3.callApi(weakContext.get(), api, values, NAMCONF.MODE_GET, true);
     }
 
     public void getPayload(String sPayload) {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
             JSONObject jBody = jPayload.getJSONObject("body");
-            project = NParser.parseProject(jBody);
+            JSONObject jItems = jBody.getJSONObject("items");
+            elements = NParser.parseElements(jItems);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -3,9 +3,10 @@ package mumble.nooko3.sdk.NControllers.NApiResultsLIsteners;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import mumble.nooko3.sdk.NConstants.NConst;
-import mumble.nooko3.sdk.NData.NBlocks.NBlock;
+import mumble.nooko3.sdk.NData.NAtomic.NClass;
 import mumble.nooko3.sdk.NData.NPaginationInfos;
 import mumble.nooko3.sdk.NData.NSections.NSection;
 
@@ -16,7 +17,7 @@ import mumble.nooko3.sdk.NData.NSections.NSection;
  * @author Enrico Ori
  * @version {@value NConst#version}
  */
-public interface NApiSectionsResultListener {
-    void onSectionsApiResult(ArrayList<NSection> sections, NPaginationInfos paginationInfos);
-    void onSectionsApiError(String error);
+public interface NApiElementsResultListener {
+    void onElementsApiResult(Map<String, NClass> elements);
+    void onElementsApiError(String error);
 }

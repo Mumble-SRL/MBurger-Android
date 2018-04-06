@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javadz.beanutils.BeanUtils;
-import mumble.nooko3.sdk.NControllers.NFieldsMapping;
 import mumble.nooko3.sdk.NData.NAtomic.NClass;
 import mumble.nooko3.sdk.NData.NElements.NEAddress;
 import mumble.nooko3.sdk.NData.NElements.NECheckbox;
@@ -18,6 +17,10 @@ import mumble.nooko3.sdk.NData.NElements.NEText;
 import mumble.nooko3.sdk.NData.NElements.NEWYSIWYG;
 import mumble.nooko3.sdk.NData.NSections.NSection;
 
+/**
+ * Class to map custom user objects from a Nooko section. Only works with Classes with values or Nooko objects,
+ * not with user innested objects
+ */
 public class Nooko3Mapper {
 
     /**

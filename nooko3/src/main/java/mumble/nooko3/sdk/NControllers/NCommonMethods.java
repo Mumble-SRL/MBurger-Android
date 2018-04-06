@@ -2,6 +2,14 @@ package mumble.nooko3.sdk.NControllers;
 
 import org.json.JSONObject;
 
+import mumble.nooko3.sdk.NConstants.NConst;
+
+/**
+ * A list of static methods used througout the SDK
+ *
+ * @author Enrico Ori
+ * @version {@value NConst#version}
+ */
 public class NCommonMethods {
 
     /**
