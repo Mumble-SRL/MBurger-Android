@@ -1,4 +1,4 @@
-package mumble.nooko3.sdk.NConstants;
+package mumble.nooko3.sdk.NMapper;
 
 public class NMappingArgs {
 
