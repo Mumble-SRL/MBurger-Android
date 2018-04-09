@@ -13,9 +13,10 @@ import java.util.Map;
 
 import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NAMActivityUtils;
+import mumble.nooko3.sdk.NKControllers.NKApiManager.NKAPIManager3;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerUtils;
-import mumble.nooko3.sdk.NKControllers.NKApiManager.NKAPIManager3;
+import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiPayloadKeys;
 import mumble.nooko3.sdk.NKControllers.NKApiResultsLIsteners.NKApiProjectResultListener;
 import mumble.nooko3.sdk.NKControllers.NKCommonMethods;
 import mumble.nooko3.sdk.NKControllers.NKParser;
@@ -93,7 +94,7 @@ public class NKAsyncTask_getProject extends AsyncTask<Void, Void, Void> {
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
-                i.putExtra("project", project);
+                i.putExtra(NKApiPayloadKeys.key_project, project);
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
