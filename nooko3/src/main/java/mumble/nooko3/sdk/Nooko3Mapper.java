@@ -5,19 +5,19 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javadz.beanutils.BeanUtils;
-import mumble.nooko3.sdk.NData.NAtomic.NClass;
-import mumble.nooko3.sdk.NData.NElements.NEAddress;
-import mumble.nooko3.sdk.NData.NElements.NECheckbox;
-import mumble.nooko3.sdk.NData.NElements.NEDate;
-import mumble.nooko3.sdk.NData.NElements.NEDropdown;
-import mumble.nooko3.sdk.NData.NElements.NEGeneric;
-import mumble.nooko3.sdk.NData.NElements.NEImages;
-import mumble.nooko3.sdk.NData.NElements.NEMedia;
-import mumble.nooko3.sdk.NData.NElements.NEText;
-import mumble.nooko3.sdk.NData.NElements.NEWYSIWYG;
-import mumble.nooko3.sdk.NData.NSections.NSection;
-import mumble.nooko3.sdk.NMapper.NFieldsMapping;
-import mumble.nooko3.sdk.NMapper.NMappingArgs;
+import mumble.nooko3.sdk.NKData.NKAtomic.NKClass;
+import mumble.nooko3.sdk.NKData.NKElements.NKAddressElement;
+import mumble.nooko3.sdk.NKData.NKElements.NKCheckboxElement;
+import mumble.nooko3.sdk.NKData.NKElements.NKDateElement;
+import mumble.nooko3.sdk.NKData.NKElements.NKDropdownElement;
+import mumble.nooko3.sdk.NKData.NKElements.NKGenericElement;
+import mumble.nooko3.sdk.NKData.NKElements.NEImages;
+import mumble.nooko3.sdk.NKData.NKElements.NKMediaElement;
+import mumble.nooko3.sdk.NKData.NKElements.NKTextElement;
+import mumble.nooko3.sdk.NKData.NKElements.NKWYSIWYGElement;
+import mumble.nooko3.sdk.NKData.NKSections.NKSection;
+import mumble.nooko3.sdk.NKMapper.NKFieldsMapping;
+import mumble.nooko3.sdk.NKMapper.NKMappingArgs;
 
 /**
  * Class to map custom user objects from a Nooko section. Only works with Classes with values or Nooko objects,
@@ -37,7 +37,7 @@ public class Nooko3Mapper {
      * @param destinationObject is an empty user object, which has at least getters and setters
      * @param getSimpleValues   represents if for media and images you wish to have only the url of the media or the whole object
      */
-    public static Object mapToCustomObject(NSection section, NFieldsMapping fieldsMap,
+    public static Object mapToCustomObject(NKSection section, NKFieldsMapping fieldsMap,
                                            Object destinationObject, boolean getSimpleValues) {
         Field[] fields = destinationObject.getClass().getDeclaredFields();
         for (Field field : fields) {
@@ -47,11 +47,11 @@ public class Nooko3Mapper {
                     if (sectionKey.contains(".")) {
                         String firstPart = sectionKey.substring(0, sectionKey.indexOf("."));
                         String secondPart = sectionKey.substring(sectionKey.indexOf(".") + 1);
-                        NClass sectionObject = section.getField(firstPart);
+                        NKClass sectionObject = section.getField(firstPart);
 
                         if (sectionObject instanceof NEImages) {
                             NEImages nImages = (NEImages) sectionObject;
-                            if (secondPart.equals(NMappingArgs.mapping_first_image_media)) {
+                            if (secondPart.equals(NKMappingArgs.mapping_first_image_media)) {
                                 if (getSimpleValues) {
                                     BeanUtils.setProperty(destinationObject, field.getName(), nImages.getFirstImage().getUrl());
                                 } else {
@@ -60,9 +60,9 @@ public class Nooko3Mapper {
                             }
                         }
 
-                        if (sectionObject instanceof NEMedia) {
-                            NEMedia nMedia = (NEMedia) sectionObject;
-                            if (secondPart.equals(NMappingArgs.mapping_first_image_media)) {
+                        if (sectionObject instanceof NKMediaElement) {
+                            NKMediaElement nMedia = (NKMediaElement) sectionObject;
+                            if (secondPart.equals(NKMappingArgs.mapping_first_image_media)) {
                                 if (getSimpleValues) {
                                     BeanUtils.setProperty(destinationObject, field.getName(), nMedia.getFirstMedia().getUrl());
                                 } else {
@@ -71,30 +71,30 @@ public class Nooko3Mapper {
                             }
                         }
 
-                        if (sectionObject instanceof NEAddress) {
-                            NEAddress neAddress = (NEAddress) sectionObject;
-                            if (secondPart.equals(NMappingArgs.mapping_latitude)) {
-                                BeanUtils.setProperty(destinationObject, field.getName(), neAddress.getLatitude());
+                        if (sectionObject instanceof NKAddressElement) {
+                            NKAddressElement NKAddressElement = (NKAddressElement) sectionObject;
+                            if (secondPart.equals(NKMappingArgs.mapping_latitude)) {
+                                BeanUtils.setProperty(destinationObject, field.getName(), NKAddressElement.getLatitude());
                             }
 
-                            if (secondPart.equals(NMappingArgs.mapping_longitude)) {
-                                BeanUtils.setProperty(destinationObject, field.getName(), neAddress.getLongitude());
+                            if (secondPart.equals(NKMappingArgs.mapping_longitude)) {
+                                BeanUtils.setProperty(destinationObject, field.getName(), NKAddressElement.getLongitude());
                             }
 
-                            if (secondPart.equals(NMappingArgs.mapping_address)) {
-                                BeanUtils.setProperty(destinationObject, field.getName(), neAddress.getAddress());
+                            if (secondPart.equals(NKMappingArgs.mapping_address)) {
+                                BeanUtils.setProperty(destinationObject, field.getName(), NKAddressElement.getAddress());
                             }
                         }
 
                     } else {
-                        NClass sectionObject = section.getField(sectionKey);
-                        if (sectionObject instanceof NECheckbox) {
-                            NECheckbox nCheckbox = (NECheckbox) sectionObject;
+                        NKClass sectionObject = section.getField(sectionKey);
+                        if (sectionObject instanceof NKCheckboxElement) {
+                            NKCheckboxElement nCheckbox = (NKCheckboxElement) sectionObject;
                             BeanUtils.setProperty(destinationObject, field.getName(), nCheckbox.getContent());
                         }
 
-                        if (sectionObject instanceof NEDate) {
-                            NEDate nDate = (NEDate) sectionObject;
+                        if (sectionObject instanceof NKDateElement) {
+                            NKDateElement nDate = (NKDateElement) sectionObject;
                             BeanUtils.setProperty(destinationObject, field.getName(), nDate.getTimestamp());
                         }
 
@@ -108,8 +108,8 @@ public class Nooko3Mapper {
                             BeanUtils.setProperty(destinationObject, field.getName(), images);
                         }
 
-                        if (sectionObject instanceof NEMedia) {
-                            NEMedia nMedia = (NEMedia) sectionObject;
+                        if (sectionObject instanceof NKMediaElement) {
+                            NKMediaElement nMedia = (NKMediaElement) sectionObject;
                             ArrayList<String> files = new ArrayList<>();
                             for (int i = 0; i < nMedia.getFiles().size(); i++) {
                                 files.add(nMedia.getFiles().get(i).getUrl());
@@ -118,23 +118,23 @@ public class Nooko3Mapper {
                             BeanUtils.setProperty(destinationObject, field.getName(), files);
                         }
 
-                        if (sectionObject instanceof NEText) {
-                            NEText nText = (NEText) sectionObject;
+                        if (sectionObject instanceof NKTextElement) {
+                            NKTextElement nText = (NKTextElement) sectionObject;
                             BeanUtils.setProperty(destinationObject, field.getName(), nText.getContent());
                         }
 
-                        if (sectionObject instanceof NEWYSIWYG) {
-                            NEWYSIWYG nWYSIWYG = (NEWYSIWYG) sectionObject;
+                        if (sectionObject instanceof NKWYSIWYGElement) {
+                            NKWYSIWYGElement nWYSIWYG = (NKWYSIWYGElement) sectionObject;
                             BeanUtils.setProperty(destinationObject, field.getName(), nWYSIWYG.getContent());
                         }
 
-                        if (sectionObject instanceof NEDropdown) {
-                            NEDropdown nWYSIWYG = (NEDropdown) sectionObject;
+                        if (sectionObject instanceof NKDropdownElement) {
+                            NKDropdownElement nWYSIWYG = (NKDropdownElement) sectionObject;
                             BeanUtils.setProperty(destinationObject, field.getName(), nWYSIWYG.getContent());
                         }
 
-                        if (sectionObject instanceof NEGeneric) {
-                            NEGeneric nGeneric = (NEGeneric) sectionObject;
+                        if (sectionObject instanceof NKGenericElement) {
+                            NKGenericElement nGeneric = (NKGenericElement) sectionObject;
                             BeanUtils.setProperty(destinationObject, field.getName(), nGeneric.getContent());
                         }
 
