@@ -17,85 +17,60 @@ import mumble.nooko3.sdk.NControllers.NApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMCONF;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAMUtils;
 import mumble.nooko3.sdk.NControllers.NApiManager.NAPIManager3;
-import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiBlockResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiProjectResultListener;
+import mumble.nooko3.sdk.NControllers.NApiResultsLIsteners.NApiSectionResultListener;
 import mumble.nooko3.sdk.NControllers.NCommonMethods;
 import mumble.nooko3.sdk.NControllers.NParser;
-import mumble.nooko3.sdk.NData.NBlocks.NBlock;
+import mumble.nooko3.sdk.NData.NSections.NSection;
 
 /**
- * Task which returns a single block from the project
- * Bundle will return object "block" which is a {@link NBlock NBlock}
+ * Task which returns a single section from a particular block
+ * Bundle will return object "section" which is a {@link NSection NSection}
  *
  * @author Enrico Ori
  * @version {@value NConst#version}
  */
-public class ATask_getBlock extends AsyncTask<Void, Void, Void> {
+public class NATask_getSection extends AsyncTask<Void, Void, Void> {
 
     /**Context reference used to send data to Activity/Fragment*/
     private WeakReference<Context> weakContext;
 
-    /**ID of the block asking for from API*/
-    private long block_id = -1;
+    /**ID of the section asking for from API*/
+    private long section_id = -1;
 
-    /**If you wish to obtain the sections for each block*/
-    private boolean getSections = false;
-
-    /**If you wish to obtain the elements for each section in block, should be true only if getSections is true*/
+    /**If you wish to obtain the elements for each section*/
     private boolean getElements = false;
 
     /**If you wish to change the action that accompanies the API result*/
-    private String action = NAMCONF.ACTION_GET_BLOCK;
+    private String action = NAMCONF.ACTION_GET_SECTION;
 
     /**If you wish to use a listener to retrieve the data*/
-    private NApiBlockResultListener listener;
+    private NApiSectionResultListener listener;
 
     private int result = NAMCONF.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
 
-    private NBlock block;
+    private NSection section;
 
-    public ATask_getBlock(Context context, long block_id, boolean getSections) {
+    public NATask_getSection(Context context, long section_id, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
-        this.block_id = block_id;
-        this.getSections = getSections;
-    }
-
-    public ATask_getBlock(Context context, long block_id, boolean getSections, boolean getElements) {
-        this.weakContext = new WeakReference<>(context);
-        this.getSections = getSections;
-        this.block_id = block_id;
         this.getElements = getElements;
+        this.section_id = section_id;
     }
 
-    public ATask_getBlock(Context context, long block_id, String custom_action, boolean getSections) {
+    public NATask_getSection(Context context, long section_id, String custom_action, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
-        this.block_id = block_id;
-        this.getSections = getSections;
-    }
-
-    public ATask_getBlock(Context context, long block_id, String custom_action, boolean getSections, boolean getElements) {
-        this.weakContext = new WeakReference<>(context);
-        this.action = custom_action;
-        this.block_id = block_id;
-        this.getSections = getSections;
         this.getElements = getElements;
+        this.section_id = section_id;
     }
 
-    public ATask_getBlock(Context context, long block_id, NApiBlockResultListener listener, boolean getSections) {
+    public NATask_getSection(Context context, long section_id, NApiSectionResultListener listener, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
-        this.block_id = block_id;
-        this.getSections = getSections;
-    }
-
-    public ATask_getBlock(Context context, long block_id, NApiBlockResultListener listener, boolean getSections, boolean getElements) {
-        this.weakContext = new WeakReference<>(context);
-        this.listener = listener;
-        this.block_id = block_id;
-        this.getSections = getSections;
         this.getElements = getElements;
+        this.section_id = section_id;
     }
 
     @Override
@@ -126,15 +101,15 @@ public class ATask_getBlock extends AsyncTask<Void, Void, Void> {
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
-                i.putExtra("block", block);
+                i.putExtra("section", section);
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             }
             else{
                 if(error != null){
-                    listener.onBlockApiError(error);
+                    listener.onSectionApiError(error);
                 }
                 else{
-                    listener.onBlockApiResult(block);
+                    listener.onSectionApiResult(section);
                 }
             }
         }
@@ -142,14 +117,9 @@ public class ATask_getBlock extends AsyncTask<Void, Void, Void> {
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        String api = NAMCONF.API_BLOCK + "/" + Long.toString(block_id);
-        if(getSections){
-            if(getElements){
-                values.put("include", "sections.elements");
-            }
-            else {
-                values.put("include", "sections");
-            }
+        String api = "/api" + NAMCONF.API_SECTION + "/" + Long.toString(section_id);
+        if(getElements){
+            values.put("include", "elements");
         }
 
         map = NAPIManager3.callApi(weakContext.get(), api, values, NAMCONF.MODE_GET, true);
@@ -158,8 +128,8 @@ public class ATask_getBlock extends AsyncTask<Void, Void, Void> {
     public void getPayload(String sPayload) {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
-            JSONObject jBlock = jPayload.getJSONObject("body");
-            block = NParser.parseBlock(jBlock, getSections, getElements);
+            JSONObject jSection = jPayload.getJSONObject("body");
+            section = NParser.parseSection(jSection, getElements);
         } catch (JSONException e) {
             e.printStackTrace();
         }

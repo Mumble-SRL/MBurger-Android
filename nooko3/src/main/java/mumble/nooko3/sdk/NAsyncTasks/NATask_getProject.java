@@ -28,7 +28,7 @@ import mumble.nooko3.sdk.NData.NProjects.NProject;
  * @author Enrico Ori
  * @version {@value NConst#version}
  */
-public class ATask_getProject extends AsyncTask<Void, Void, Void> {
+public class NATask_getProject extends AsyncTask<Void, Void, Void> {
 
     /**
      * Context reference used to send data to Activity/Fragment
@@ -51,16 +51,16 @@ public class ATask_getProject extends AsyncTask<Void, Void, Void> {
 
     private NProject project;
 
-    public ATask_getProject(Context context) {
+    public NATask_getProject(Context context) {
         this.weakContext = new WeakReference<>(context);
     }
 
-    public ATask_getProject(Context context, String custom_action) {
+    public NATask_getProject(Context context, String custom_action) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
     }
 
-    public ATask_getProject(Context context, NApiProjectResultListener listener) {
+    public NATask_getProject(Context context, NApiProjectResultListener listener) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
     }

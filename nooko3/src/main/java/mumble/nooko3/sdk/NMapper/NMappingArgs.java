@@ -1,6 +1,7 @@
 package mumble.nooko3.sdk.NMapper;
 
 import mumble.nooko3.sdk.NData.NSections.NSection;
+import mumble.nooko3.sdk.Nooko3Mapper;
 
 /**
  * Special arguments for mapping Nooko sections into custom objects, used with method

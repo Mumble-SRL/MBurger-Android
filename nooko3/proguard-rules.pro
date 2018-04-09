@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class org.apache.commons.logging.** { *; }
+-dontwarn org.apache.commons.logging.impl.**
+-dontwarn org.apache.http.conn.scheme.**
+-keep class org.apache.commons.codec.** { *; }

@@ -31,7 +31,7 @@ import mumble.nooko3.sdk.NData.NSections.NSection;
  * @author Enrico Ori
  * @version {@value NConst#version}
  */
-public class ATask_getSections extends AsyncTask<Void, Void, Void> {
+public class NATask_getSections extends AsyncTask<Void, Void, Void> {
 
     /**
      * Context reference used to send data to Activity/Fragment
@@ -70,14 +70,14 @@ public class ATask_getSections extends AsyncTask<Void, Void, Void> {
     private ArrayList<NSection> sections;
     private NPaginationInfos paginationInfos;
 
-    public ATask_getSections(Context context, long block_id, ArrayList<Object> filters, boolean getElements) {
+    public NATask_getSections(Context context, long block_id, ArrayList<Object> filters, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.getElements = getElements;
         this.block_id = block_id;
         this.filters = filters;
     }
 
-    public ATask_getSections(Context context, long block_id, ArrayList<Object> filters, String custom_action, boolean getElements) {
+    public NATask_getSections(Context context, long block_id, ArrayList<Object> filters, String custom_action, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.block_id = block_id;
@@ -85,7 +85,7 @@ public class ATask_getSections extends AsyncTask<Void, Void, Void> {
         this.filters = filters;
     }
 
-    public ATask_getSections(Context context, long block_id, ArrayList<Object> filters, NApiSectionsResultListener listener, boolean getElements) {
+    public NATask_getSections(Context context, long block_id, ArrayList<Object> filters, NApiSectionsResultListener listener, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.block_id = block_id;
         this.listener = listener;
