@@ -78,6 +78,43 @@ public void onApiResult(NKAPIResponse response) {
 ```
 
 The NKAPIResponse is an object wich contains a boolean representing if the API call went well (if not a String error will be valorized), the apiAction from which it came and a Bundle that will contain the payload of the API. You can obtain the payload using the keys inside the class `NKApiPayloadKeys`.
+Then you should add to your `onResume` and `onPause` methods one of the receivers of `Nooko3ApiActionInitializer` class in order to let your Activity/Fragment to receive the action associated with the async task you need and to release the receiver for the action in onPause. You can also use a custom Initializer, already included in the task, to listen to your custom actions if you will.
+For example if you need Project data your Activity code should result
+
+```java
+//You need to mantain the BroadcastReceiver associated with your Activity
+private BroadcastReceiver bRec;
+
+@Override
+protected void onResume() {
+    super.onResume();
+    bRec = Nooko3ApiActionInitializer.initializeNookoReceiverForProject(this, this);
+    //Call api from these moment on
+}
+
+@Override
+protected void onPause() {
+	super.onPause();
+	Nooko3ApiActionInitializer.pauseNookoReceiver(this, bRec);
+}
+
+@Override
+public void onApiResult(NKAPIResponse response) {
+	if(response.getResult()) {
+		NKProject project = (NKProject) response.getPayload()
+            .get(NKApiPayloadKeys.key_project);
+            //Your code
+	}
+    else{
+    	//Show error message 
+    }
+}
+
+```
+
+This method implies that you should not use an AsyncTask before `onResume` method
+
+
 
 ### Requesting Nooko data
 
@@ -102,7 +139,7 @@ If you are using proguard to shring and obfuscate your code, you must not objusc
 
 ## Contact us
 
-If you wish you can make a Pull request and feel free to open an Issue if you have difficulties using the SDK, you can also contact us at mumble@mumble.com
+If you wish you can make a Pull request and feel free to open an Issue if you have difficulties using the SDK, you can also contact us at [mumble@mumble.com](mumble@mumble.com)
 
 
 
