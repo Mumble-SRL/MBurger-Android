@@ -59,6 +59,7 @@ public class NKAPIResponse implements Serializable {
         return apiAction;
     }
 
+    /**Set API action associated with the API called*/
     public void setApiAction(String apiAction) {
         this.apiAction = apiAction;
     }
