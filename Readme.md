@@ -1,4 +1,6 @@
-# Nooko3 Android Client
+<img src="https://mumbleideas.it/wp-content/uploads/2017/12/Mumble-anim-300.gif" alt="Mumble Logo" title="Mumble Logo">
+
+# Nooko Android SDK
 
 With the Nooko3 Android Client you can easily create a content-ful app without the need of a database or a backend. Before starting, make sure you read the Nooko3 guide on Nooko website in order to take confidence with Nooko namespaces and objects, also create a Project.
 
@@ -6,7 +8,7 @@ With the Nooko3 Android Client you can easily create a content-ful app without t
 
 ## Setup
 
-First thing you should download or clone this repo, you will find a `nooko3` directory and `sample` directory. The first is the library itself, the latter is a sample app that demonstrates the easiness and flexibility of Nooko3.
+First thing you should download or clone this repo, you will find a `nooko3` directory and `sample` directory. 
 
 Note that Nooko3 requires at least Android Studio 3.1 and your project should target Android Version 27, with minimum SDK version 17.
 
@@ -20,7 +22,12 @@ implementation project(':nooko3')
 
 ## Initialization
 
-In order to use the SDK you should create an API Key, which will let you use Nooko3 APIs, you can do that on the dashboard for your Project and decide key permissions, at minimum it should be "read". API Keys can be used for Android apps as well as iOS apps, so you don't really need to create 2 keys for the two OS.
+In order to use the SDK you should create an API Key, which will let you use Nooko3 APIs, you can do that on the [dashboard](https://nooko3.mumbleserver.it/) settings for your Project and decide key permissions, at minimum it should be "read". 
+
+
+![Dashboard image](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/raw/master/Images/api_token.png)
+
+API Keys can be used for Android apps as well as iOS apps, so you don't really need to create 2 keys for the two OS.
 On your app before doing anything you must initialize the SDK with your API Key by using the `Nooko3` class
 
 ```java
@@ -43,7 +50,7 @@ Nooko classes represent basic informations you put from the Dashboard, at the mo
 
 **NkProject** represents the informations about your project, name, id and features.
 A **NKBlock** represent a part of your Project, e.g. a list of News. They have a title, subtitle, order and an ArrayList of *NKSections* which represent the elements of the block.
-**NKSections** are the single elements of the blocks, every section contains a Map of *Elements*, which are the parts you choose from the dashboard to create your items. The Map uses the name of the Element as a key and a *NKClass* as a value. You should prior know which NKClass is which Element if you wish to map Nooko object to your custom objects manually, or you can use the `Nooko3Mapper` to do this automatically for simple classes. **NKClasse** is a basic class which every Element extends, you will find all about the NKElements consulting the [Javadoc](https://www.google.com "Javadoc").
+**NKSections** are the single elements of the blocks, every section contains a Map of *Elements*, which are the parts you choose from the dashboard to create your items. The Map uses the name of the Element as a key and a *NKClass* as a value. You should prior know which NKClass is which Element if you wish to map Nooko object to your custom objects manually, or you can use the `Nooko3Mapper` to do this automatically for simple classes. **NKClass** is a basic class which every Element extends, you will find all about the NKElements consulting the [Javadoc](https://www.google.com "Javadoc").
 
 You can consult the [Javadoc](https://www.google.com "Javadoc") to know all the Nooko classes and methods if you will.
 
