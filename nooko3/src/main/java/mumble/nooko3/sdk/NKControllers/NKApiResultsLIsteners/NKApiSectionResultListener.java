@@ -13,6 +13,6 @@ import mumble.nooko3.sdk.NKData.NKSections.NKSection;
  * @version {@value NKConstants#version}
  */
 public interface NKApiSectionResultListener {
-    void onSectionApiResult(NKSection section);
+    void onSectionApiResult(NKSection section, long section_id);
     void onSectionApiError(String error);
 }

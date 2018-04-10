@@ -16,6 +16,6 @@ import mumble.nooko3.sdk.NKData.NKSections.NKSection;
  * @version {@value NKConstants#version}
  */
 public interface NKApiSectionsResultListener {
-    void onSectionsApiResult(ArrayList<NKSection> sections, NKPaginationInfo paginationInfos);
+    void onSectionsApiResult(ArrayList<NKSection> sections, long block_id, NKPaginationInfo paginationInfos);
     void onSectionsApiError(String error);
 }

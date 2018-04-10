@@ -7,6 +7,7 @@ import java.util.Map;
 
 import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKData.NKAtomic.NKClass;
+import mumble.nooko3.sdk.NKData.NKPaginationInfo;
 import mumble.nooko3.sdk.NKData.NKSections.NKSection;
 
 /**
@@ -17,6 +18,6 @@ import mumble.nooko3.sdk.NKData.NKSections.NKSection;
  * @version {@value NKConstants#version}
  */
 public interface NKApiElementsResultListener {
-    void onElementsApiResult(Map<String, NKClass> elements);
+    void onElementsApiResult(Map<String, NKClass> elements, long section_id);
     void onElementsApiError(String error);
 }

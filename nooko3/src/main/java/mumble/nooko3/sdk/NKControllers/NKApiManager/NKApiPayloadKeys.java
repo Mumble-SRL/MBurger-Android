@@ -40,4 +40,15 @@ public class NKApiPayloadKeys {
      */
     public static String key_pagination_infos = "paginationInfos";
 
+    /**
+     * Block id key, used with {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getSections NKAsyncTask_getSections}
+     */
+    public static String key_block_id = "block_id";
+
+    /**
+     * Section id key, used with {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getSection NKAsyncTask_getSection} and {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getElements NKAsyncTask_getElements}
+     *
+     */
+    public static String key_section_id = "section_id";
+
 }

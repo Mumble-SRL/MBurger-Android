@@ -123,6 +123,7 @@ public class NKAsyncTask_getSections extends AsyncTask<Void, Void, Void> {
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
+                i.putExtra(NKApiPayloadKeys.key_block_id, block_id);
                 i.putExtra(NKApiPayloadKeys.key_sections, sections);
                 i.putExtra(NKApiPayloadKeys.key_pagination_infos, paginationInfos);
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
@@ -130,7 +131,7 @@ public class NKAsyncTask_getSections extends AsyncTask<Void, Void, Void> {
                 if (error != null) {
                     listener.onSectionsApiError(error);
                 } else {
-                    listener.onSectionsApiResult(sections, paginationInfos);
+                    listener.onSectionsApiResult(sections, block_id, paginationInfos);
                 }
             }
         }

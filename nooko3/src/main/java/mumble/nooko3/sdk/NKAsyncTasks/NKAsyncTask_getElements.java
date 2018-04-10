@@ -109,12 +109,13 @@ public class NKAsyncTask_getElements extends AsyncTask<Void, Void, Void> {
                 i.putExtra("result", result);
                 i.putExtra("error", error);
                 i.putExtra(NKApiPayloadKeys.key_elements, hashMap);
+                i.putExtra(NKApiPayloadKeys.key_section_id, section_id);
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
                     listener.onElementsApiError(error);
                 } else {
-                    listener.onElementsApiResult(elements);
+                    listener.onElementsApiResult(elements, section_id);
                 }
             }
         }

@@ -2,7 +2,7 @@
 
 # Nooko Android SDK
 
-With the Nooko3 Android Client you can easily create a content-ful app without the need of a database or a backend. Before starting, make sure you read the Nooko3 guide on Nooko website in order to take confidence with Nooko namespaces and objects, also create a Project.
+With the Nooko3 Android SDK you can easily create a content-ful app without the need of a database or a backend. Before starting, make sure you read the Nooko3 guide on Nooko website in order to take confidence with Nooko namespaces and objects, also create a Project.
 
 
 
@@ -10,12 +10,36 @@ With the Nooko3 Android Client you can easily create a content-ful app without t
 
 First thing you should download or clone this repo, you will find a `nooko3` directory and `sample` directory. 
 
-Note that Nooko3 requires at least Android Studio 3.1 and your project should target Android Version 27, with minimum SDK version 17.
+Note that Nooko3 requires at least Android Studio 3.1 and your project should target Android Version 27, with minimum SDK version 17, also your project will have these permissions
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
 
 Import `nooko3` library inside your Android Studio project and include it adding to your `settings.gradle` file, then import into your app adding to your app module `build.gradle` file
 
 ```java
 implementation project(':nooko3')
+```
+
+Pay attentiom that this SDK implements
+
+```java
+//For support of oldest Android versions
+implementation 'com.android.support:support-v4:27.1.0'
+    
+//For installing https certificates on older Android versions
+implementation 'com.google.android.gms:play-services-base:12.0.1'
+    
+//For logging API error via Logcat
+implementation 'com.github.omegasoft7.FSLogger:fslogger:1.9.1@aar'
+```
+
+And also a jar containing Apache Commons methods:
+
+```java
+implementation files('libs/android-java-air-bridge.jar')
 ```
 
 
@@ -71,7 +95,7 @@ public void onProjectApiResult(NKProject project) {
 
 @Override
 public void onProjectApiError(String error) {
-     /*There was an error, you should show it*/
+    /*There was an error, you should show it*/
 }
 ```
 
@@ -96,7 +120,7 @@ private BroadcastReceiver bRec;
 protected void onResume() {
     super.onResume();
     bRec = Nooko3ApiActionInitializer.initializeNookoReceiverForProject(this, this);
-    //Call api from these moment on
+    //Call api from this moment on
 }
 
 @Override
@@ -119,17 +143,248 @@ public void onApiResult(NKAPIResponse response) {
 
 ```
 
-This method implies that you should not use an AsyncTask before `onResume` method
+This method implies that you should not use an AsyncTask before `onResume` method occured.
 
 
 
-### Requesting Nooko data
+### Requesting Nooko data examples
 
 #### Project
 
+**Listener** approach
+
+```java
+Nooko3Tasks.askForProject(this, new NKApiProjectResultListener() {
+	@Override
+	public void onProjectApiResult(NKProject project) {
+    	//Your code
+	}
+
+	@Override
+	public void onProjectApiError(String error) {
+		//Show error message
+	}
+});
+```
+
+**Action** approach
+
+```java
+@Override
+protected void onResume() {
+	super.onResume();
+    bRec = Nooko3ApiActionInitializer.initializeNookoReceiverForProject(this, this);
+    Nooko3Tasks.askForProject(this);
+}
+
+@Override
+protected void onPause() {
+	super.onPause();
+    Nooko3ApiActionInitializer.pauseNookoReceiver(this, bRec);
+}
+
+@Override
+public void onApiResult(NKAPIResponse response) {
+	if (response.getResult()) {
+    	NKProject project = (NKProject) response.getPayload().get(NKApiPayloadKeys.key_project);
+        	//Your code
+     } else {
+     	//Show error message
+	}
+}
+```
+
+
+
 #### Blocks
 
+**Listener** approach
+
+```java
+//Add custom filters to the API call or leave it null
+ArrayList<Object> arrayOfFilters = null;
+
+//Inside the blocks returned the "sections" field will be valorized
+boolean getSections = true;
+
+//Inside the sections the "elements" field will not be valorized (null)
+boolean getElements = false;
+
+Nooko3Tasks.askForBlocks(this, arrayOfFilters, getSections, getElements, 
+                         new NKApiBlocksResultListener() {
+	@Override
+    public void onBlocksApiResult(ArrayList<NKBlock> blocks, NKPaginationInfo paginationInfos) {
+    	//Your code
+	}
+
+    @Override
+    public void onBlocksApiError(String error) {
+		//Show error message
+    }
+});
+```
+
+**Action** approach
+
+```java
+@Override
+protected void onResume() {
+	super.onResume();
+    bRec = Nooko3ApiActionInitializer.initializeNookoReceiverForBlocks(this, this);
+	
+    //Add custom filters to the API call or leave it null
+	ArrayList<Object> arrayOfFilters = null;
+
+	//Inside the blocks returned the "sections" field will be valorized
+	boolean getSections = true;
+
+	//Inside the sections the "elements" field will not be valorized (null)
+	boolean getElements = false;
+    
+	Nooko3Tasks.askForBlocks(this, arrayOfFilters, getSections, getElements);
+}
+
+@Override
+protected void onPause() {
+	super.onPause();
+    Nooko3ApiActionInitializer.pauseNookoReceiver(this, bRec);
+}
+
+@Override
+public void onApiResult(NKAPIResponse response) {
+	if (response.getResult()) {
+    	ArrayList<NKBlock> blocks = (ArrayList<NKBlock>) response.getPayload().get(NKApiPayloadKeys.key_blocks);
+        //Your code
+	} else {
+    	//Show error message
+	}
+}
+```
+
+
+
 #### Sections
+
+**Listener** approach
+
+```java
+//Add custom filters to the API call or leave it null
+ArrayList<Object> arrayOfFilters = null;
+
+//Id of the block you wish to retrieve sections
+long block_id = 10;
+
+//Inside the sections the "elements" field will be valorized
+boolean getElements = true;
+Nooko3Tasks.askForSections(this, block_id, arrayOfFilters, getElements, 
+                           new NKApiSectionsResultListener() {
+	@Override
+    public void onSectionsApiResult(ArrayList<NKSection> sections, long block_id, 
+                                    NKPaginationInfo paginationInfos) {
+    	//Your code 
+    }
+
+    @Override
+    public void onSectionsApiError(String error) {
+		//Show error message
+    }
+});
+
+```
+
+**Action** approach
+
+```java
+@Override
+protected void onResume() {
+	super.onResume();
+	bRec = Nooko3ApiActionInitializer.initializeNookoReceiverForSections(this, this);
+    
+    //Add custom filters to the API call or leave it null
+	ArrayList<Object> arrayOfFilters = null;
+
+	//Id of the block you wish to retrieve sections
+	long block_id = 10;
+    
+	//Inside the sections the "elements" field will be valorized
+	boolean getElements = true;
+	Nooko3Tasks.askForSections(this, block_id, arrayOfFilters, getElements);
+}
+
+@Override
+protected void onPause() {
+	super.onPause();
+    Nooko3ApiActionInitializer.pauseNookoReceiver(this, bRec);
+}
+
+@Override
+public void onApiResult(NKAPIResponse response) {
+	if (response.getResult()) {
+    	ArrayList<NKSection> sections = (ArrayList<NKSection>) response.getPayload().get(NKApiPayloadKeys.key_sections);
+        //Your code
+    } else {
+    	//Show error message
+	}
+}
+
+```
+
+
+
+### Mapping
+
+You can map your custom objects starting from `NKSection` automatically using `Nooko3Mapper` class.
+You should provide, using the commodity class `NKFieldsMapping` which fields of your custom class should be mapped with the fields of the `NKSection` you named on your Project dashboard. Your destination object should be can be an empty constructor and if you wish to obtain simple values or Nooko object values for:
+
+- Images -> First NKImage
+- Media & Documents -> First NKFile
+- Addresses -> latitude, longitude or textual address
+
+You will find all possible simple data inside the `NKMappingArgs` class.
+Make sure your custom class is public and that provides getters and setters for all fields you wish to map.
+
+For example, for a simple "News" class with title and Nooko image
+
+```java
+public class News implements Serializable {
+
+    private String tit;
+    private NKImage img;
+
+    public String getTit() {
+        return tit;
+    }
+
+    public void setTit(String tit) {
+        this.tit = tit;
+    }
+
+    public NKImage getImg() {
+        return img;
+    }
+
+    public void setImg(NKImage img) {
+        this.img = img;
+    }
+}
+```
+
+Can be mapped this way:
+
+```java
+NKFieldsMapping fieldsMapping = new NKFieldsMapping();
+
+//"tit" is my custom object element, "Title" is the name of the Element we want to map from the section
+fieldsMapping.putMap("tit", "Title");
+
+//"img" is my custom object element, "Images" is the name of the Element we want to map from the section, we add "imageArguments" which tells to take only the first image from the array.
+String[] imageArguments = {NKMappingArgs.mapping_first_image_media};
+fieldsMapping.putMap("img", "Images", imageArguments);
+
+//If getSimpleValues was "true" we would not have a single NKImage but the basic value, so the URL of the image and News class "img" should be a String
+boolean getSimpleValues = false;
+News n = (News) Nooko3Mapper.mapToCustomObject(nkSection, fieldsMapping, new News(), getSimpleValues);
+```
 
 
 
@@ -146,7 +401,7 @@ If you are using proguard to shring and obfuscate your code, you must not objusc
 
 ## Contact us
 
-If you wish you can make a Pull request and feel free to open an Issue if you have difficulties using the SDK, you can also contact us at [mumble@mumble.com](mumble@mumble.com)
+If you wish you can make a Pull request and feel free to open an Issue if you have problems using the SDK, you can also contact us at [info@mumbleideas.it](info@mumbleideas.it).
 
 
 
