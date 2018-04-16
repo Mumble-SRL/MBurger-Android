@@ -265,7 +265,7 @@ public class NKParser {
                     type.equals(NKConstants.type_media_file) ||
                     type.equals(NKConstants.type_media_video)) {
                 found = true;
-                JSONArray jMedia = new JSONArray((String) value);
+                JSONArray jMedia = (JSONArray) value;
                 ArrayList<NKFile> NKFiles = new ArrayList<>();
                 for (int i = 0; i < jMedia.length(); i++) {
                     JSONObject jF = jMedia.getJSONObject(i);
