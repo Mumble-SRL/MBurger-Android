@@ -24,10 +24,14 @@ public class NKSection implements Serializable {
     /**A Map which contains all the fields, identified by name*/
     private Map<String, NKClass> data;
 
-    public NKSection(long id, int order, Map<String, NKClass> data) {
+    /**Creation date of the Section*/
+    private long available_at;
+
+    public NKSection(long id, int order, Map<String, NKClass> data, long available_at) {
         this.id = id;
         this.order = order;
         this.data = data;
+        this.available_at = available_at;
     }
 
     /**Get unique id of the section*/

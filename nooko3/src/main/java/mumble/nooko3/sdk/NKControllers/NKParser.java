@@ -145,6 +145,7 @@ public class NKParser {
         Map<String, NKClass> data = new HashMap<>();
         long id = -1;
         int order = 0;
+        long available_at = -1;
 
         try {
             if (NKCommonMethods.isJSONOk(jSection, "id")) {
@@ -153,6 +154,10 @@ public class NKParser {
 
             if (NKCommonMethods.isJSONOk(jSection, "order")) {
                 order = jSection.getInt("order");
+            }
+
+            if (NKCommonMethods.isJSONOk(jSection, "available_at")) {
+                available_at = jSection.getLong("available_at");
             }
 
             if (getElements) {
@@ -183,7 +188,7 @@ public class NKParser {
             e.printStackTrace();
         }
 
-        return new NKSection(id, order, data);
+        return new NKSection(id, order, data, available_at);
     }
 
     /**
