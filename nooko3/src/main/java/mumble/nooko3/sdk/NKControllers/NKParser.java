@@ -223,7 +223,7 @@ public class NKParser {
         boolean found = false;
 
         try {
-            if (type.equals(NKConstants.type_text)) {
+            if (type.equals(NKConstants.type_text) || type.equals(NKConstants.type_textarea)) {
                 found = true;
                 nObj = new NKTextElement(id, name, (String) value);
             }

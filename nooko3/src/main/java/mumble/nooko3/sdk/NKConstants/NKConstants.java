@@ -18,6 +18,9 @@ public class NKConstants {
     /**Text type*/
     public static String type_text = "text";
 
+    /**Textarea type*/
+    public static String type_textarea = "textarea";
+
     /**Array images type*/
     public static String type_image = "image";
 
