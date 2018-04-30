@@ -11,12 +11,12 @@ import mumble.nooko3.sdk.NKData.NKElements.NKSubElements.NKImage;
  * @author  Enrico Ori
  * @version {@value NKConstants#version}
  */
-public class NEImages extends NKClass {
+public class NKImages extends NKClass {
 
     /**Array of {@link NKImage NImages}*/
     private ArrayList<NKImage> images;
 
-    public NEImages(long id, String name, ArrayList<NKImage> images) {
+    public NKImages(long id, String name, ArrayList<NKImage> images) {
         this.images = images;
         initialize(id, name, NKConstants.type_image);
     }

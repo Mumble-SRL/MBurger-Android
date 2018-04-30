@@ -3,9 +3,10 @@ package mumble.nooko3.sdk.NKData.NKElements.NKSubElements;
 import java.io.Serializable;
 
 import mumble.nooko3.sdk.NKConstants.NKConstants;
+import mumble.nooko3.sdk.NKData.NKElements.NKImages;
 
 /**
- * Single image inside the {@link mumble.nooko3.sdk.NKData.NKElements.NEImages NEImages}
+ * Single image inside the {@link NKImages NKImages}
  *
  * @author  Enrico Ori
  * @version {@value NKConstants#version}

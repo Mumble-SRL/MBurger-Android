@@ -9,13 +9,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Map;
 
 import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NAMActivityUtils;
+import mumble.nooko3.sdk.NKControllers.NKApiManager.NKAPIManager3;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerUtils;
-import mumble.nooko3.sdk.NKControllers.NKApiManager.NKAPIManager3;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiPayloadKeys;
 import mumble.nooko3.sdk.NKControllers.NKApiResultsLIsteners.NKApiBlockResultListener;
 import mumble.nooko3.sdk.NKControllers.NKCommonMethods;
@@ -31,22 +32,39 @@ import mumble.nooko3.sdk.NKData.NKBlocks.NKBlock;
  */
 public class NKAsyncTask_getBlock extends AsyncTask<Void, Void, Void> {
 
-    /**Context reference used to send data to Activity/Fragment*/
+    /**
+     * Context reference used to send data to Activity/Fragment
+     */
     private WeakReference<Context> weakContext;
 
-    /**ID of the block asking for from API*/
+    /**
+     * ID of the block asking for from API
+     */
     private long block_id = -1;
 
-    /**If you wish to obtain the sections for each block*/
+    /**
+     * An array of filters/sorters which may result in changes to the result of the API, used when getSections = true
+     */
+    private ArrayList<Object> filters;
+
+    /**
+     * If you wish to obtain the sections for each block
+     */
     private boolean getSections = false;
 
-    /**If you wish to obtain the elements for each section in block, should be true only if getSections is true*/
+    /**
+     * If you wish to obtain the elements for each section in block, should be true only if getSections is true
+     */
     private boolean getElements = false;
 
-    /**If you wish to change the action that accompanies the API result*/
+    /**
+     * If you wish to change the action that accompanies the API result
+     */
     private String action = NKApiManagerConfig.ACTION_GET_BLOCK;
 
-    /**If you wish to use a listener to retrieve the data*/
+    /**
+     * If you wish to use a listener to retrieve the data
+     */
     private NKApiBlockResultListener listener;
 
     private int result = NKApiManagerConfig.COMMON_INTERNAL_ERROR;
@@ -122,18 +140,16 @@ public class NKAsyncTask_getBlock extends AsyncTask<Void, Void, Void> {
 
     protected void onPostExecute(Void postResult) {
         if (weakContext != null) {
-            if(listener == null) {
+            if (listener == null) {
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
                 i.putExtra(NKApiPayloadKeys.key_block, block);
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
-            }
-            else{
-                if(error != null){
+            } else {
+                if (error != null) {
                     listener.onBlockApiError(error);
-                }
-                else{
+                } else {
                     listener.onBlockApiResult(block);
                 }
             }
@@ -143,13 +159,16 @@ public class NKAsyncTask_getBlock extends AsyncTask<Void, Void, Void> {
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
         String api = NKApiManagerConfig.API_BLOCK + "/" + Long.toString(block_id);
-        if(getSections){
-            if(getElements){
+        if (getSections) {
+            if (getElements) {
                 values.put("include", "sections.elements");
-            }
-            else {
+            } else {
                 values.put("include", "sections");
             }
+        }
+
+        if(getSections) {
+            NKCommonMethods.addFilters(values, filters);
         }
 
         map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_GET, true);

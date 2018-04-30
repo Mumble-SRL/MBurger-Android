@@ -17,7 +17,7 @@ import mumble.nooko3.sdk.NKData.NKElements.NKCheckboxElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKDateElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKDropdownElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKGenericElement;
-import mumble.nooko3.sdk.NKData.NKElements.NEImages;
+import mumble.nooko3.sdk.NKData.NKElements.NKImages;
 import mumble.nooko3.sdk.NKData.NKElements.NKMediaElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKTextElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKWYSIWYGElement;
@@ -262,7 +262,7 @@ public class NKParser {
 
                     NKImages.add(new NKImage(img_id, img_url, img_mime_type, img_size));
                 }
-                nObj = new NEImages(id, name, NKImages);
+                nObj = new NKImages(id, name, NKImages);
             }
 
             if (type.equals(NKConstants.type_media_audio) ||

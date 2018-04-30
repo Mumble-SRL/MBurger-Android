@@ -15,9 +15,9 @@ import java.util.Map;
 
 import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NAMActivityUtils;
+import mumble.nooko3.sdk.NKControllers.NKApiManager.NKAPIManager3;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerUtils;
-import mumble.nooko3.sdk.NKControllers.NKApiManager.NKAPIManager3;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiPayloadKeys;
 import mumble.nooko3.sdk.NKControllers.NKApiResultsLIsteners.NKApiSectionsResultListener;
 import mumble.nooko3.sdk.NKControllers.NKCommonMethods;
@@ -148,6 +148,7 @@ public class NKAsyncTask_getSections extends AsyncTask<Void, Void, Void> {
             api = NKApiManagerConfig.API_BLOCK + "/" + Long.toString(block_id) + NKApiManagerConfig.API_SECTION;
         }
 
+        NKCommonMethods.addFilters(values, filters);
         map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_GET, true);
     }
 

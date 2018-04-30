@@ -9,7 +9,7 @@ package mumble.nooko3.sdk.NKConstants;
 public class NKConstants {
 
     /**Version*/
-    public static final String version = "1.0";
+    public static final String version = "1.1";
 
     //OBJECT TYPES
     /**Generic type*/
@@ -41,6 +41,9 @@ public class NKConstants {
 
     /**Dropdown type*/
     public static String type_dropdown = "dropdown";
+
+    /**Poll type*/
+    public static String type_poll = "poll";
 
     //MEDIA TYPES
     /**Media type file*/

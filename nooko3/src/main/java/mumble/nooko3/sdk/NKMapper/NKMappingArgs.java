@@ -1,6 +1,7 @@
 package mumble.nooko3.sdk.NKMapper;
 
 import mumble.nooko3.sdk.NKData.NKElements.NKAddressElement;
+import mumble.nooko3.sdk.NKData.NKElements.NKImages;
 import mumble.nooko3.sdk.NKData.NKSections.NKSection;
 import mumble.nooko3.sdk.Nooko3Mapper;
 
@@ -11,7 +12,7 @@ import mumble.nooko3.sdk.Nooko3Mapper;
 public class NKMappingArgs {
 
     /**
-     * Get first image or media from a Nooko {@link mumble.nooko3.sdk.NKData.NKElements.NEImages NImages}
+     * Get first image or media from a Nooko {@link NKImages NImages}
      */
     public static String mapping_first_image_media = "first";
 

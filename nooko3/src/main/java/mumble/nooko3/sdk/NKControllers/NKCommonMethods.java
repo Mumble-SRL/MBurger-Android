@@ -1,11 +1,19 @@
 package mumble.nooko3.sdk.NKControllers;
 
+import android.content.ContentValues;
 import android.content.Context;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import mumble.nooko3.R;
 import mumble.nooko3.sdk.NKConstants.NKConstants;
+import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiFilters.NKFilterParameter;
+import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiFilters.NKGeneralParameter;
+import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiFilters.NKGeofenceParameter;
+import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiFilters.NKPaginationParameter;
+import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiFilters.NKSortParameter;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerConfig;
 
 /**
@@ -45,6 +53,49 @@ public class NKCommonMethods {
 
             default:
                 return context.getString(R.string.internal_error);
+        }
+    }
+
+    /**
+     * Adds filters to API calls
+     */
+    public static void addFilters(ContentValues values, ArrayList<Object> filters) {
+        if (filters != null) {
+            for (Object object : filters) {
+                if (object instanceof NKGeofenceParameter) {
+                    NKGeofenceParameter gfParameter = (NKGeofenceParameter) object;
+                    values.put("filter[elements.geofence]",
+                            Double.toString(gfParameter.getLatitudeNE()) + ","
+                                    + Double.toString(gfParameter.getLatitudeSW()) + ","
+                                    + Double.toString(gfParameter.getLongitudeNE()) + ","
+                                    + Double.toString(gfParameter.getLongitudeSW()));
+                }
+
+                if (object instanceof NKFilterParameter) {
+                    NKFilterParameter filterParameter = (NKFilterParameter) object;
+                    values.put("filter[" + filterParameter.getKey() + "]", filterParameter.getValue());
+                }
+
+                if (object instanceof NKSortParameter) {
+                    NKSortParameter sortParameter = (NKSortParameter) object;
+                    if (sortParameter.isAscendent()) {
+                        values.put("sort", "-" + sortParameter.getKey());
+                    } else {
+                        values.put("sort", sortParameter.getKey());
+                    }
+                }
+
+                if (object instanceof NKPaginationParameter) {
+                    NKPaginationParameter pageParameter = (NKPaginationParameter) object;
+                    values.put("skip", Integer.toString(pageParameter.getSkip()));
+                    values.put("take", Integer.toString(pageParameter.getTake()));
+                }
+
+                if (object instanceof NKGeneralParameter) {
+                    NKGeneralParameter generalParameter = (NKGeneralParameter) object;
+                    values.put(generalParameter.getKey(), generalParameter.getValue());
+                }
+            }
         }
     }
 }

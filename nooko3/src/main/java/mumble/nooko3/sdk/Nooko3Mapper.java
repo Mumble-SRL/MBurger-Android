@@ -11,8 +11,9 @@ import mumble.nooko3.sdk.NKData.NKElements.NKCheckboxElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKDateElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKDropdownElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKGenericElement;
-import mumble.nooko3.sdk.NKData.NKElements.NEImages;
+import mumble.nooko3.sdk.NKData.NKElements.NKImages;
 import mumble.nooko3.sdk.NKData.NKElements.NKMediaElement;
+import mumble.nooko3.sdk.NKData.NKElements.NKPollAnswers;
 import mumble.nooko3.sdk.NKData.NKElements.NKTextElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKWYSIWYGElement;
 import mumble.nooko3.sdk.NKData.NKSections.NKSection;
@@ -49,8 +50,8 @@ public class Nooko3Mapper {
                         String secondPart = sectionKey.substring(sectionKey.indexOf(".") + 1);
                         NKClass sectionObject = section.getField(firstPart);
 
-                        if (sectionObject instanceof NEImages) {
-                            NEImages nImages = (NEImages) sectionObject;
+                        if (sectionObject instanceof NKImages) {
+                            NKImages nImages = (NKImages) sectionObject;
                             if (secondPart.equals(NKMappingArgs.mapping_first_image_media)) {
                                 if (getSimpleValues) {
                                     BeanUtils.setProperty(destinationObject, field.getName(), nImages.getFirstImage().getUrl());
@@ -98,14 +99,18 @@ public class Nooko3Mapper {
                             BeanUtils.setProperty(destinationObject, field.getName(), nDate.getTimestamp());
                         }
 
-                        if (sectionObject instanceof NEImages) {
-                            NEImages nImages = (NEImages) sectionObject;
-                            ArrayList<String> images = new ArrayList<>();
-                            for (int i = 0; i < nImages.getImages().size(); i++) {
-                                images.add(nImages.getImages().get(i).getUrl());
-                            }
+                        if (sectionObject instanceof NKImages) {
+                            NKImages nImages = (NKImages) sectionObject;
+                            if (getSimpleValues) {
+                                ArrayList<String> images = new ArrayList<>();
+                                for (int i = 0; i < nImages.getImages().size(); i++) {
+                                    images.add(nImages.getImages().get(i).getUrl());
+                                }
 
-                            BeanUtils.setProperty(destinationObject, field.getName(), images);
+                                BeanUtils.setProperty(destinationObject, field.getName(), images);
+                            } else {
+                                BeanUtils.setProperty(destinationObject, field.getName(), nImages);
+                            }
                         }
 
                         if (sectionObject instanceof NKMediaElement) {
@@ -131,6 +136,16 @@ public class Nooko3Mapper {
                         if (sectionObject instanceof NKDropdownElement) {
                             NKDropdownElement nWYSIWYG = (NKDropdownElement) sectionObject;
                             BeanUtils.setProperty(destinationObject, field.getName(), nWYSIWYG.getContent());
+                        }
+
+                        if (sectionObject instanceof NKAddressElement) {
+                            NKAddressElement nAddress = (NKAddressElement) sectionObject;
+                            BeanUtils.setProperty(destinationObject, field.getName(), nAddress);
+                        }
+
+                        if (sectionObject instanceof NKPollAnswers) {
+                            NKPollAnswers nPollAnswers = (NKPollAnswers) sectionObject;
+                            BeanUtils.setProperty(destinationObject, field.getName(), nPollAnswers);
                         }
 
                         if (sectionObject instanceof NKGenericElement) {

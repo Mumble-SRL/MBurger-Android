@@ -164,6 +164,10 @@ public class NKAsyncTask_getBlocks extends AsyncTask<Void, Void, Void> {
             }
         }
 
+        if(getSections) {
+            NKCommonMethods.addFilters(values, filters);
+        }
+
         map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_BLOCK, values, NKApiManagerConfig.MODE_GET, true);
     }
 
