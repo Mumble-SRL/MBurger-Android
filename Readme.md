@@ -1,19 +1,23 @@
 <img src="https://mumbleideas.it/wp-content/uploads/2017/12/Mumble-anim-300.gif" alt="Mumble Logo" title="Mumble Logo">
 
-# Nooko Android SDK
+# Nooko Android SDK 1.1
 
-With the Nooko3 Android SDK you can easily create a content-ful app without the need of a database or a backend. Before starting, make sure you read the Nooko3 guide on Nooko website in order to take confidence with Nooko namespaces and objects, also create a Project.
+With the Nooko3 Android SDK you can easily create a content-ful app without the need of a database or a backend. Remember that you would have to provide your own UI for your project, Nooko will not create any Activity or View, it would only provide data using a set of API which interfaces with Nooko backend.
+Before starting, make sure you read the Nooko3 guide on Nooko website in order to take confidence with Nooko namespaces and objects, also create an account and a Project.
 
 
 
 ## Setup
 
-First thing you should download or clone this repo, you will find a `nooko3` directory and `sample` directory. 
+First thing, you should download or clone this repo, you will find a `nooko3` directory, which contains the client SDK to use Nooko. 
 
-Note that Nooko3 requires at least Android Studio 3.1 and your project should target Android Version 27, with minimum SDK version 17, also your project will have these permissions
+Note that Nooko3 requires at least Android Studio 3.1 and your project should target Android Version 27, with minimum SDK version 17, also your project would need these permissions:
 
 ```xml
+//To gather data from Nooko API
 <uses-permission android:name="android.permission.INTERNET" />
+
+//To check internet connection and also provide error checking
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
 
@@ -23,14 +27,14 @@ Import `nooko3` library inside your Android Studio project and include it adding
 implementation project(':nooko3')
 ```
 
-Pay attentiom that this SDK implements
+Pay attention that this SDK implements
 
 ```java
-//For support of oldest Android versions
-implementation 'com.android.support:support-v4:27.1.0'
+//In order to suppor some components on older Android versions
+implementation 'com.android.support:support-v4:27.1.1'
     
 //For installing https certificates on older Android versions
-implementation 'com.google.android.gms:play-services-base:12.0.1'
+implementation 'com.google.android.gms:play-services-base:15.0.0'
     
 //For logging API error via Logcat
 implementation 'com.github.omegasoft7.FSLogger:fslogger:1.9.1@aar'
@@ -144,8 +148,21 @@ public void onApiResult(NKAPIResponse response) {
 ```
 
 This method implies that you should not use an AsyncTask before `onResume` method occured.
+Pay attention that if you are using the "action" mode you should check for the action that triggered `onApiResult`, you will find all standard actions inside the class `NKAPIConstants`
 
 
+
+### Filtering Nooko data requests
+
+You can filter, sort and request for particular data using a set of premade filters adding them to the Nooko calls. It's applied to the sections, so, if you want to only have a list of POI on a particular place you can add a filter to have a geofenced array of sections. FIlters are
+
+- `NKFilterParameter`
+- `NKGeofenceParameter`
+- `NKPaginationParameter`
+- `NKSortParameter`
+
+If you want to pass another type of parameter you can use the `NKGeneralParameter` class that can be initialized with a key and a value that will be passed to the apis.
+You can add whatever number you wish, but remember that for same type of filters <u>it will be considered only the last one of the array.</u>
 
 ### Requesting Nooko data examples
 
@@ -204,7 +221,7 @@ public void onApiResult(NKAPIResponse response) {
 //Add custom filters to the API call or leave it null
 ArrayList<Object> arrayOfFilters = null;
 
-//Inside the blocks returned the "sections" field will be valorized
+//Inside the blocks returned the "sections" field will be valorized, if false it would be null
 boolean getSections = true;
 
 //Inside the sections the "elements" field will not be valorized (null)
@@ -235,7 +252,7 @@ protected void onResume() {
     //Add custom filters to the API call or leave it null
 	ArrayList<Object> arrayOfFilters = null;
 
-	//Inside the blocks returned the "sections" field will be valorized
+	//Inside the blocks returned, the "sections" field will be valorized, if false it would be        null
 	boolean getSections = true;
 
 	//Inside the sections the "elements" field will not be valorized (null)
@@ -331,13 +348,51 @@ public void onApiResult(NKAPIResponse response) {
 
 
 
+#### Custom actions example
+
+```java
+@Override
+    protected void onResume() {
+        super.onResume();
+        String[] receivers = {NKAPIConstants.ACTION_GET_PROJECT, NKAPIConstants.ACTION_GET_BLOCKS};
+        bRec = Nooko3ApiActionInitializer.initializeNookoReceiverCustom(this, this, receivers);
+        Nooko3Tasks.askForProject(getApplicationContext());
+        Nooko3Tasks.askForBlocks(getApplicationContext(), null, true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Nooko3ApiActionInitializer.pauseNookoReceiver(this, bRec);
+    }
+
+@Override
+    public void onApiResult(NKAPIResponse response) {
+        if (response.getApiAction().equals(NKAPIConstants.ACTION_GET_PROJECT)) {
+            if (response.getResult()) {
+                NKProject project = 
+                    (NKProject) response.getPayload().get(NKApiPayloadKeys.key_project);
+            }
+        }
+
+        if (response.getApiAction().equals(NKAPIConstants.ACTION_GET_BLOCKS)) {
+            if (response.getResult()) {
+                ArrayList<NKBlock> blocks = 
+                    (ArrayList<NKBlock>) response.getPayload().get(NKApiPayloadKeys.key_blocks);
+            }
+        }
+    }
+```
+
+
+
 ### Mapping
 
 You can map your custom objects starting from `NKSection` automatically using `Nooko3Mapper` class.
 You should provide, using the commodity class `NKFieldsMapping` which fields of your custom class should be mapped with the fields of the `NKSection` you named on your Project dashboard. Your destination object should be can be an empty constructor and if you wish to obtain simple values or Nooko object values for:
 
-- Images -> First NKImage
-- Media & Documents -> First NKFile
+- Images -> First NKImage (only an object, not an array)
+- Media & Documents -> First NKFile (only an object, not an array)
 - Addresses -> latitude, longitude or textual address
 
 You will find all possible simple data inside the `NKMappingArgs` class.
@@ -385,6 +440,8 @@ fieldsMapping.putMap("img", "Images", imageArguments);
 boolean getSimpleValues = false;
 News n = (News) Nooko3Mapper.mapToCustomObject(nkSection, fieldsMapping, new News(), getSimpleValues);
 ```
+
+Pay attention that if you need to map images the SDK will return a `NKImages` object, which contains an array of `NKImage`, if you want an array of URLs you will have to set `getSimpleValues` to `true`. 
 
 
 

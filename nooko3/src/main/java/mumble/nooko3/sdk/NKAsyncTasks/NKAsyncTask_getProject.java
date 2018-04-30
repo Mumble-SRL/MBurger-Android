@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
+import mumble.nooko3.sdk.NKConstants.NKAPIConstants;
 import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKAPIManager3;
@@ -39,7 +40,7 @@ public class NKAsyncTask_getProject extends AsyncTask<Void, Void, Void> {
     /**
      * If you wish to change the action that accompanies the API result
      */
-    private String action = NKApiManagerConfig.ACTION_GET_PROJECT;
+    private String action = NKAPIConstants.ACTION_GET_PROJECT;
 
     /**
      * If you wish to use a listener to retrieve the data

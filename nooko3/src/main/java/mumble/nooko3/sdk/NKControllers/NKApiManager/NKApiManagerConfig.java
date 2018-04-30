@@ -10,8 +10,8 @@ import mumble.nooko3.sdk.NKConstants.NKConstants;
  */
 public class NKApiManagerConfig {
 
-    public static String endpoint = "https://nooko3.mumbleserver.it";
-    public static String SERVER_HOSTNAME = "nooko3.mumbleserver.it";
+    public static String endpoint = "https://nooko2.mumbleserver.it";
+    public static String SERVER_HOSTNAME = "nooko2.mumbleserver.it";
     public static final String OS = "android";
     public static final String API_VERSION = "1";
 
@@ -47,12 +47,5 @@ public class NKApiManagerConfig {
     public static final String AM_PAYLOAD = "payload";
     public static final String AM_RESPONSE = "response";
     public static final String AM_ERROR = "error";
-
-    public static final String ACTION_GET_PROJECT = "mumble.nooko3.ACTION_GET_PROJECT";
-    public static final String ACTION_GET_BLOCKS = "mumble.nooko3.ACTION_GET_BLOCKS";
-    public static final String ACTION_GET_BLOCK = "mumble.nooko3.ACTION_GET_BLOCK";
-    public static final String ACTION_GET_SECTION = "mumble.nooko3.ACTION_GET_SECTION";
-    public static final String ACTION_GET_SECTIONS = "mumble.nooko3.ACTION_GET_SECTIONS";
-    public static final String ACTION_GET_ELEMENTS = "mumble.nooko3.ACTION_GET_ELEMENTS";
 }
 

@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
+import mumble.nooko3.sdk.NKConstants.NKAPIConstants;
 import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerConfig;
@@ -41,7 +42,7 @@ public class NKAsyncTask_getSection extends AsyncTask<Void, Void, Void> {
     private boolean getElements = false;
 
     /**If you wish to change the action that accompanies the API result*/
-    private String action = NKApiManagerConfig.ACTION_GET_SECTION;
+    private String action = NKAPIConstants.ACTION_GET_SECTION;
 
     /**If you wish to use a listener to retrieve the data*/
     private NKApiSectionResultListener listener;
