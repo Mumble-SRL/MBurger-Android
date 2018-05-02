@@ -1,6 +1,7 @@
 package mumble.nooko3.sdk.NKControllers.NKApiManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.provider.Settings;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -267,6 +268,7 @@ public class NKAPIManager3 {
 
     /**Adds basic data common to all calls, handled automatically so the developer has not to worry about it*/
     private static void addNecessaryPostData(Context context, ContentValues postData) {
+        postData.put("device_id", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
     }
 
 }

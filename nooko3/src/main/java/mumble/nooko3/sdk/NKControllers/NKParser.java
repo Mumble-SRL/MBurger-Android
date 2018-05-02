@@ -19,6 +19,8 @@ import mumble.nooko3.sdk.NKData.NKElements.NKDropdownElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKGenericElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKImages;
 import mumble.nooko3.sdk.NKData.NKElements.NKMediaElement;
+import mumble.nooko3.sdk.NKData.NKElements.NKPollAnswers;
+import mumble.nooko3.sdk.NKData.NKElements.NKSubElements.NKAnswer;
 import mumble.nooko3.sdk.NKData.NKElements.NKTextElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKWYSIWYGElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKSubElements.NKFile;
@@ -338,6 +340,32 @@ public class NKParser {
             if (type.equals(NKConstants.type_dropdown)) {
                 found = true;
                 nObj = new NKDropdownElement(id, name, (String) value);
+            }
+
+            if (type.equals(NKConstants.type_poll)) {
+                found = true;
+                JSONObject jValue = (JSONObject) value;
+                JSONArray jAnswers = jValue.getJSONArray("answers");
+                JSONArray jResults = jValue.getJSONArray("results");
+                ArrayList<NKAnswer> answers = new ArrayList<>();
+                for (int i = 0; i < jAnswers.length(); i++) {
+                    if (!jAnswers.isNull(i)) {
+                        String answer = jAnswers.getString(i);
+                        int results = jResults.getInt(i);
+                        answers.add(new NKAnswer(i, answer, results));
+                    }
+                }
+
+                int answer_index = -1;
+                if (NKCommonMethods.isJSONOk(jValue, "answered")) {
+                    if(jValue.getBoolean("answered")) {
+                        if (NKCommonMethods.isJSONOk(jValue, "answer")) {
+                            answer_index = jValue.getInt("answer");
+                        }
+                    }
+                }
+
+                nObj = new NKPollAnswers(id, name, answers, jValue.getLong("ends_at"), answer_index);
             }
 
             if (!found) {

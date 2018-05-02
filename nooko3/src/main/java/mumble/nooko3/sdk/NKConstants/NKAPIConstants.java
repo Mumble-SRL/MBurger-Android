@@ -20,4 +20,10 @@ public class NKAPIConstants {
     /**Used with the API {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getElements NKAsyncTask_getElements}*/
     public static final String ACTION_GET_ELEMENTS = "mumble.nooko3.ACTION_GET_ELEMENTS";
 
+    /**Used with the API {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_sendLiveMessage NKAsyncTask_sendLiveMessage}*/
+    public static final String ACTION_SEND_LIVE_MESSAGE = "mumble.nooko3.ACTION_SEND_LIVE_MESSAGE";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_VotePoll NKAsyncTask_VotePoll}*/
+    public static final String ACTION_VOTE_POLL = "mumble.nooko3.ACTION_VOTE_POLL";
+
 }

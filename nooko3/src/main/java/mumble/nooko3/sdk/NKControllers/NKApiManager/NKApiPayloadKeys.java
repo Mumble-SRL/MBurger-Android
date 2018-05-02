@@ -51,4 +51,10 @@ public class NKApiPayloadKeys {
      */
     public static String key_section_id = "section_id";
 
+    /**
+     * My vote key, used with {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_VotePoll NKAsyncTask_VotePoll}
+     *
+     */
+    public static String key_my_vote = "mine";
+
 }

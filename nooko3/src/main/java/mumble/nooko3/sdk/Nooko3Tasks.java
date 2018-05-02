@@ -5,12 +5,14 @@ import android.content.Context;
 import java.util.ArrayList;
 
 import mumble.nooko3.R;
+import mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_VotePoll;
 import mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getBlock;
 import mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getBlocks;
 import mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getElements;
 import mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getProject;
 import mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getSection;
 import mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getSections;
+import mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_sendLiveMessage;
 import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKConstants.NKUserConstants;
 import mumble.nooko3.sdk.NKControllers.NKApiResultsLIsteners.NKApiBlockResultListener;
@@ -19,6 +21,9 @@ import mumble.nooko3.sdk.NKControllers.NKApiResultsLIsteners.NKApiElementsResult
 import mumble.nooko3.sdk.NKControllers.NKApiResultsLIsteners.NKApiProjectResultListener;
 import mumble.nooko3.sdk.NKControllers.NKApiResultsLIsteners.NKApiSectionResultListener;
 import mumble.nooko3.sdk.NKControllers.NKApiResultsLIsteners.NKApiSectionsResultListener;
+import mumble.nooko3.sdk.NKControllers.NKApiResultsLIsteners.NKApiSendLiveMessageListener;
+import mumble.nooko3.sdk.NKControllers.NKApiResultsLIsteners.NKApiVotePollListener;
+import mumble.nooko3.sdk.NKData.NKElements.NKSubElements.NKAnswer;
 import mumble.nooko3.sdk.NKExceptions.NKSDKInitializeException;
 
 /**
@@ -293,5 +298,48 @@ public class Nooko3Tasks {
         }
     }
 
+    /**
+     * Vote for a poll and retrieve new answers with new indexes through action
+     */
+    public static void voteForPoll(Context context, long poll_id, int answer_index, ArrayList<NKAnswer> oldAnswers){
+        if (NKUserConstants.apiKey != null) {
+            new NKAsyncTask_VotePoll(context, poll_id, answer_index, oldAnswers).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
 
+    /**
+     * Vote of a poll and retrieve new answers with new indexes through listener
+     */
+    public static void voteForPoll(Context context, long poll_id, int answer_index,
+                                   ArrayList<NKAnswer> oldAnswers, NKApiVotePollListener listener){
+        if (NKUserConstants.apiKey != null) {
+            new NKAsyncTask_VotePoll(context, poll_id, answer_index, oldAnswers, listener).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Send a live message and retrieve if everything went ok through actions
+     */
+    public static void sendLiveMessage(Context context, String name, String text){
+        if (NKUserConstants.apiKey != null) {
+            new NKAsyncTask_sendLiveMessage(context, name, text).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Send a live message and retrieve if everything went ok through listener
+     */
+    public static void sendLiveMessage(Context context, String name, String text, NKApiSendLiveMessageListener listener){
+        if (NKUserConstants.apiKey != null) {
+            new NKAsyncTask_sendLiveMessage(context, name, text, listener).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
 }

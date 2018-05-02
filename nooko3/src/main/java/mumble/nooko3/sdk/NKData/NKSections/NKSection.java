@@ -3,6 +3,7 @@ package mumble.nooko3.sdk.NKData.NKSections;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKData.NKAtomic.NKClass;
@@ -73,5 +74,20 @@ public class NKSection implements Serializable {
     /**Set the numeric order of the section*/
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    /**Get the creation timestamp of the section (seconds)*/
+    public long getAvailable_at() {
+        return available_at;
+    }
+
+    /**Get the creation timestamp of the section in milliseconds*/
+    public long getAvailable_atMillis() {
+        return TimeUnit.SECONDS.toMillis(available_at);
+    }
+
+    /**Sets the creation timestamp of the section*/
+    public void setAvailable_at(long available_at) {
+        this.available_at = available_at;
     }
 }
