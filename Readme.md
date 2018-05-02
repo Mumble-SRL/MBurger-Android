@@ -386,6 +386,15 @@ public void onApiResult(NKAPIResponse response) {
 
 
 
+### Live messages & Poll
+
+If your project has been set up for using these two features please note that there are special rules to use them:
+
+- **Live Messages**: the method to send live messages can only send text messages with a name and a content, no results are provided apart from the classic "OK"/"Not OK"
+- **Poll**: You should use Nooko objects if you use poll feature, the dashboard will take care to take only one answer per user (using device_id or user_id if authenticated) but it's a best practice to control in-app if your user has already voted checking the `NKPollAnswers` object, which contains all the answers and also your personal answer. You should absolutely check if the poll is still valid checking the "available_at" for the section object.
+
+
+
 ### Mapping
 
 You can map your custom objects starting from `NKSection` automatically using `Nooko3Mapper` class.
