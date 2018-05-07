@@ -23,6 +23,7 @@ public class NKApiManagerConfig {
     /**
      * API
      */
+    public static final String API = "/api";
     public static final String API_PROJECT = "/api/project";
     public static final String API_BLOCK = "/api/blocks";
     public static final String API_SECTION = "/sections";

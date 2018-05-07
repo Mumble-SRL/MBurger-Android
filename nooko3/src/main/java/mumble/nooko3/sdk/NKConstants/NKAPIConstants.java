@@ -1,5 +1,7 @@
 package mumble.nooko3.sdk.NKConstants;
 
+import mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_deleteSection;
+
 public class NKAPIConstants {
 
     /**Used with the API {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getProject NKAsyncTask_getProject}*/
@@ -25,5 +27,11 @@ public class NKAPIConstants {
 
     /**Used with the API {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_VotePoll NKAsyncTask_VotePoll}*/
     public static final String ACTION_VOTE_POLL = "mumble.nooko3.ACTION_VOTE_POLL";
+
+    /**Used with the API {@link NKAdminAsyncTask_deleteSection NKAdminAsyncTask_deleteSection}*/
+    public static final String ACTION_DELETE_SECTION = "mumble.nooko3.ACTION_DELETE_SECTION";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_addSection NKAdminAsyncTask_addSection}*/
+    public static final String ACTION_ADD_SECTION = "mumble.nooko3.ACTION_ADD_SECTION";
 
 }
