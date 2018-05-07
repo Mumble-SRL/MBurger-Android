@@ -398,7 +398,7 @@ If your project has been set up for using these two features please note that th
 ### Mapping
 
 You can map your custom objects starting from `NKSection` automatically using `Nooko3Mapper` class.
-You should provide, using the commodity class `NKFieldsMapping` which fields of your custom class should be mapped with the fields of the `NKSection` you named on your Project dashboard. Your destination object should be can be an empty constructor and if you wish to obtain simple values or Nooko object values for:
+Using the commodity class `NKFieldsMapping` which fields of your custom class should be mapped with the fields of the NKSection you named on your Project dashboard, your destination object **should at least override getters and setters** and if you wish to obtain simple values or Nooko object values for:
 
 - Images -> First NKImage (only an object, not an array)
 - Media & Documents -> First NKFile (only an object, not an array)
