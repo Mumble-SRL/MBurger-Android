@@ -2,9 +2,14 @@ package mumble.nooko3.sdk;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+
 import mumble.nooko3.R;
+import mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_addSection;
 import mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_deleteSection;
+import mumble.nooko3.sdk.NKAdminData.NKAdminParameter;
 import mumble.nooko3.sdk.NKConstants.NKUserConstants;
+import mumble.nooko3.sdk.NKControllers.NKAdminResultsListeners.NKAdminApiAddSectionListener;
 import mumble.nooko3.sdk.NKControllers.NKAdminResultsListeners.NKAdminApiDeleteSectionListener;
 import mumble.nooko3.sdk.NKExceptions.NKSDKInitializeException;
 
@@ -43,4 +48,36 @@ public class Nooko3AdminTasks {
         }
     }
 
+    /**
+     * Add a section
+     */
+    public static void addSection(Context context, ArrayList<NKAdminParameter> params) {
+        if (NKUserConstants.apiKey != null) {
+            new NKAdminAsyncTask_addSection(context, params).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Add a section with custom action return
+     */
+    public static void addSection(Context context, String custom_action, ArrayList<NKAdminParameter> params) {
+        if (NKUserConstants.apiKey != null) {
+            new NKAdminAsyncTask_addSection(context, custom_action, params).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Add a section with listener
+     */
+    public static void addSection(Context context, NKAdminApiAddSectionListener listener, ArrayList<NKAdminParameter> params) {
+        if (NKUserConstants.apiKey != null) {
+            new NKAdminAsyncTask_addSection(context, listener, params).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
 }
