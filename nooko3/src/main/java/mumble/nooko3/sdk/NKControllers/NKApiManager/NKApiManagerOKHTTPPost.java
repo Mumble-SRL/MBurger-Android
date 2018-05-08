@@ -51,7 +51,8 @@ public class NKApiManagerOKHTTPPost {
                 JSONObject jObj = new JSONObject(tokener);
                 setResponseInMap(jObj, map, payload);
             } else {
-                NKApiManagerUtils.doLogging("NOOKO3 ERROR" + response.body().string());
+                String body = response.body().string();
+                NKApiManagerUtils.doLogging("NOOKO3 ERROR" + body);
                 map.put(NKApiManagerConfig.AM_ERROR, context.getString(R.string.internal_error));
                 map.put(NKApiManagerConfig.AM_RESULT, NKApiManagerConfig.COMMON_INTERNAL_ERROR);
             }

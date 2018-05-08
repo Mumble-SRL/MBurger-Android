@@ -46,10 +46,19 @@ public class NKApiPayloadKeys {
     public static String key_block_id = "block_id";
 
     /**
-     * Section id key, used with {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getSection NKAsyncTask_getSection} and {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getElements NKAsyncTask_getElements}
+     * Section id key, used with {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getSection NKAsyncTask_getSection},
+     * {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getElements NKAsyncTask_getElements},
+     * {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_updateSection NKAdminAsyncTask_updateSection},
+     * {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_addSection NKAdminAsyncTask_addSection},
      *
      */
     public static String key_section_id = "section_id";
+
+    /**
+     * Section id key, used with {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_deleteMedia NKAdminAsyncTask_deleteMedia}
+     *
+     */
+    public static String key_media_id = "media_id";
 
     /**
      * My vote key, used with {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_VotePoll NKAsyncTask_VotePoll}

@@ -30,6 +30,8 @@ public class NKApiManagerConfig {
     public static final String API_ELEMENTS = "/elements";
     public static final String API_SEND_LIVE_MESSAGE = "/api/send-live-message";
     public static final String API_VOTE_POLL = "/api/vote-poll";
+    public static final String API_UPDATE = "/update";
+    public static final String API_MEDIA = "/media";
 
     /**
      * ERRORS

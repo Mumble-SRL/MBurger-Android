@@ -15,6 +15,7 @@ import mumble.nooko3.sdk.NKAdminData.NKAdminSingleFile;
 import mumble.nooko3.sdk.NKConstants.NKAPIConstants;
 import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKControllers.NKAdminResultsListeners.NKAdminApiAddSectionListener;
+import mumble.nooko3.sdk.NKControllers.NKAdminResultsListeners.NKAdminApiUpdateSectionListener;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerOKHTTPPost;
@@ -26,17 +27,22 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**
- * Task which will add a section, usable only if your token has "write" permission
+ * Task which will update a section, usable only if your token has "write" permission
  *
  * @author Enrico Ori
  * @version {@value NKConstants#version}
  */
-public class NKAdminAsyncTask_addSection extends AsyncTask<Void, Void, Void> {
+public class NKAdminAsyncTask_updateSection extends AsyncTask<Void, Void, Void> {
 
     /**
      * Context reference used to send data to Activity/Fragment
      */
     private WeakReference<Context> weakContext;
+
+    /**
+     * ID of the section to update
+     */
+    private long section_id;
 
     /**
      * Parameters to add
@@ -49,57 +55,47 @@ public class NKAdminAsyncTask_addSection extends AsyncTask<Void, Void, Void> {
     private ArrayList<NKAdminParameterFile> parameters_files;
 
     /**
-     * Id of the block in which add a new section
-     */
-    private long block_id;
-
-    /**
-     * Locale in which add a new section
+     * Locale in which update a the existing section
      */
     private String locale;
 
     /**
      * If you wish to change the action that accompanies the API result
      */
-    private String action = NKAPIConstants.ACTION_ADD_SECTION;
-
-    /**
-     * ID of the section returned
-     */
-    private long section_id = -1;
+    private String action = NKAPIConstants.ACTION_UPDATE_SECTION;
 
     /**
      * If you wish to use a listener to retrieve the data
      */
-    private NKAdminApiAddSectionListener listener;
+    private NKAdminApiUpdateSectionListener listener;
 
     private int result = NKApiManagerConfig.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
 
-    public NKAdminAsyncTask_addSection(Context context, long block_id, ArrayList<NKAdminParameter> parameters,
-                                       ArrayList<NKAdminParameterFile> parameters_files, String locale) {
+    public NKAdminAsyncTask_updateSection(Context context, long section_id, ArrayList<NKAdminParameter> parameters,
+                                          ArrayList<NKAdminParameterFile> parameters_files, String locale) {
         this.weakContext = new WeakReference<>(context);
-        this.block_id = block_id;
+        this.section_id = section_id;
         this.parameters = parameters;
         this.parameters_files = parameters_files;
         this.locale = locale;
     }
 
-    public NKAdminAsyncTask_addSection(Context context, String custom_action, long block_id, ArrayList<NKAdminParameter> parameters,
-                                       ArrayList<NKAdminParameterFile> parameters_files, String locale) {
+    public NKAdminAsyncTask_updateSection(Context context, String custom_action, long section_id, ArrayList<NKAdminParameter> parameters,
+                                          ArrayList<NKAdminParameterFile> parameters_files, String locale) {
         this.weakContext = new WeakReference<>(context);
-        this.block_id = block_id;
+        this.section_id = section_id;
         this.parameters = parameters;
         this.parameters_files = parameters_files;
         this.action = custom_action;
         this.locale = locale;
     }
 
-    public NKAdminAsyncTask_addSection(Context context, NKAdminApiAddSectionListener listener, long block_id, ArrayList<NKAdminParameter> parameters,
-                                       ArrayList<NKAdminParameterFile> parameters_files, String locale) {
+    public NKAdminAsyncTask_updateSection(Context context, NKAdminApiUpdateSectionListener listener, long section_id, ArrayList<NKAdminParameter> parameters,
+                                          ArrayList<NKAdminParameterFile> parameters_files, String locale) {
         this.weakContext = new WeakReference<>(context);
-        this.block_id = block_id;
+        this.section_id = section_id;
         this.parameters = parameters;
         this.parameters_files = parameters_files;
         this.listener = listener;
@@ -137,19 +133,20 @@ public class NKAdminAsyncTask_addSection extends AsyncTask<Void, Void, Void> {
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
-                    listener.onSectionAddedError(error);
+                    listener.onSectionUpdatedError(error);
                 } else {
-                    listener.onSectionAdded(section_id);
+                    listener.onSectionUpdated(section_id);
                 }
             }
         }
     }
 
     public void putValuesAndCall() {
-        String api = NKApiManagerConfig.API_BLOCK
+        String api = NKApiManagerConfig.API
+                + NKApiManagerConfig.API_SECTION
                 + "/"
-                + Long.toString(block_id)
-                + NKApiManagerConfig.API_SECTION;
+                + Long.toString(section_id)
+                + NKApiManagerConfig.API_UPDATE;
 
         MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);

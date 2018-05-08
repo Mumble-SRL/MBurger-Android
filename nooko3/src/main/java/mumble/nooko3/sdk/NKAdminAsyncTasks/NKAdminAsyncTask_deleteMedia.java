@@ -10,21 +10,22 @@ import java.util.Map;
 
 import mumble.nooko3.sdk.NKConstants.NKAPIConstants;
 import mumble.nooko3.sdk.NKConstants.NKConstants;
+import mumble.nooko3.sdk.NKControllers.NKAdminResultsListeners.NKAdminApiDeleteMediaListener;
+import mumble.nooko3.sdk.NKControllers.NKAdminResultsListeners.NKAdminApiDeleteSectionListener;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKAPIManager3;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerUtils;
-import mumble.nooko3.sdk.NKControllers.NKAdminResultsListeners.NKAdminApiDeleteSectionListener;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiPayloadKeys;
 import mumble.nooko3.sdk.NKControllers.NKCommonMethods;
 
 /**
- * Task which will delete a section, identified by the id, usable only if your token has "write" permission
+ * Task which will delete a media from a section, identified by the id, usable only if your token has "write" permission
  *
  * @author Enrico Ori
  * @version {@value NKConstants#version}
  */
-public class NKAdminAsyncTask_deleteSection extends AsyncTask<Void, Void, Void> {
+public class NKAdminAsyncTask_deleteMedia extends AsyncTask<Void, Void, Void> {
 
     /**
      * Context reference used to send data to Activity/Fragment
@@ -34,37 +35,37 @@ public class NKAdminAsyncTask_deleteSection extends AsyncTask<Void, Void, Void> 
     /**
      * ID of the section to delete
      */
-    private long section_id = -1;
+    private long media_id = -1;
 
     /**
      * If you wish to change the action that accompanies the API result
      */
-    private String action = NKAPIConstants.ACTION_DELETE_SECTION;
+    private String action = NKAPIConstants.ACTION_DELETE_MEDIA;
 
     /**
      * If you wish to use a listener to retrieve the data
      */
-    private NKAdminApiDeleteSectionListener listener;
+    private NKAdminApiDeleteMediaListener listener;
 
     private int result = NKApiManagerConfig.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
 
-    public NKAdminAsyncTask_deleteSection(Context context, long section_id) {
+    public NKAdminAsyncTask_deleteMedia(Context context, long media_id) {
         this.weakContext = new WeakReference<>(context);
-        this.section_id = section_id;
+        this.media_id = media_id;
     }
 
-    public NKAdminAsyncTask_deleteSection(Context context, String custom_action, long section_id) {
+    public NKAdminAsyncTask_deleteMedia(Context context, String custom_action, long media_id) {
         this.weakContext = new WeakReference<>(context);
-        this.section_id = section_id;
+        this.media_id = media_id;
         this.action = custom_action;
     }
 
-    public NKAdminAsyncTask_deleteSection(Context context, NKAdminApiDeleteSectionListener listener, long section_id) {
+    public NKAdminAsyncTask_deleteMedia(Context context, NKAdminApiDeleteMediaListener listener, long media_id) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
-        this.section_id = section_id;
+        this.media_id = media_id;
     }
 
     @Override
@@ -94,20 +95,20 @@ public class NKAdminAsyncTask_deleteSection extends AsyncTask<Void, Void, Void> 
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
-                i.putExtra(NKApiPayloadKeys.key_section_id, section_id);
+                i.putExtra(NKApiPayloadKeys.key_media_id, media_id);
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
-                    listener.onSectionDeleteError(error);
+                    listener.onMediaDeleteError(error);
                 } else {
-                    listener.onSectionDeleteSuccess(section_id);
+                    listener.onMediaDeleteSuccess(media_id);
                 }
             }
         }
     }
 
     public void putValuesAndCall() {
-        String api = NKApiManagerConfig.API + NKApiManagerConfig.API_SECTION + "/" + Long.toString(section_id);
+        String api = NKApiManagerConfig.API + NKApiManagerConfig.API_MEDIA + "/" + Long.toString(media_id);
         map = NKAPIManager3.callApi(weakContext.get(), api, new ContentValues(), NKApiManagerConfig.MODE_DELETE, false);
     }
 }

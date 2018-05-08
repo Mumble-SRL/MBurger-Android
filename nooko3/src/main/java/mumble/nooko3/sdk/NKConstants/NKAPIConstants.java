@@ -34,4 +34,10 @@ public class NKAPIConstants {
     /**Used with the API {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_addSection NKAdminAsyncTask_addSection}*/
     public static final String ACTION_ADD_SECTION = "mumble.nooko3.ACTION_ADD_SECTION";
 
+    /**Used with the API {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_updateSection NKAdminAsyncTask_updateSection}*/
+    public static final String ACTION_UPDATE_SECTION = "mumble.nooko3.ACTION_UPDATE_SECTION";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_deleteMedia NKAdminAsyncTask_deleteMedia}*/
+    public static final String ACTION_DELETE_MEDIA = "mumble.nooko3.ACTION_DELETE_MEDIA";
+
 }
