@@ -1,5 +1,7 @@
 package mumble.nooko3.sdk.NKControllers.NKApiManager;
 
+import mumble.nooko3.sdk.NKAuthAsyncTasks.NKAuthAsyncTask_Authenticate;
+
 /**
  * Constants used in AsyncTasks Broadcast Messages for data retrivial
  */
@@ -50,20 +52,22 @@ public class NKApiPayloadKeys {
      * {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_getElements NKAsyncTask_getElements},
      * {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_updateSection NKAdminAsyncTask_updateSection},
      * {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_addSection NKAdminAsyncTask_addSection},
-     *
      */
     public static String key_section_id = "section_id";
 
     /**
      * Section id key, used with {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_deleteMedia NKAdminAsyncTask_deleteMedia}
-     *
      */
     public static String key_media_id = "media_id";
 
     /**
      * My vote key, used with {@link mumble.nooko3.sdk.NKAsyncTasks.NKAsyncTask_VotePoll NKAsyncTask_VotePoll}
-     *
      */
     public static String key_my_vote = "mine";
+
+    /**
+     * My vote key, used with {@link NKAuthAsyncTask_Authenticate NKAuthAsyncTask_Authenticate}
+     */
+    public static String key_jwt_token = "jwt_token";
 
 }

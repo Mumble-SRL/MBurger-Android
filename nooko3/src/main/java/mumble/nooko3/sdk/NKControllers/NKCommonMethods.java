@@ -2,6 +2,7 @@ package mumble.nooko3.sdk.NKControllers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import org.json.JSONObject;
 
@@ -98,4 +99,33 @@ public class NKCommonMethods {
             }
         }
     }
+
+    public static SharedPreferences getSharedPreferences(Context context) {
+        if (context != null) {
+            SharedPreferences prefs = context.getSharedPreferences(NKConstants.PROPERTY_FILE, Context.MODE_PRIVATE);
+            return prefs;
+        }
+        return null;
+    }
+
+    public static SharedPreferences.Editor getSharedPreferencesEditor(Context context) {
+        if (context != null) {
+            SharedPreferences prefs = context.getSharedPreferences(NKConstants.PROPERTY_FILE, Context.MODE_PRIVATE);
+            return prefs.edit();
+        }
+        return null;
+    }
+
+    public static String getAccessToken(Context context) {
+        String authToken;
+        SharedPreferences prefs = context.getSharedPreferences(NKConstants.PROPERTY_FILE, Context.MODE_PRIVATE);
+        authToken = prefs.getString(NKConstants.PROPERTY_ACCESS_TOKEN, "dummy");
+        return authToken;
+    }
+
+    public static void setAccessToken(Context context, String jwt_token) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(NKConstants.PROPERTY_FILE, Context.MODE_PRIVATE).edit();
+        editor.putString(NKConstants.PROPERTY_ACCESS_TOKEN, jwt_token).apply();
+    }
+
 }

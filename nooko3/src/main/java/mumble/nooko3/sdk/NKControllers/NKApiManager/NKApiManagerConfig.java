@@ -30,8 +30,21 @@ public class NKApiManagerConfig {
     public static final String API_ELEMENTS = "/elements";
     public static final String API_SEND_LIVE_MESSAGE = "/api/send-live-message";
     public static final String API_VOTE_POLL = "/api/vote-poll";
+
+    /**
+     * Admin API
+     */
     public static final String API_UPDATE = "/update";
     public static final String API_MEDIA = "/media";
+
+    /**
+     * Authenticate API
+     */
+    public static final String API_AUTHENTICATE = "/authenticate";
+    public static final String API_REGISTER = "/register";
+    public static final String API_CHANGE_PASSWORD = "/change-password";
+    public static final String API_FORGOT_PASSWORD = "/forgot-password";
+    public static final String API_PROFILE = "/profile";
 
     /**
      * ERRORS

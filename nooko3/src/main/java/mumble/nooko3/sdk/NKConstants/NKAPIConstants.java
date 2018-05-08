@@ -1,6 +1,8 @@
 package mumble.nooko3.sdk.NKConstants;
 
 import mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_deleteSection;
+import mumble.nooko3.sdk.NKAuthAsyncTasks.NKAuthAsyncTask_Authenticate;
+import mumble.nooko3.sdk.NKAuthAsyncTasks.NKAuthAsyncTask_Register;
 
 public class NKAPIConstants {
 
@@ -39,5 +41,11 @@ public class NKAPIConstants {
 
     /**Used with the API {@link mumble.nooko3.sdk.NKAdminAsyncTasks.NKAdminAsyncTask_deleteMedia NKAdminAsyncTask_deleteMedia}*/
     public static final String ACTION_DELETE_MEDIA = "mumble.nooko3.ACTION_DELETE_MEDIA";
+
+    /**Used with the API {@link NKAuthAsyncTask_Authenticate NKAuthAsyncTask_Authenticate}*/
+    public static final String ACTION_AUTHENTICATE = "mumble.nooko3.ACTION_AUTHENTICATE";
+
+    /**Used with the API {@link NKAuthAsyncTask_Register NKAuthAsyncTask_Register}*/
+    public static final String ACTION_REGISTER = "mumble.nooko3.ACTION_REGISTER";
 
 }
