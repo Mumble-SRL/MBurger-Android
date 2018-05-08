@@ -75,6 +75,53 @@ public class Nooko3ApiActionInitializer {
     }
 
     /**
+     * Initialize an activity/fragment to receive callback for deletion of a section from API
+     */
+    public static BroadcastReceiver initializeNookoReceiverForDeleteSection(Activity activity, NKGenericApiResultListener listener) {
+        if (NKUserConstants.apiKey != null) {
+            String[] receivers = new String[]{NKAPIConstants.ACTION_DELETE_SECTION};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new NKSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for adding a section from API
+     */
+    public static BroadcastReceiver initializeNookoReceiverForAddSection(Activity activity, NKGenericApiResultListener listener) {
+        if (NKUserConstants.apiKey != null) {
+            String[] receivers = new String[]{NKAPIConstants.ACTION_ADD_SECTION};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new NKSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for adding a section from API
+     */
+    public static BroadcastReceiver initializeNookoReceiverForDeleteMedia(Activity activity, NKGenericApiResultListener listener) {
+        if (NKUserConstants.apiKey != null) {
+            String[] receivers = new String[]{NKAPIConstants.ACTION_DELETE_MEDIA};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new NKSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for adding a section from API
+     */
+    public static BroadcastReceiver initializeNookoReceiverForUpdateSection(Activity activity, NKGenericApiResultListener listener) {
+        if (NKUserConstants.apiKey != null) {
+            String[] receivers = new String[]{NKAPIConstants.ACTION_UPDATE_SECTION};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new NKSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+    /**
      * Initialize an activity/fragment to receive custom data with custom actions
      */
     public static BroadcastReceiver initializeNookoReceiverCustom(Activity activity, NKGenericApiResultListener listener, String[] receivers) {
