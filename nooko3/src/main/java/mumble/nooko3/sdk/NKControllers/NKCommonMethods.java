@@ -3,9 +3,20 @@ package mumble.nooko3.sdk.NKControllers;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.Settings;
+import android.util.Base64;
+
+import com.scottyab.aescrypt.AESCrypt;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 
 import mumble.nooko3.R;
@@ -117,15 +128,60 @@ public class NKCommonMethods {
     }
 
     public static String getAccessToken(Context context) {
-        String authToken;
         SharedPreferences prefs = context.getSharedPreferences(NKConstants.PROPERTY_FILE, Context.MODE_PRIVATE);
-        authToken = prefs.getString(NKConstants.PROPERTY_ACCESS_TOKEN, "dummy");
-        return authToken;
+        String encryptedToken = prefs.getString(NKConstants.PROPERTY_ACCESS_TOKEN, "dummy");
+        try {
+            if(!encryptedToken.equals("dummy")) {
+                String decryptedToken = AESCrypt.decrypt(getDeviceId(context) + context.getPackageName(), encryptedToken);
+                return decryptedToken;
+            }
+        } catch (GeneralSecurityException e) {
+            //handle error - could be due to incorrect password or tampered encryptedMsg
+        }
+
+        return "dummy";
+    }
+
+    public static boolean hasLoggedIn(Context context) {
+        return (!getAccessToken(context).equals("dummy"));
     }
 
     public static void setAccessToken(Context context, String jwt_token) {
         SharedPreferences.Editor editor = context.getSharedPreferences(NKConstants.PROPERTY_FILE, Context.MODE_PRIVATE).edit();
-        editor.putString(NKConstants.PROPERTY_ACCESS_TOKEN, jwt_token).apply();
+        try {
+            String encryptedToken = AESCrypt.encrypt(getDeviceId(context) + context.getPackageName(), jwt_token);
+            editor.putString(NKConstants.PROPERTY_ACCESS_TOKEN, encryptedToken).apply();
+        } catch (GeneralSecurityException e) {
+            //handle error
+        }
+    }
+
+    public static void removeAccessToken(Context context) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(NKConstants.PROPERTY_FILE, Context.MODE_PRIVATE).edit();
+        editor.remove(NKConstants.PROPERTY_ACCESS_TOKEN).apply();
+    }
+
+    public static String fromUriToBase64(Context context, Uri uri) {
+        InputStream imageStream = null;
+        try {
+            imageStream = context.getContentResolver().openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+        return encodeTobase64(yourSelectedImage);
+    }
+
+    private static String encodeTobase64(Bitmap image) {
+        Bitmap immagex = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immagex.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+        byte[] b = baos.toByteArray();
+        return Base64.encodeToString(b, Base64.NO_WRAP);
+    }
+
+    public static String getDeviceId(Context context) {
+        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
 }

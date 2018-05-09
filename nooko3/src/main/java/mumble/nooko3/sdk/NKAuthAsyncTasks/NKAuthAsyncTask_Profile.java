@@ -3,8 +3,10 @@ package mumble.nooko3.sdk.NKAuthAsyncTasks;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,19 +14,21 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
+import mumble.nooko3.sdk.NKAuthData.NKAuthUser;
 import mumble.nooko3.sdk.NKConstants.NKAPIConstants;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NAMActivityUtils;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKAPIManager3;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiManagerUtils;
-import mumble.nooko3.sdk.NKControllers.NKApiManager.NKApiPayloadKeys;
-import mumble.nooko3.sdk.NKControllers.NKAuthResultsListener.NKAuthApiAuthenticateListener;
+import mumble.nooko3.sdk.NKControllers.NKAuthResultsListener.NKAuthApiProfileListener;
+import mumble.nooko3.sdk.NKControllers.NKAuthResultsListener.NKAuthApiRegisterListener;
 import mumble.nooko3.sdk.NKControllers.NKCommonMethods;
+import mumble.nooko3.sdk.NKControllers.NKParser;
 
 /**
  * Created by Enrico on 29/08/2016.
  */
-public class NKAuthAsyncTask_Authenticate extends AsyncTask<Void, Void, Void> {
+public class NKAuthAsyncTask_Profile extends AsyncTask<Void, Void, Void> {
 
     /**
      * Context reference used to send data to Activity/Fragment
@@ -33,54 +37,36 @@ public class NKAuthAsyncTask_Authenticate extends AsyncTask<Void, Void, Void> {
     private WeakReference<Context> weakContext;
 
     /**
-     * Authentication email
-     */
-    @NonNull
-    private String email;
-
-    /**
-     * Authentication password
-     */
-    @NonNull
-    private String password;
-
-    /**
      * If you wish to change the action that accompanies the API result
      */
-    private String action = NKAPIConstants.ACTION_AUTHENTICATE;
+    private String action = NKAPIConstants.ACTION_PROFILE;
 
     /**
      * If you wish to use a listener to retrieve the data instead of the ApiListener
      */
-    private NKAuthApiAuthenticateListener listener;
+    private NKAuthApiProfileListener listener;
 
     /**
-     * JWT token registration
+     * User obtained from API
      */
-    private String jwt_token;
+    private NKAuthUser user;
 
     private int result = NKApiManagerConfig.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
 
-    public NKAuthAsyncTask_Authenticate(Context context, String email, String password) {
+    public NKAuthAsyncTask_Profile(Context context) {
         this.weakContext = new WeakReference<>(context);
-        this.email = email;
-        this.password = password;
     }
 
-    public NKAuthAsyncTask_Authenticate(Context context, String custom_action, String email, String password) {
+    public NKAuthAsyncTask_Profile(Context context, String custom_action) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
-        this.email = email;
-        this.password = password;
     }
 
-    public NKAuthAsyncTask_Authenticate(Context context, NKAuthApiAuthenticateListener listener, String email, String password) {
+    public NKAuthAsyncTask_Profile(Context context, NKAuthApiProfileListener listener) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
-        this.email = email;
-        this.password = password;
     }
 
     @Override
@@ -107,11 +93,8 @@ public class NKAuthAsyncTask_Authenticate extends AsyncTask<Void, Void, Void> {
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        values.put("email", email);
-        values.put("password", password);
-        values.put("mode", "email");
         values.put("user_id", "1");
-        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_AUTHENTICATE, values, NKApiManagerConfig.MODE_POST, true);
+        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_PROFILE, values, NKApiManagerConfig.MODE_POST, true);
     }
 
     protected void onPostExecute(Void postResult) {
@@ -120,13 +103,12 @@ public class NKAuthAsyncTask_Authenticate extends AsyncTask<Void, Void, Void> {
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
-                i.putExtra(NKApiPayloadKeys.key_jwt_token, jwt_token);
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
-                    listener.onAuthenticationError(error);
+                    listener.onProfileObtainedError(error);
                 } else {
-                    listener.onAuthenticationSuccess(jwt_token);
+                    listener.onProfileObtained(user);
                 }
             }
         }
@@ -136,12 +118,10 @@ public class NKAuthAsyncTask_Authenticate extends AsyncTask<Void, Void, Void> {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
             JSONObject jObj = jPayload.getJSONObject("body");
-            jwt_token = jObj.getString("access_token");
-            NKCommonMethods.setAccessToken(weakContext.get(), jwt_token);
+            user = NKParser.parseUser(jObj);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
 }
 

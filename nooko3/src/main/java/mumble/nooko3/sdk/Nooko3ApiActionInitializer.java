@@ -121,6 +121,67 @@ public class Nooko3ApiActionInitializer {
             throw new NKSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
         }
     }
+
+    /**
+     * Initialize an activity/fragment to receive callback for authentication API
+     */
+    public static BroadcastReceiver initializeNookoReceiverForAuthentication(Activity activity, NKGenericApiResultListener listener) {
+        if (NKUserConstants.apiKey != null) {
+            String[] receivers = new String[]{NKAPIConstants.ACTION_AUTHENTICATE};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new NKSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for registration API
+     */
+    public static BroadcastReceiver initializeNookoReceiverForRegistration(Activity activity, NKGenericApiResultListener listener) {
+        if (NKUserConstants.apiKey != null) {
+            String[] receivers = new String[]{NKAPIConstants.ACTION_REGISTER};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new NKSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for password recovery API
+     */
+    public static BroadcastReceiver initializeNookoReceiverForPasswordRecovery(Activity activity, NKGenericApiResultListener listener) {
+        if (NKUserConstants.apiKey != null) {
+            String[] receivers = new String[]{NKAPIConstants.ACTION_FORGOT_PASSWORD};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new NKSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for password change API
+     */
+    public static BroadcastReceiver initializeNookoReceiverForPasswordChange(Activity activity, NKGenericApiResultListener listener) {
+        if (NKUserConstants.apiKey != null) {
+            String[] receivers = new String[]{NKAPIConstants.ACTION_CHANGE_PASSWORD};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new NKSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for profile retrivial API
+     */
+    public static BroadcastReceiver initializeNookoReceiverForProfile(Activity activity, NKGenericApiResultListener listener) {
+        if (NKUserConstants.apiKey != null) {
+            String[] receivers = new String[]{NKAPIConstants.ACTION_PROFILE};
+            return NAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new NKSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
     /**
      * Initialize an activity/fragment to receive custom data with custom actions
      */

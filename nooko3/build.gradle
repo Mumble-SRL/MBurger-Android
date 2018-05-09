@@ -24,4 +24,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-base:15.0.1'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.github.omegasoft7.FSLogger:fslogger:1.9.1@aar'
+    implementation 'com.scottyab:aescrypt:0.0.1'
 }

@@ -40,11 +40,11 @@ public class NKApiManagerConfig {
     /**
      * Authenticate API
      */
-    public static final String API_AUTHENTICATE = "/authenticate";
-    public static final String API_REGISTER = "/register";
-    public static final String API_CHANGE_PASSWORD = "/change-password";
-    public static final String API_FORGOT_PASSWORD = "/forgot-password";
-    public static final String API_PROFILE = "/profile";
+    public static final String API_AUTHENTICATE = "/api/authenticate";
+    public static final String API_REGISTER = "/api/register";
+    public static final String API_CHANGE_PASSWORD = "/api/change-password";
+    public static final String API_FORGOT_PASSWORD = "/api/forgot-password";
+    public static final String API_PROFILE = "/api/profile";
 
     /**
      * ERRORS

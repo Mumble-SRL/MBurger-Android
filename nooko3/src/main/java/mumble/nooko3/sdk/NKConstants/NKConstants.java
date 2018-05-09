@@ -12,7 +12,7 @@ public class NKConstants {
     public static final String version = "2";
 
     //PROPERTIES
-    public static String PROPERTY_FILE = "nk_preferencies";
+    public static String PROPERTY_FILE = "nk_prefs.xml";
     public static String PROPERTY_ACCESS_TOKEN = "access_token";
 
     //OBJECT TYPES

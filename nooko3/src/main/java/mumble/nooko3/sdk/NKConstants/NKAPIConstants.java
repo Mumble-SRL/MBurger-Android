@@ -48,4 +48,13 @@ public class NKAPIConstants {
     /**Used with the API {@link NKAuthAsyncTask_Register NKAuthAsyncTask_Register}*/
     public static final String ACTION_REGISTER = "mumble.nooko3.ACTION_REGISTER";
 
+    /**Used with the API {@link mumble.nooko3.sdk.NKAuthAsyncTasks.NKAuthAsyncTask_Profile NKAuthAsyncTask_Profile}*/
+    public static final String ACTION_PROFILE = "mumble.nooko3.ACTION_PROFILE";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKAuthAsyncTasks.NKAuthAsyncTask_ForgotPassword NKAuthAsyncTask_ForgotPassword}*/
+    public static final String ACTION_FORGOT_PASSWORD = "mumble.nooko3.ACTION_FORGOT_PASSWORD";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKAuthAsyncTasks.NKAuthAsyncTask_ChangePassword NKAuthAsyncTask_ChangePassword}*/
+    public static final String ACTION_CHANGE_PASSWORD = "mumble.nooko3.ACTION_CHANGE_PASSWORD";
+
 }

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import mumble.nooko3.sdk.NKAuthData.NKAuthUser;
 import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKData.NKAtomic.NKClass;
 import mumble.nooko3.sdk.NKData.NKBlocks.NKBlock;
@@ -377,6 +378,58 @@ public class NKParser {
         }
 
         return nObj;
+    }
+
+    /**
+     * Parse an user from the profile API and returns the "user" object with what wak inserted valorized
+     */
+    public static NKAuthUser parseUser(JSONObject jUser){
+        try {
+
+            long id = -1;
+            String name = null, surname = null, email = null, auth_mode = null, image = null, phone = null, gender = null, data = null;
+            if(NKCommonMethods.isJSONOk(jUser, "id")){
+                id = jUser.getLong("id");
+            }
+
+            if(NKCommonMethods.isJSONOk(jUser, "name")){
+                name = jUser.getString("name");
+            }
+
+            if(NKCommonMethods.isJSONOk(jUser, "surname")){
+                surname = jUser.getString("surname");
+            }
+
+            if(NKCommonMethods.isJSONOk(jUser, "email")){
+                email = jUser.getString("email");
+            }
+
+            if(NKCommonMethods.isJSONOk(jUser, "auth_mode")){
+                auth_mode = jUser.getString("auth_mode");
+            }
+
+            if(NKCommonMethods.isJSONOk(jUser, "phone")){
+                phone = jUser.getString("phone");
+            }
+
+            if(NKCommonMethods.isJSONOk(jUser, "gender")){
+                gender = jUser.getString("gender");
+            }
+
+            if(NKCommonMethods.isJSONOk(jUser, "data")){
+                data = jUser.getString("data");
+            }
+
+            if(NKCommonMethods.isJSONOk(jUser, "image")){
+                image = jUser.getString("image");
+            }
+
+            return new NKAuthUser(id, name, surname, email, phone, image, gender, data, auth_mode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

@@ -27,6 +27,7 @@ import mumble.nooko3.sdk.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKControllers.NKCachingHelper;
 import mumble.nooko3.sdk.NKConstants.NKUserConstants;
 import mumble.nooko3.R;
+import mumble.nooko3.sdk.NKControllers.NKCommonMethods;
 
 /**
  * Static method class that wraps up web API calls and handles errors returning them to the user
@@ -226,6 +227,9 @@ public class NKAPIManager3 {
         urlConnection.setRequestProperty("X-Nooko-Token", NKUserConstants.apiKey);
         urlConnection.setRequestProperty("X-Nooko-Version", "2");
         urlConnection.setRequestProperty("Accept", "application/json");
+        if (NKCommonMethods.hasLoggedIn(context)) {
+            urlConnection.setRequestProperty("Authorization", "Bearer " + NKCommonMethods.getAccessToken(context));
+        }
 
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(false);
@@ -263,6 +267,10 @@ public class NKAPIManager3 {
         urlConnection.setRequestProperty("X-Nooko-Token", NKUserConstants.apiKey);
         urlConnection.setRequestProperty("X-Nooko-Version", "2");
         urlConnection.setRequestProperty("Accept", "application/json");
+        if (NKCommonMethods.hasLoggedIn(context)) {
+            urlConnection.setRequestProperty("Authorization", "Bearer " + NKCommonMethods.getAccessToken(context));
+        }
+
         return urlConnection;
     }
 
