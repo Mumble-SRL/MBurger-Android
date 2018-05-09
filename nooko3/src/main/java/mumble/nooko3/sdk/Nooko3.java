@@ -1,7 +1,7 @@
 package mumble.nooko3.sdk;
 
-import mumble.nooko3.sdk.NKConstants.NKConstants;
-import mumble.nooko3.sdk.NKConstants.NKUserConstants;
+import mumble.nooko3.sdk.Common.NKConstants.NKConstants;
+import mumble.nooko3.sdk.Common.NKConstants.NKUserConstants;
 
 /**
  * Basic init class for Nooko3, which sets an array of constants used runtime.
