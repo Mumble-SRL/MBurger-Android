@@ -70,4 +70,9 @@ public class NKApiPayloadKeys {
      */
     public static String key_jwt_token = "jwt_token";
 
+    /**
+     * My vote key, used with {@link mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_Profile NKAuthAsyncTask_Profile}
+     */
+    public static String key_profile = "profile";
+
 }

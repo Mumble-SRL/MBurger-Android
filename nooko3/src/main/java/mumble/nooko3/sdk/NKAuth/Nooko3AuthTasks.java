@@ -23,7 +23,7 @@ public class Nooko3AuthTasks {
     /**
      * Authenticate an user
      */
-    public static void loginUser(Context context, String email, String password) {
+    public static void authenticateUser(Context context, String email, String password) {
         if (NKUserConstants.apiKey != null) {
             new NKAuthAsyncTask_Authenticate(context, email, password).execute();
         } else {
@@ -34,7 +34,7 @@ public class Nooko3AuthTasks {
     /**
      * Authenticate an user with custom action callback
      */
-    public static void loginUser(Context context, String custom_action, String email, String password) {
+    public static void authenticateUser(Context context, String custom_action, String email, String password) {
         if (NKUserConstants.apiKey != null) {
             new NKAuthAsyncTask_Authenticate(context, custom_action, email, password).execute();
         } else {
@@ -45,7 +45,7 @@ public class Nooko3AuthTasks {
     /**
      * Authenticate an user with listener callback
      */
-    public static void loginUser(Context context, NKAuthApiAuthenticateListener listener, String email, String password) {
+    public static void authenticateUser(Context context, NKAuthApiAuthenticateListener listener, String email, String password) {
         if (NKUserConstants.apiKey != null) {
             new NKAuthAsyncTask_Authenticate(context, listener, email, password).execute();
         } else {

@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
+import mumble.nooko3.sdk.Common.NKApiManager.NKApiPayloadKeys;
 import mumble.nooko3.sdk.NKAuth.NKAuthData.NKAuthUser;
 import mumble.nooko3.sdk.Common.NKConstants.NKAPIConstants;
 import mumble.nooko3.sdk.Common.NKApiManager.NAMActivityUtils;
@@ -100,6 +101,7 @@ public class NKAuthAsyncTask_Profile extends AsyncTask<Void, Void, Void> {
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
+                i.putExtra(NKApiPayloadKeys.key_profile, user);
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {

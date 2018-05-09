@@ -2,7 +2,7 @@
 
 
 
-## Admin Usage
+## Nooko 3: Admin Usage
 
 If you are also using editing and creating features ("ADMIN" features) within your app, you would also need to check `Nooko3AdminTasks`. Please note that all the concepts from the "client" usage are still valid, so all `Nooko3AdminTasks` methods have the "action" and the "listener" approach.
 
@@ -87,7 +87,7 @@ public void addSection() {
 }
 ```
 
-Where `getFileName()`, `getMimeType()`, `getUriRealPath(getApplication(), img_uri)` are methods to obtain the image name, image mime type and the full file path from the image Uri.
+Where `getFileName()`, `getMimeType()`, `getUriRealPath(getApplication(), img_uri)` are methods to obtain the image name, image mime type and the full file path from the image Uri you should implement on your own.
 
 
 
