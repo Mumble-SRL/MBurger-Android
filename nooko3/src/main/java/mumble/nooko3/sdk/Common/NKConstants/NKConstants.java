@@ -14,6 +14,7 @@ public class NKConstants {
     //PROPERTIES
     public static String PROPERTY_FILE = "nk_prefs.xml";
     public static String PROPERTY_ACCESS_TOKEN = "access_token";
+    public static String PROPERTY_ENCRYPTION_PASSWORD = "encryption_password";
 
     //OBJECT TYPES
     /**Generic type*/

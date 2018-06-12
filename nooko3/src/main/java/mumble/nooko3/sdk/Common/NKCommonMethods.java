@@ -17,16 +17,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import mumble.nooko3.R;
+import mumble.nooko3.sdk.Common.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.Common.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKClient.NKApiFilters.NKFilterParameter;
 import mumble.nooko3.sdk.NKClient.NKApiFilters.NKGeneralParameter;
 import mumble.nooko3.sdk.NKClient.NKApiFilters.NKGeofenceParameter;
 import mumble.nooko3.sdk.NKClient.NKApiFilters.NKPaginationParameter;
 import mumble.nooko3.sdk.NKClient.NKApiFilters.NKSortParameter;
-import mumble.nooko3.sdk.Common.NKApiManager.NKApiManagerConfig;
 
 /**
  * A list of static methods used througout the SDK
@@ -128,15 +130,19 @@ public class NKCommonMethods {
     }
 
     public static String getAccessToken(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(NKConstants.PROPERTY_FILE, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(context);
         String encryptedToken = prefs.getString(NKConstants.PROPERTY_ACCESS_TOKEN, "dummy");
         try {
-            if(!encryptedToken.equals("dummy")) {
-                String decryptedToken = AESCrypt.decrypt(getDeviceId(context) + context.getPackageName(), encryptedToken);
+            if (!encryptedToken.equals("dummy")) {
+                String encryptionPassword = prefs.getString(NKConstants.PROPERTY_ENCRYPTION_PASSWORD, null);
+                if (encryptionPassword == null) {
+                    return "dummy";
+                }
+
+                String decryptedToken = AESCrypt.decrypt(encryptionPassword, encryptedToken);
                 return decryptedToken;
             }
         } catch (GeneralSecurityException e) {
-            //handle error - could be due to incorrect password or tampered encryptedMsg
         }
 
         return "dummy";
@@ -147,12 +153,18 @@ public class NKCommonMethods {
     }
 
     public static void setAccessToken(Context context, String jwt_token) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(NKConstants.PROPERTY_FILE, Context.MODE_PRIVATE).edit();
+        SharedPreferences prefs = getSharedPreferences(context);
+        SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
         try {
-            String encryptedToken = AESCrypt.encrypt(getDeviceId(context) + context.getPackageName(), jwt_token);
+            String encryptionPassword = prefs.getString(NKConstants.PROPERTY_ENCRYPTION_PASSWORD, null);
+            if (encryptionPassword == null) {
+                String sToMD5 = getDeviceId(context) + context.getPackageName();
+                encryptionPassword = md5(sToMD5);
+                editor.putString(NKConstants.PROPERTY_ENCRYPTION_PASSWORD, encryptionPassword).apply();
+            }
+            String encryptedToken = AESCrypt.encrypt(encryptionPassword, jwt_token);
             editor.putString(NKConstants.PROPERTY_ACCESS_TOKEN, encryptedToken).apply();
         } catch (GeneralSecurityException e) {
-            //handle error
         }
     }
 
@@ -182,6 +194,25 @@ public class NKCommonMethods {
 
     public static String getDeviceId(Context context) {
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
+    public static String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }
