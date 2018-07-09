@@ -1,6 +1,6 @@
 <img src="https://mumbleideas.it/wp-content/uploads/2017/12/Mumble-anim-300.gif" alt="Mumble Logo" title="Mumble Logo">
 
-# Nooko Android SDK 3.0 Beta
+# Nooko Android SDK 0.9 Beta
 
 With the Nooko3 Android SDK you can easily create a content-ful app without the need of a database or a backend. Remember that you would have to provide your own UI for your project, Nooko will not create any Activity or View, it would only provide data using a set of API which interfaces with Nooko backend.
 Before starting, make sure you read the Nooko3 guide on Nooko website in order to take confidence with Nooko namespaces and objects, also create an account and a Project.
@@ -465,10 +465,9 @@ Pay attention that if you need to map images the SDK will return a `NKImages` ob
 
 
 
-## Admin, Auth and Pay
+## Admin, Auth, Pay and Push
 
-For admin (create/delete/edit sections) and auth (login user/register, profile) please check out **Admin usage** [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAdmin) and for **Auth usage** [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAuth).
-For using the **Pay** functionalities, please check out this documentation.
+For admin (create/delete/edit sections) and auth (login user/register, profile) please check out **Admin usage** [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAdmin) and for **Auth usage** [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAuth). For using the **Pay** functionalities, please check out [this documentation](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/blob/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKPay/Readme.md).
 
 
 

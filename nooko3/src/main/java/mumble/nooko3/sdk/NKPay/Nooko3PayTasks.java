@@ -18,7 +18,7 @@ import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiCreateCustomerListen
 import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiResumeSubscriptionListener;
 import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiSubscribeListener;
 
-public class Nooko3Pay {
+public class Nooko3PayTasks {
 
     /**
      * Subscribe to a Stripe™ plan

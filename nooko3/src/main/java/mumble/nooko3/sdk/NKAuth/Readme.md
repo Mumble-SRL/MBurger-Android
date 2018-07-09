@@ -3,7 +3,7 @@
 ## Nooko 3: Auth Usage
 
 If your project is configured to register users you can use the "Auth" features of Nooko3.
-You will need to check the `Nooko3AuthTasks`, where you will find all static methods to use authentication API, both with "action" and "listener" approach.
+You will need to check the `Nooko3AuthTasks` class, where you will find all static methods to use authentication API, both with "action" and "listener" approach.
 
 
 
