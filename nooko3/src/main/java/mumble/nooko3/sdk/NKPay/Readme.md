@@ -11,17 +11,17 @@ You will need to check the `Nooko3PayTasks` class, where you will find all stati
 
 ### Before you start
 
-The pay api, uses Stripe™ to process payments and subscriptions, so, before you start, you should create a Stripe account from [here](https://dashboard.stripe.com/login). Then you should provide the Nooko dashboard with the secret key you will find inside the "Developers -> API Keys" section if your Stripe™ dashboard.
+The pay api, uses Stripe to process payments and subscriptions, so, before you start, you should create a Stripe account from [here](https://dashboard.stripe.com/login). Then you should provide the Nooko dashboard with the secret key you will find inside the "Developers -> API Keys" section if your Stripe dashboard.
 
 ![Stripe™ Api Keys](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/raw/develop/Images/stripe_dashboard_keys.JPG)
 
 Then also copy the Publishable key inside you app, because you will need it to create new customers and add new credit cards. You SHOULD NOT write the secret API key inside you application.
 
-Your application should also need to add Stripe™ as a dependency (please check out [Stripe™ documentation](https://stripe.com/docs/mobile/android) here to learn how to add it to your project and gain confidence with Stripe™ development).
+Your application should also need to add Stripe as a dependency (please check out [Stripe documentation](https://stripe.com/docs/mobile/android) here to learn how to add it to your project and gain confidence with Stripe development).
 
-Be aware you should first use the test keys and Stripe™ devMode before using the live keys, in order to check if your code is working properly.
+Be aware you should first use the test keys and Stripe devMode before using the live keys, in order to check if your code is working properly.
 
-Also, in order to charge an user for a subscription you should, first, create a "Product" on Stripe™ dashboard and add a paying plan to it:
+Also, in order to charge an user for a subscription you should, first, create a "Product" on Stripe dashboard and add a paying plan to it:
 
 ![Stripe™ product](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/raw/develop/Images/stripe_product.JPG)
 
@@ -51,7 +51,7 @@ Nooko3PayTasks.createCustomer(context);
 
 Then next time you call the "profile" API you will have new informations about the customer logged in.
 
-To create a customer, add a card and also charge it for the first payment cycle, you should first gain a **Stripe™ token**, which can be created using the **Stripe™ SDK** from a card (check out the [documentation](https://stripe.com/docs/mobile/android) for reference), then you can use this API:
+To create a customer, add a card and also charge it for the first payment cycle, you should first gain a **Stripe token**, which can be created using the **Stripe SDK** from a card (check out the [documentation](https://stripe.com/docs/mobile/android) for reference), then you can use this API:
 
 ```java
 //Stripe™ token obtained via the SDK from a card
@@ -88,7 +88,7 @@ subscription_plan, stripe_token, discount_code, meta, quantity, trial_days);
 
 Then next time you call the "profile" API you will have new informations about the customer logged in, including the subscriptions he has.
 
-Automatically Stripe™ will charge an user with the inserted card, if there is not enough money on it or the payment will go wrong, you will know when you call the profile api.
+Automatically Stripe will charge an user with the inserted card, if there is not enough money on it or the payment will go wrong, you will know when you call the profile api.
 
 
 
@@ -109,7 +109,7 @@ You can **add a new card** by using the API
 Nooko3PayTasks.addCard(context, token)
 ```
 
-Where the token is a new Stripe™ token generated from the Android SDK.
+Where the token is a new Stripe token generated from the Android SDK.
 Pay attention that each token can be used only one time, so if you need to do multiple things with a single card, you should request multiple tokens.
 
 In order to **delete an existing customer card**, you will need a `card_id` which can be gathered from the `getCards()` API.
@@ -118,7 +118,7 @@ In order to **delete an existing customer card**, you will need a `card_id` whic
 Nooko3PayTasks.deleteCard(context, card_id)
 ```
 
-When you add a new card, it becomes automatically the default one, so the one Stripe™ will use to charge the customer once the current period ends. In order to **change the default card** you should call the API:
+When you add a new card, it becomes automatically the default one, so the one Stripe will use to charge the customer once the current period ends. In order to **change the default card** you should call the API:
 
 ```java
 Nooko3PayTasks.changeDefaultCard(context, card_id)
@@ -134,7 +134,7 @@ To **cancel a running subscription** you should call the API
 Nooko3PayTasks.cancelPlan(context, subscription_plan)
 ```
 
-Where subscription_plan is the subscription plan id from the Stripe™ dashboard.
+Where subscription_plan is the subscription plan id from the Stripe dashboard.
 Pay attention, though, if you cancel a subscription, it will be in a "<u>grace</u>" period (which usually it's the time left before the next payment period starts), in which can be **resumed** without any problem calling the API.
 
 ```java
@@ -143,5 +143,5 @@ Nooko3PayTasks.resumePlan(context, subscription_plan)
 
 If you try to resume a subscription after the "<u>grace</u>" period, it will result in an error.
 
-**In order to restore a plan you should call the "subscribe" API again**, but without providing a Stripe™ token (null), in this way the current customer associated with the Nooko user will have a new subscription running.
+**In order to restore a plan you should call the "subscribe" API again**, but without providing a Stripe token (null), in this way the current customer associated with the Nooko user will have a new subscription running.
 
