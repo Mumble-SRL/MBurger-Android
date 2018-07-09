@@ -1,8 +1,9 @@
 package mumble.nooko3.sdk.NKClient;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javadz.beanutils.BeanUtils;
 import mumble.nooko3.sdk.NKData.NKAtomic.NKClass;
@@ -40,125 +41,124 @@ public class Nooko3Mapper {
      */
     public static Object mapToCustomObject(NKSection section, NKFieldsMapping fieldsMap,
                                            Object destinationObject, boolean getSimpleValues) {
-        Field[] fields = destinationObject.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            if (fieldsMap.containsKey(field.getName())) {
-                String sectionKey = fieldsMap.get(field.getName());
-                try {
-                    if (sectionKey.contains(".")) {
-                        String firstPart = sectionKey.substring(0, sectionKey.indexOf("."));
-                        String secondPart = sectionKey.substring(sectionKey.indexOf(".") + 1);
-                        NKClass sectionObject = section.getField(firstPart);
+        HashMap<String, String> map = fieldsMap.getFieldsMap();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String field = entry.getKey();
+            String sectionKey = fieldsMap.get(field);
+            try {
+                if (sectionKey.contains(".")) {
+                    String firstPart = sectionKey.substring(0, sectionKey.indexOf("."));
+                    String secondPart = sectionKey.substring(sectionKey.indexOf(".") + 1);
+                    NKClass sectionObject = section.getField(firstPart);
 
-                        if (sectionObject instanceof NKImages) {
-                            NKImages nImages = (NKImages) sectionObject;
-                            if (secondPart.equals(NKMappingArgs.mapping_first_image_media)) {
-                                if (getSimpleValues) {
-                                    BeanUtils.setProperty(destinationObject, field.getName(), nImages.getFirstImage().getUrl());
-                                } else {
-                                    BeanUtils.setProperty(destinationObject, field.getName(), nImages.getFirstImage());
-                                }
-                            }
-                        }
-
-                        if (sectionObject instanceof NKMediaElement) {
-                            NKMediaElement nMedia = (NKMediaElement) sectionObject;
-                            if (secondPart.equals(NKMappingArgs.mapping_first_image_media)) {
-                                if (getSimpleValues) {
-                                    BeanUtils.setProperty(destinationObject, field.getName(), nMedia.getFirstMedia().getUrl());
-                                } else {
-                                    BeanUtils.setProperty(destinationObject, field.getName(), nMedia.getFirstMedia());
-                                }
-                            }
-                        }
-
-                        if (sectionObject instanceof NKAddressElement) {
-                            NKAddressElement NKAddressElement = (NKAddressElement) sectionObject;
-                            if (secondPart.equals(NKMappingArgs.mapping_latitude)) {
-                                BeanUtils.setProperty(destinationObject, field.getName(), NKAddressElement.getLatitude());
-                            }
-
-                            if (secondPart.equals(NKMappingArgs.mapping_longitude)) {
-                                BeanUtils.setProperty(destinationObject, field.getName(), NKAddressElement.getLongitude());
-                            }
-
-                            if (secondPart.equals(NKMappingArgs.mapping_address)) {
-                                BeanUtils.setProperty(destinationObject, field.getName(), NKAddressElement.getAddress());
-                            }
-                        }
-
-                    } else {
-                        NKClass sectionObject = section.getField(sectionKey);
-                        if (sectionObject instanceof NKCheckboxElement) {
-                            NKCheckboxElement nCheckbox = (NKCheckboxElement) sectionObject;
-                            BeanUtils.setProperty(destinationObject, field.getName(), nCheckbox.getContent());
-                        }
-
-                        if (sectionObject instanceof NKDateElement) {
-                            NKDateElement nDate = (NKDateElement) sectionObject;
-                            BeanUtils.setProperty(destinationObject, field.getName(), nDate.getTimestamp());
-                        }
-
-                        if (sectionObject instanceof NKImages) {
-                            NKImages nImages = (NKImages) sectionObject;
+                    if (sectionObject instanceof NKImages) {
+                        NKImages nImages = (NKImages) sectionObject;
+                        if (secondPart.equals(NKMappingArgs.mapping_first_image_media)) {
                             if (getSimpleValues) {
-                                ArrayList<String> images = new ArrayList<>();
-                                for (int i = 0; i < nImages.getImages().size(); i++) {
-                                    images.add(nImages.getImages().get(i).getUrl());
-                                }
-
-                                BeanUtils.setProperty(destinationObject, field.getName(), images);
+                                BeanUtils.setProperty(destinationObject, field, nImages.getFirstImage().getUrl());
                             } else {
-                                BeanUtils.setProperty(destinationObject, field.getName(), nImages);
+                                BeanUtils.setProperty(destinationObject, field, nImages.getFirstImage());
                             }
                         }
-
-                        if (sectionObject instanceof NKMediaElement) {
-                            NKMediaElement nMedia = (NKMediaElement) sectionObject;
-                            ArrayList<String> files = new ArrayList<>();
-                            for (int i = 0; i < nMedia.getFiles().size(); i++) {
-                                files.add(nMedia.getFiles().get(i).getUrl());
-                            }
-
-                            BeanUtils.setProperty(destinationObject, field.getName(), files);
-                        }
-
-                        if (sectionObject instanceof NKTextElement) {
-                            NKTextElement nText = (NKTextElement) sectionObject;
-                            BeanUtils.setProperty(destinationObject, field.getName(), nText.getContent());
-                        }
-
-                        if (sectionObject instanceof NKWYSIWYGElement) {
-                            NKWYSIWYGElement nWYSIWYG = (NKWYSIWYGElement) sectionObject;
-                            BeanUtils.setProperty(destinationObject, field.getName(), nWYSIWYG.getContent());
-                        }
-
-                        if (sectionObject instanceof NKDropdownElement) {
-                            NKDropdownElement nWYSIWYG = (NKDropdownElement) sectionObject;
-                            BeanUtils.setProperty(destinationObject, field.getName(), nWYSIWYG.getContent());
-                        }
-
-                        if (sectionObject instanceof NKAddressElement) {
-                            NKAddressElement nAddress = (NKAddressElement) sectionObject;
-                            BeanUtils.setProperty(destinationObject, field.getName(), nAddress);
-                        }
-
-                        if (sectionObject instanceof NKPollAnswers) {
-                            NKPollAnswers nPollAnswers = (NKPollAnswers) sectionObject;
-                            BeanUtils.setProperty(destinationObject, field.getName(), nPollAnswers);
-                        }
-
-                        if (sectionObject instanceof NKGenericElement) {
-                            NKGenericElement nGeneric = (NKGenericElement) sectionObject;
-                            BeanUtils.setProperty(destinationObject, field.getName(), nGeneric.getContent());
-                        }
-
                     }
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+
+                    if (sectionObject instanceof NKMediaElement) {
+                        NKMediaElement nMedia = (NKMediaElement) sectionObject;
+                        if (secondPart.equals(NKMappingArgs.mapping_first_image_media)) {
+                            if (getSimpleValues) {
+                                BeanUtils.setProperty(destinationObject, field, nMedia.getFirstMedia().getUrl());
+                            } else {
+                                BeanUtils.setProperty(destinationObject, field, nMedia.getFirstMedia());
+                            }
+                        }
+                    }
+
+                    if (sectionObject instanceof NKAddressElement) {
+                        NKAddressElement NKAddressElement = (NKAddressElement) sectionObject;
+                        if (secondPart.equals(NKMappingArgs.mapping_latitude)) {
+                            BeanUtils.setProperty(destinationObject, field, NKAddressElement.getLatitude());
+                        }
+
+                        if (secondPart.equals(NKMappingArgs.mapping_longitude)) {
+                            BeanUtils.setProperty(destinationObject, field, NKAddressElement.getLongitude());
+                        }
+
+                        if (secondPart.equals(NKMappingArgs.mapping_address)) {
+                            BeanUtils.setProperty(destinationObject, field, NKAddressElement.getAddress());
+                        }
+                    }
+
+                } else {
+                    NKClass sectionObject = section.getField(sectionKey);
+                    if (sectionObject instanceof NKCheckboxElement) {
+                        NKCheckboxElement nCheckbox = (NKCheckboxElement) sectionObject;
+                        BeanUtils.setProperty(destinationObject, field, nCheckbox.getContent());
+                    }
+
+                    if (sectionObject instanceof NKDateElement) {
+                        NKDateElement nDate = (NKDateElement) sectionObject;
+                        BeanUtils.setProperty(destinationObject, field, nDate.getTimestamp());
+                    }
+
+                    if (sectionObject instanceof NKImages) {
+                        NKImages nImages = (NKImages) sectionObject;
+                        if (getSimpleValues) {
+                            ArrayList<String> images = new ArrayList<>();
+                            for (int i = 0; i < nImages.getImages().size(); i++) {
+                                images.add(nImages.getImages().get(i).getUrl());
+                            }
+
+                            BeanUtils.setProperty(destinationObject, field, images);
+                        } else {
+                            BeanUtils.setProperty(destinationObject, field, nImages);
+                        }
+                    }
+
+                    if (sectionObject instanceof NKMediaElement) {
+                        NKMediaElement nMedia = (NKMediaElement) sectionObject;
+                        ArrayList<String> files = new ArrayList<>();
+                        for (int i = 0; i < nMedia.getFiles().size(); i++) {
+                            files.add(nMedia.getFiles().get(i).getUrl());
+                        }
+
+                        BeanUtils.setProperty(destinationObject, field, files);
+                    }
+
+                    if (sectionObject instanceof NKTextElement) {
+                        NKTextElement nText = (NKTextElement) sectionObject;
+                        BeanUtils.setProperty(destinationObject, field, nText.getContent());
+                    }
+
+                    if (sectionObject instanceof NKWYSIWYGElement) {
+                        NKWYSIWYGElement nWYSIWYG = (NKWYSIWYGElement) sectionObject;
+                        BeanUtils.setProperty(destinationObject, field, nWYSIWYG.getContent());
+                    }
+
+                    if (sectionObject instanceof NKDropdownElement) {
+                        NKDropdownElement nWYSIWYG = (NKDropdownElement) sectionObject;
+                        BeanUtils.setProperty(destinationObject, field, nWYSIWYG.getContent());
+                    }
+
+                    if (sectionObject instanceof NKAddressElement) {
+                        NKAddressElement nAddress = (NKAddressElement) sectionObject;
+                        BeanUtils.setProperty(destinationObject, field, nAddress);
+                    }
+
+                    if (sectionObject instanceof NKPollAnswers) {
+                        NKPollAnswers nPollAnswers = (NKPollAnswers) sectionObject;
+                        BeanUtils.setProperty(destinationObject, field, nPollAnswers);
+                    }
+
+                    if (sectionObject instanceof NKGenericElement) {
+                        NKGenericElement nGeneric = (NKGenericElement) sectionObject;
+                        BeanUtils.setProperty(destinationObject, field, nGeneric.getContent());
+                    }
+
                 }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
             }
         }
 

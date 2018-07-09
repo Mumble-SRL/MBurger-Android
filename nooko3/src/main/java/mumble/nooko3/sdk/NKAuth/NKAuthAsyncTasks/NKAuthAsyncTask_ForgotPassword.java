@@ -86,8 +86,8 @@ public class NKAuthAsyncTask_ForgotPassword extends AsyncTask<Void, Void, Void> 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
         values.put("email", email);
-        values.put("user_id", "1");
-        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_FORGOT_PASSWORD, values, NKApiManagerConfig.MODE_POST, false);
+        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_FORGOT_PASSWORD,
+                values, NKApiManagerConfig.MODE_POST, false);
     }
 
     protected void onPostExecute(Void postResult) {

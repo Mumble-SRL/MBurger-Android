@@ -1,15 +1,20 @@
 package mumble.nooko3.sdk.NKAuth.NKAuthData;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import mumble.nooko3.sdk.NKPay.NKPayData.NKStripeSubscription;
 
 public class NKAuthUser implements Serializable{
 
     private long id;
     private String name, surname, email, phone, image, gender, data, auth_mode;
+    private ArrayList<NKStripeSubscription> subscriptions;
 
     public NKAuthUser(long id, String name, String surname,
                       String email, String phone, String image,
-                      String gender, String data, String auth_mode) {
+                      String gender, String data, String auth_mode,
+                      ArrayList<NKStripeSubscription> subscriptions) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -19,6 +24,7 @@ public class NKAuthUser implements Serializable{
         this.gender = gender;
         this.data = data;
         this.auth_mode = auth_mode;
+        this.subscriptions = subscriptions;
     }
 
     public long getId() {
@@ -91,5 +97,13 @@ public class NKAuthUser implements Serializable{
 
     public void setAuth_mode(String auth_mode) {
         this.auth_mode = auth_mode;
+    }
+
+    public ArrayList<NKStripeSubscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(ArrayList<NKStripeSubscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 }

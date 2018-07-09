@@ -96,8 +96,8 @@ public class NKAuthAsyncTask_ChangePassword extends AsyncTask<Void, Void, Void> 
         ContentValues values = new ContentValues();
         values.put("old_password", old_password);
         values.put("new_password", new_password);
-        values.put("user_id", "1");
-        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_REGISTER, values, NKApiManagerConfig.MODE_POST, false);
+        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_CHANGE_PASSWORD,
+                values, NKApiManagerConfig.MODE_POST, false);
     }
 
     protected void onPostExecute(Void postResult) {

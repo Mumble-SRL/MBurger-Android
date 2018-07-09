@@ -95,7 +95,6 @@ public class NKAsyncTask_getSections extends AsyncTask<Void, Void, Void> {
         this.filters = filters;
     }
 
-
     @Override
     protected Void doInBackground(Void... arg0) {
         putValuesAndCall();

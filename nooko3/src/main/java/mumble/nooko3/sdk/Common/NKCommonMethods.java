@@ -87,7 +87,7 @@ public class NKCommonMethods {
 
                 if (object instanceof NKFilterParameter) {
                     NKFilterParameter filterParameter = (NKFilterParameter) object;
-                    values.put("filter[" + filterParameter.getKey() + "]", filterParameter.getValue());
+                    values.put("filter[elements.value]", filterParameter.getValue());
                 }
 
                 if (object instanceof NKSortParameter) {

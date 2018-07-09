@@ -91,8 +91,8 @@ public class NKAuthAsyncTask_Profile extends AsyncTask<Void, Void, Void> {
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        values.put("user_id", "1");
-        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_PROFILE, values, NKApiManagerConfig.MODE_POST, true);
+        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_PROFILE, values,
+                NKApiManagerConfig.MODE_GET, true);
     }
 
     protected void onPostExecute(Void postResult) {

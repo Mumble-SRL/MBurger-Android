@@ -57,4 +57,31 @@ public class NKAPIConstants {
     /**Used with the API {@link mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_ChangePassword NKAuthAsyncTask_ChangePassword}*/
     public static final String ACTION_CHANGE_PASSWORD = "mumble.nooko3.ACTION_CHANGE_PASSWORD";
 
+    /**Used with the API {@link mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_UpdateProfile NKAuthAsyncTask_UpdateProfile}*/
+    public static final String ACTION_UPDATE_PROFILE = "mumble.nooko3.ACTION_UPDATE_PROFILE";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_Subscribe NKPayAsyncTask_Subscribe}*/
+    public static final String ACTION_SUBSCRIBE = "mumble.nooko3.ACTION_SUBSCRIBE";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_CancelSubscription NKPayAsyncTask_CancelSubscription}*/
+    public static final String ACTION_CANCEL_SUBSCRIPTION = "mumble.nooko3.ACTION_CANCEL_SUBSCRIPTION";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_ResumeSubscription NKPayAsyncTask_ResumeSubscription}*/
+    public static final String ACTION_RESUME_SUBSCRIPTION = "mumble.nooko3.ACTION_RESUME_SUBSCRIPTION";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_AddCard NKPayAsyncTask_AddCard}*/
+    public static final String ACTION_ADD_CARD = "mumble.nooko3.ACTION_ADD_CARD";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_ChangeDefaultCard NKPayAsyncTask_ChangeDefaultCard}*/
+    public static final String ACTION_CHANGE_DEFAULT_CARD = "mumble.nooko3.ACTION_CHANGE_DEFAULT_CARD";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_DeleteCard NKPayAsyncTask_DeleteCard}*/
+    public static final String ACTION_DELETE_CARD = "mumble.nooko3.ACTION_DELETE_CARD";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_CreateCustomer NKPayAsyncTask_CreateCustomer}*/
+    public static final String ACTION_CREATE_CUSTOMER = "mumble.nooko3.ACTION_CREATE_CUSTOMER";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_GetCards NKPayAsyncTask_GetCards}*/
+    public static final String ACTION_GET_CARDS = "mumble.nooko3.ACTION_GET_CARDS";
+
 }

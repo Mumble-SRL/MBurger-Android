@@ -1,9 +1,8 @@
-package mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks;
+package mumble.nooko3.sdk.NKPay.NKPayAsyncTasks;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,12 +16,12 @@ import mumble.nooko3.sdk.Common.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.Common.NKApiManager.NKApiManagerUtils;
 import mumble.nooko3.sdk.Common.NKCommonMethods;
 import mumble.nooko3.sdk.Common.NKConstants.NKAPIConstants;
-import mumble.nooko3.sdk.NKAuth.NKAuthResultsListener.NKAuthApiRegisterListener;
+import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiSubscribeListener;
 
 /**
  * Created by Enrico on 29/08/2016.
  */
-public class NKAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
+public class NKPayAsyncTask_Subscribe extends AsyncTask<Void, Void, Void> {
 
     /**
      * Context reference used to send data to Activity/Fragment
@@ -31,97 +30,87 @@ public class NKAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
     private WeakReference<Context> weakContext;
 
     /**
-     * Registration email
+     * Subscription Stripe™ item name
      */
     @NonNull
-    private String email;
+    private String subscription;
 
     /**
-     * Registration password
-     */
-    @NonNull
-    private String password;
-
-    /**
-     * Registration name
-     */
-    @NonNull
-    private String name;
-
-    /**
-     * Registration surname
+     * Stripe™ token which will create a new customer automatically, not required
      */
     @Nullable
-    private String surname;
+    private String token;
 
     /**
-     * Registration phone
+     * Discount code
      */
     @Nullable
-    private String phone;
+    private String discount_code;
 
     /**
-     * Auxiliar registration data
+     * Eventual metadata
      */
     @Nullable
-    private String data;
+    private String meta;
 
     /**
-     * Registration user image
+     * Quantity of subscriptions to register, -1 if not useful
+     */
+    private int quantity;
+
+    /**
+     * Eventual trial days, -1 if not useful
      */
     @Nullable
-    private Uri image;
+    private int trial_days;
 
     /**
      * If you wish to change the action that accompanies the API result
      */
-    private String action = NKAPIConstants.ACTION_REGISTER;
+    private String action = NKAPIConstants.ACTION_SUBSCRIBE;
 
     /**
      * If you wish to use a listener to retrieve the data instead of the ApiListener
      */
-    private NKAuthApiRegisterListener listener;
+    private NKPayApiSubscribeListener listener;
 
     private int result = NKApiManagerConfig.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
 
-    public NKAuthAsyncTask_Register(Context context, String name, String surname, String phone, Uri image,
-                                    String email, String password, String data) {
+    public NKPayAsyncTask_Subscribe(Context context, String subscription, String token, String discount_code,
+                                    String meta, int quantity, int trial_days) {
         this.weakContext = new WeakReference<>(context);
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.phone = phone;
-        this.image = image;
-        this.data = data;
+        this.subscription = subscription;
+        this.token = token;
+        this.discount_code = discount_code;
+        this.meta = meta;
+        this.quantity = quantity;
+        this.trial_days = trial_days;
     }
 
-    public NKAuthAsyncTask_Register(Context context, String custom_action, String name, String surname,
-                                    String phone, Uri image, String email, String password, String data) {
+    public NKPayAsyncTask_Subscribe(Context context, String custom_action, String subscription, String token,
+                                    String discount_code, String meta, int quantity, int trial_days) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.phone = phone;
-        this.image = image;
-        this.data = data;
+        this.subscription = subscription;
+        this.token = token;
+        this.discount_code = discount_code;
+        this.meta = meta;
+        this.quantity = quantity;
+        this.trial_days = trial_days;
     }
 
-    public NKAuthAsyncTask_Register(Context context, NKAuthApiRegisterListener listener, String name, String surname,
-                                    String phone, Uri image, String email, String password, String data) {
+    public NKPayAsyncTask_Subscribe(Context context, NKPayApiSubscribeListener listener, String subscription, String token,
+                                    String discount_code, String meta, int quantity, int trial_days) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.phone = phone;
-        this.image = image;
-        this.data = data;
+        this.subscription = subscription;
+        this.token = token;
+        this.discount_code = discount_code;
+        this.meta = meta;
+        this.quantity = quantity;
+        this.trial_days = trial_days;
     }
 
     @Override
@@ -147,30 +136,30 @@ public class NKAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        values.put("name", name);
+        values.put("subscription", subscription);
 
-        if (surname != null) {
-            values.put("surname", surname);
+        if (token != null) {
+            values.put("token", token);
         }
 
-        values.put("email", email);
-        values.put("password", password);
-        if (phone != null) {
-            values.put("phone", phone);
+        if (discount_code != null) {
+            values.put("discount_code", discount_code);
         }
 
-        if (image != null) {
-            String b64Img = NKCommonMethods.fromUriToBase64(weakContext.get(), image);
-            if (b64Img != null) {
-                values.put("image", b64Img);
-            }
+        if (meta != null) {
+            values.put("meta", meta);
         }
 
-        if (data != null) {
-            values.put("data", data);
+        if (quantity != -1) {
+            values.put("quantity", Integer.toString(quantity));
         }
 
-        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_REGISTER, values, NKApiManagerConfig.MODE_POST, false);
+        if (trial_days != -1) {
+            values.put("trial_days", Integer.toString(trial_days));
+        }
+
+        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_SUBSCRIBE, values,
+                NKApiManagerConfig.MODE_POST, false);
     }
 
     protected void onPostExecute(Void postResult) {
@@ -182,9 +171,9 @@ public class NKAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
-                    listener.onRegistrationError(error);
+                    listener.onSubscriptionError(error);
                 } else {
-                    listener.onRegistrationSuccess();
+                    listener.onSubscriptionSuccess();
                 }
             }
         }

@@ -9,6 +9,7 @@ import org.json.JSONTokener;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import mumble.nooko3.R;
 import mumble.nooko3.sdk.Common.NKConstants.NKConstants;
@@ -37,7 +38,12 @@ public class NKApiManagerOKHTTPPost {
                 .post(requestBody)
                 .build();
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+
         Call call = client.newCall(request);
         Response response = null;
 

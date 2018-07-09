@@ -12,8 +12,8 @@ public class NKApiManagerConfig {
 
     public static String endpoint = "https://nooko2.mumbleserver.it";
     public static String SERVER_HOSTNAME = "nooko2.mumbleserver.it";
-    public static final String OS = "android";
-    public static final String API_VERSION = "1";
+    public static String endpoint_dev = "https://nooko2-dev.mumbleserver.it";
+    public static String SERVER_HOSTNAME_DEV = "nooko2-dev.mumbleserver.it";
 
     public static final int MODE_POST = -1;
     public static final int MODE_GET = -2;
@@ -45,6 +45,13 @@ public class NKApiManagerConfig {
     public static final String API_CHANGE_PASSWORD = "/api/change-password";
     public static final String API_FORGOT_PASSWORD = "/api/forgot-password";
     public static final String API_PROFILE = "/api/profile";
+    public static final String API_PROFILE_UPDATE = "/api/profile/update";
+    public static final String API_SUBSCRIBE = "/api/subscriptions";
+    public static final String API_SUBSCRIBE_CANCEL = "/api/subscriptions/cancel";
+    public static final String API_SUBSCRIBE_RESUME = "/api/subscriptions/resume";
+    public static final String API_CARDS = "/api/cards";
+    public static final String API_DEFAULT_PART = "/default";
+    public static final String API_CUSTOMER = "/api/customer";
 
     /**
      * ERRORS

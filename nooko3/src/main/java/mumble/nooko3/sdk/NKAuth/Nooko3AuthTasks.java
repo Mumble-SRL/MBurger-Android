@@ -4,19 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 
 import mumble.nooko3.R;
+import mumble.nooko3.sdk.Common.NKCommonMethods;
+import mumble.nooko3.sdk.Common.NKConstants.NKUserConstants;
+import mumble.nooko3.sdk.Common.NKExceptions.NKSDKInitializeException;
 import mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_Authenticate;
 import mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_ChangePassword;
 import mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_ForgotPassword;
 import mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_Profile;
 import mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_Register;
-import mumble.nooko3.sdk.Common.NKConstants.NKUserConstants;
+import mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_UpdateProfile;
 import mumble.nooko3.sdk.NKAuth.NKAuthResultsListener.NKAuthApiAuthenticateListener;
 import mumble.nooko3.sdk.NKAuth.NKAuthResultsListener.NKAuthApiChangePasswordListener;
 import mumble.nooko3.sdk.NKAuth.NKAuthResultsListener.NKAuthApiForgotPasswordListener;
 import mumble.nooko3.sdk.NKAuth.NKAuthResultsListener.NKAuthApiProfileListener;
+import mumble.nooko3.sdk.NKAuth.NKAuthResultsListener.NKAuthApiProfileUpdateListener;
 import mumble.nooko3.sdk.NKAuth.NKAuthResultsListener.NKAuthApiRegisterListener;
-import mumble.nooko3.sdk.Common.NKCommonMethods;
-import mumble.nooko3.sdk.Common.NKExceptions.NKSDKInitializeException;
 
 public class Nooko3AuthTasks {
 
@@ -189,9 +191,45 @@ public class Nooko3AuthTasks {
     }
 
     /**
+     * Update logged user profile an user
+     */
+    public static void updateProfile(Context context, String name, String surname, String phone, Uri image,
+                                     String email, String data) {
+        if (NKUserConstants.apiKey != null) {
+            new NKAuthAsyncTask_UpdateProfile(context, name, surname, phone, image, email, data).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Update logged user profile an user with custom action callback
+     */
+    public static void updateProfile(Context context, String custom_action, String name, String surname, String phone, Uri image,
+                                     String email, String data) {
+        if (NKUserConstants.apiKey != null) {
+            new NKAuthAsyncTask_UpdateProfile(context, custom_action, name, surname, phone, image, email, data).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Register an user with listener callback
+     */
+    public static void updateProfile(Context context, NKAuthApiProfileUpdateListener listener, String name,
+                                     String surname, String phone, Uri image, String email, String data) {
+        if (NKUserConstants.apiKey != null) {
+            new NKAuthAsyncTask_UpdateProfile(context, listener, name, surname, phone, image, email, data).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
      * Clears a logged in user token
      */
-    public static void clearAuthToken(Context context){
+    public static void clearAuthToken(Context context) {
         NKCommonMethods.removeAccessToken(context);
     }
 

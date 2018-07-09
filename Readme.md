@@ -1,6 +1,6 @@
 <img src="https://mumbleideas.it/wp-content/uploads/2017/12/Mumble-anim-300.gif" alt="Mumble Logo" title="Mumble Logo">
 
-# Nooko Android SDK 2.0 Beta
+# Nooko Android SDK 3.0 Beta
 
 With the Nooko3 Android SDK you can easily create a content-ful app without the need of a database or a backend. Remember that you would have to provide your own UI for your project, Nooko will not create any Activity or View, it would only provide data using a set of API which interfaces with Nooko backend.
 Before starting, make sure you read the Nooko3 guide on Nooko website in order to take confidence with Nooko namespaces and objects, also create an account and a Project.
@@ -11,7 +11,7 @@ Before starting, make sure you read the Nooko3 guide on Nooko website in order t
 
 First thing, you should download or clone this repo, you will find a `nooko3` directory, which contains the client SDK to use Nooko. 
 
-Note that Nooko3 requires at least Android Studio 3.1 and your project should target Android Version 27, with minimum SDK version 17, also your project would need these permissions:
+Note that Nooko3 requires at least Android Studio 3.1.3 and your project should target, at least, Android Version 27, with minimum SDK version 17, also your project would need these permissions:
 
 ```xml
 //To gather data from Nooko API
@@ -62,10 +62,10 @@ In order to use the SDK you should create an API Key, which will let you use Noo
 ![Dashboard image](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/raw/master/Images/api_token.png)
 
 API Keys can be used for Android apps as well as iOS apps, so you don't really need to create 2 keys for the two OS.
-On your app before doing anything you must initialize the SDK with your API Key by using the `Nooko3` class
+On your app before doing anything you must initialize the SDK with your API Key by using the `Nooko3` class, also you should specify if you are using the development api or the standard API, be aware that different mode means different key, so a "development api key" would not work if you are using standard api.
 
 ```java
-Nooko3.initialize("<Your API Key>");
+Nooko3.initialize("<Your API Key>", <Development mode>);
 ```
 
 `Nooko3.initialize()` also may accept other parameters to control if you want Nooko3 SDK to cache your requests, you will find all information you need inside the [Javadoc](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/master/Javadoc "Javadoc"). Requesting anything from the SDK before initializing will result in an exception, so you shoud initialize on your `onCreate` starting Activity or on your custom `Application` class.
@@ -396,7 +396,7 @@ public void onApiResult(NKAPIResponse response) {
 
 If your project has been set up for using these two features please note that there are special rules to use them:
 
-- **Live Messages**: the method to send live messages can only send text messages with a name and a content, no results are provided apart from the classic "OK"/"Not OK"
+- **Live Messages**: the method to send live messages can only send text messages with a name and a content, no results are provided apart from the standard "OK"/"Not OK"
 - **Poll**: You should use Nooko objects if you use poll feature, the dashboard will take care to take only one answer per user (using device_id or user token if authenticated) but it's a best practice to control in-app if your user has already voted checking the `NKPollAnswers` object, which contains all the answers and also your personal answer. You should absolutely check if the poll is still valid checking the "available_at" for the section object.
 
 
@@ -458,11 +458,17 @@ News n = (News) Nooko3Mapper.mapToCustomObject(nkSection, fieldsMapping, new New
 
 Pay attention that if you need to map images the SDK will return a `NKImages` object, which contains an array of `NKImage`, if you want an array of URLs you will have to set `getSimpleValues` to `true`. 
 
+> ```
+> Disclaimer:
+> Due to the new nature of Android P whis functionaity could make give you light greylist messages because it uses reflections. For now on, there should be no problem, but this functionality may change when Android P is released or could be not available for P application users.
+> ```
 
 
-## Admin and Auth usage
+
+## Admin, Auth and Pay
 
 For admin (create/delete/edit sections) and auth (login user/register, profile) please check out **Admin usage** [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAdmin) and for **Auth usage** [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAuth).
+For using the **Pay** functionalities, please check out this documentation.
 
 
 

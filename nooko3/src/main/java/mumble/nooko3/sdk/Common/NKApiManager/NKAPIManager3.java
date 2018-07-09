@@ -209,18 +209,33 @@ public class NKAPIManager3 {
     /**Initialize connection with method (POST, PUT, DELETE) with all data inside the ContentValues*/
     private static HttpsURLConnection initializePostDeleteConnection(Context context, String api, ContentValues postData, String method)
             throws IOException {
-        URL url = new URL(NKApiManagerConfig.endpoint + api);
+
+        HttpsURLConnection urlConnection = null;
+        URL url = null;
+        HostnameVerifier hostnameVerifier = null;
+        if(NKUserConstants.devMode){
+            url = new URL(NKApiManagerConfig.endpoint_dev + api);
+            hostnameVerifier = new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
+                    return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME_DEV, session);
+                }
+            };
+        }
+        else {
+            url = new URL(NKApiManagerConfig.endpoint + api);
+            hostnameVerifier = new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
+                    return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME, session);
+                }
+            };
+        }
+
         addNecessaryPostData(context, postData);
-
-        HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-            @Override
-            public boolean verify(String hostname, SSLSession session) {
-                HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME, session);
-            }
-        };
-
-        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+        urlConnection = (HttpsURLConnection) url.openConnection();
         urlConnection.setRequestMethod(method);
         urlConnection.setHostnameVerifier(hostnameVerifier);
         //urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -247,18 +262,34 @@ public class NKAPIManager3 {
 
     /**Initialize a GET connection with all data inside the ContentValues*/
     private static HttpsURLConnection initializeGetConnection(Context context, String api, ContentValues postData) throws IOException{
-        URL url = new URL(NKApiManagerConfig.endpoint + api + NKApiManagerUtils.getGETQuery(postData));
         addNecessaryPostData(context, postData);
 
-        HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-            @Override
-            public boolean verify(String hostname, SSLSession session) {
-                HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME, session);
-            }
-        };
+        HttpsURLConnection urlConnection = null;
+        URL url = null;
+        HostnameVerifier hostnameVerifier = null;
+        if(NKUserConstants.devMode){
+            url = new URL(NKApiManagerConfig.endpoint_dev + api + NKApiManagerUtils.getGETQuery(postData));
+            hostnameVerifier = new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
+                    return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME_DEV, session);
+                }
+            };
+        }
+        else {
+            url = new URL(NKApiManagerConfig.endpoint + api + NKApiManagerUtils.getGETQuery(postData));
+            hostnameVerifier = new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
+                    return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME, session);
+                }
+            };
+        }
 
-        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+        addNecessaryPostData(context, postData);
+        urlConnection = (HttpsURLConnection) url.openConnection();
         urlConnection.setHostnameVerifier(hostnameVerifier);
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(false);

@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-import mumble.nooko3.sdk.NKAuth.NKAuthData.NKAuthUser;
 import mumble.nooko3.sdk.Common.NKConstants.NKConstants;
+import mumble.nooko3.sdk.NKAuth.NKAuthData.NKAuthUser;
+import mumble.nooko3.sdk.NKPay.NKPayData.NKStripeSubscription;
 import mumble.nooko3.sdk.NKData.NKAtomic.NKClass;
 import mumble.nooko3.sdk.NKData.NKBlocks.NKBlock;
 import mumble.nooko3.sdk.NKData.NKElements.NKAddressElement;
@@ -22,10 +24,10 @@ import mumble.nooko3.sdk.NKData.NKElements.NKImages;
 import mumble.nooko3.sdk.NKData.NKElements.NKMediaElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKPollAnswers;
 import mumble.nooko3.sdk.NKData.NKElements.NKSubElements.NKAnswer;
-import mumble.nooko3.sdk.NKData.NKElements.NKTextElement;
-import mumble.nooko3.sdk.NKData.NKElements.NKWYSIWYGElement;
 import mumble.nooko3.sdk.NKData.NKElements.NKSubElements.NKFile;
 import mumble.nooko3.sdk.NKData.NKElements.NKSubElements.NKImage;
+import mumble.nooko3.sdk.NKData.NKElements.NKTextElement;
+import mumble.nooko3.sdk.NKData.NKElements.NKWYSIWYGElement;
 import mumble.nooko3.sdk.NKData.NKProjects.NKProject;
 import mumble.nooko3.sdk.NKData.NKSections.NKSection;
 
@@ -359,7 +361,7 @@ public class NKParser {
 
                 int answer_index = -1;
                 if (NKCommonMethods.isJSONOk(jValue, "answered")) {
-                    if(jValue.getBoolean("answered")) {
+                    if (jValue.getBoolean("answered")) {
                         if (NKCommonMethods.isJSONOk(jValue, "answer")) {
                             answer_index = jValue.getInt("answer");
                         }
@@ -383,48 +385,57 @@ public class NKParser {
     /**
      * Parse an user from the profile API and returns the "user" object with what wak inserted valorized
      */
-    public static NKAuthUser parseUser(JSONObject jUser){
+    public static NKAuthUser parseUser(JSONObject jUser) {
         try {
 
             long id = -1;
             String name = null, surname = null, email = null, auth_mode = null, image = null, phone = null, gender = null, data = null;
-            if(NKCommonMethods.isJSONOk(jUser, "id")){
+            if (NKCommonMethods.isJSONOk(jUser, "id")) {
                 id = jUser.getLong("id");
             }
 
-            if(NKCommonMethods.isJSONOk(jUser, "name")){
+            if (NKCommonMethods.isJSONOk(jUser, "name")) {
                 name = jUser.getString("name");
             }
 
-            if(NKCommonMethods.isJSONOk(jUser, "surname")){
+            if (NKCommonMethods.isJSONOk(jUser, "surname")) {
                 surname = jUser.getString("surname");
             }
 
-            if(NKCommonMethods.isJSONOk(jUser, "email")){
+            if (NKCommonMethods.isJSONOk(jUser, "email")) {
                 email = jUser.getString("email");
             }
 
-            if(NKCommonMethods.isJSONOk(jUser, "auth_mode")){
+            if (NKCommonMethods.isJSONOk(jUser, "auth_mode")) {
                 auth_mode = jUser.getString("auth_mode");
             }
 
-            if(NKCommonMethods.isJSONOk(jUser, "phone")){
+            if (NKCommonMethods.isJSONOk(jUser, "phone")) {
                 phone = jUser.getString("phone");
             }
 
-            if(NKCommonMethods.isJSONOk(jUser, "gender")){
+            if (NKCommonMethods.isJSONOk(jUser, "gender")) {
                 gender = jUser.getString("gender");
             }
 
-            if(NKCommonMethods.isJSONOk(jUser, "data")){
+            if (NKCommonMethods.isJSONOk(jUser, "data")) {
                 data = jUser.getString("data");
             }
 
-            if(NKCommonMethods.isJSONOk(jUser, "image")){
+            if (NKCommonMethods.isJSONOk(jUser, "image")) {
                 image = jUser.getString("image");
             }
 
-            return new NKAuthUser(id, name, surname, email, phone, image, gender, data, auth_mode);
+            ArrayList<NKStripeSubscription> subscriptions = new ArrayList<>();
+            if (NKCommonMethods.isJSONOk(jUser, "subscriptions")) {
+                JSONArray jSubscriptions = jUser.getJSONArray("subscriptions");
+                for (int i = 0; i < jSubscriptions.length(); i++) {
+                    JSONObject jSubscription = jSubscriptions.getJSONObject(i);
+                    subscriptions.add(parseSubscription(jSubscription));
+                }
+            }
+
+            return new NKAuthUser(id, name, surname, email, phone, image, gender, data, auth_mode, subscriptions);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -432,4 +443,67 @@ public class NKParser {
         return null;
     }
 
+
+    public static NKStripeSubscription parseSubscription(JSONObject jsonObject) {
+        long id = -1;
+        String name = null, stripe_id = null, stripe_plan = null;
+        int quantity = 1;
+        long created_at = -1;
+        boolean ends_at = false, trial_ends_at = false, valid = false, trial = false, grace_period = false, cancelled = false;
+
+        try {
+            if (NKCommonMethods.isJSONOk(jsonObject, "id")) {
+                id = jsonObject.getLong("id");
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "name")) {
+                name = jsonObject.getString("name");
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "stripe_id")) {
+                stripe_id = jsonObject.getString("stripe_id");
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "stripe_plan")) {
+                stripe_plan = jsonObject.getString("stripe_plan");
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "quantity")) {
+                quantity = jsonObject.getInt("quantity");
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "ends_at")) {
+                ends_at = jsonObject.getBoolean("ends_at");
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "trial_ends_at")) {
+                trial_ends_at = jsonObject.getBoolean("trial_ends_at");
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "created_at")) {
+                created_at = TimeUnit.SECONDS.toMillis(jsonObject.getLong("created_at"));
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "valid")) {
+                valid = jsonObject.getBoolean("valid");
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "trial")) {
+                trial = jsonObject.getBoolean("trial");
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "grace_period")) {
+                grace_period = jsonObject.getBoolean("grace_period");
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "cancelled")) {
+                cancelled = jsonObject.getBoolean("cancelled");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new NKStripeSubscription(id, name, stripe_id, stripe_plan, quantity, ends_at, trial_ends_at, created_at,
+                valid, trial, grace_period, cancelled);
+    }
 }
