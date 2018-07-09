@@ -5,16 +5,20 @@ import android.content.Context;
 import mumble.nooko3.R;
 import mumble.nooko3.sdk.Common.NKConstants.NKUserConstants;
 import mumble.nooko3.sdk.Common.NKExceptions.NKSDKInitializeException;
+import mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_AddCard;
 import mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_CancelSubscription;
 import mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_ChangeDefaultCard;
 import mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_CreateCustomer;
+import mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_DeleteCard;
 import mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_GetCards;
 import mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_ResumeSubscription;
 import mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_Subscribe;
+import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiAddCardListener;
 import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiCancelSubscriptionListener;
 import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiCardsListener;
 import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiChangeDefaultCardListener;
 import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiCreateCustomerListener;
+import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiDeleteCardListener;
 import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiResumeSubscriptionListener;
 import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiSubscribeListener;
 
@@ -218,6 +222,72 @@ public class Nooko3PayTasks {
     public static void getCards(Context context, NKPayApiCardsListener listener) {
         if (NKUserConstants.apiKey != null) {
             new NKPayAsyncTask_GetCards(context, listener).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Add a new Stripe™ card associated to the customer
+     */
+    public static void addCard(Context context, String token) {
+        if (NKUserConstants.apiKey != null) {
+            new NKPayAsyncTask_AddCard(context, token).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Add a new Stripe™ card associated to the customer with custom action callback
+     */
+    public static void addCard(Context context, String custom_action, String token) {
+        if (NKUserConstants.apiKey != null) {
+            new NKPayAsyncTask_AddCard(context, custom_action, token).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Add a new Stripe™ card associated to the customer with listener callback
+     */
+    public static void addCard(Context context, NKPayApiAddCardListener listener, String token) {
+        if (NKUserConstants.apiKey != null) {
+            new NKPayAsyncTask_AddCard(context, listener, token).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Delete a card associated to the customer
+     */
+    public static void deleteCard(Context context, String card_id) {
+        if (NKUserConstants.apiKey != null) {
+            new NKPayAsyncTask_DeleteCard(context, card_id).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Delete a card associated to the customer with custom action callback
+     */
+    public static void deleteCard(Context context, String custom_action, String card_id) {
+        if (NKUserConstants.apiKey != null) {
+            new NKPayAsyncTask_DeleteCard(context, custom_action, card_id).execute();
+        } else {
+            throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Delete a card associated to the customer with listener callback
+     */
+    public static void deleteCard(Context context, NKPayApiDeleteCardListener listener, String card_id) {
+        if (NKUserConstants.apiKey != null) {
+            new NKPayAsyncTask_DeleteCard(context, listener, card_id).execute();
         } else {
             throw new NKSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
