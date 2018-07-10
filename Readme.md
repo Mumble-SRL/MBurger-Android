@@ -467,7 +467,7 @@ Pay attention that if you need to map images the SDK will return a `NKImages` ob
 
 ## Admin, Auth, Pay and Push
 
-For admin (create/delete/edit sections) and auth (login user/register, profile) please check out **Admin usage** [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAdmin) and for **Auth usage** [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAuth). For using the **Pay** functionalities, please check out [this documentation](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/blob/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKPay/Readme.md).
+For admin (create/delete/edit sections) and auth (login user/register, profile) please check out **Admin usage** [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAdmin) and for **Auth usage** [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAuth). For using the **Pay** functionalities, please check out [this documentation](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/blob/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKPay/Readme.md), for **Push notifications** functionality look it up [here](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/blob/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKPush/Readme.md).
 
 
 
