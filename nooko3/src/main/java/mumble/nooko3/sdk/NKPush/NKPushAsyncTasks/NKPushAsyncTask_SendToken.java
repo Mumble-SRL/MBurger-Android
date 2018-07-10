@@ -1,11 +1,10 @@
-package mumble.nooko3.sdk.NKPay.NKPayAsyncTasks;
+package mumble.nooko3.sdk.NKPush.NKPushAsyncTasks;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -16,13 +15,9 @@ import mumble.nooko3.sdk.Common.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.Common.NKApiManager.NKApiManagerUtils;
 import mumble.nooko3.sdk.Common.NKCommonMethods;
 import mumble.nooko3.sdk.Common.NKConstants.NKAPIConstants;
-import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiCreateCustomerListener;
-import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiSubscribeListener;
+import mumble.nooko3.sdk.NKPush.NKPushResultsListener.NKPushSendTokenListener;
 
-/**
- * Created by Enrico on 29/08/2016.
- */
-public class NKPayAsyncTask_CreateCustomer extends AsyncTask<Void, Void, Void> {
+public class NKPushAsyncTask_SendToken extends AsyncTask<Void, Void, Void> {
 
     /**
      * Context reference used to send data to Activity/Fragment
@@ -31,37 +26,55 @@ public class NKPayAsyncTask_CreateCustomer extends AsyncTask<Void, Void, Void> {
     private WeakReference<Context> weakContext;
 
     /**
+     * Android device id
+     */
+    @NonNull
+    private String device_id;
+
+    /**
+     * Push token obtained from Firebase
+     */
+    @NonNull
+    private String token;
+
+    /**
      * If you wish to change the action that accompanies the API result
      */
-    private String action = NKAPIConstants.ACTION_CREATE_CUSTOMER;
+    private String action = NKAPIConstants.ACTION_CANCEL_SUBSCRIPTION;
 
     /**
      * If you wish to use a listener to retrieve the data instead of the ApiListener
      */
-    private NKPayApiCreateCustomerListener listener;
+    private NKPushSendTokenListener listener;
 
     private int result = NKApiManagerConfig.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
 
-    public NKPayAsyncTask_CreateCustomer(Context context) {
+    public NKPushAsyncTask_SendToken(Context context, String device_id, String token) {
         this.weakContext = new WeakReference<>(context);
+        this.device_id = device_id;
+        this.token = token;
     }
 
-    public NKPayAsyncTask_CreateCustomer(Context context, String custom_action) {
+    public NKPushAsyncTask_SendToken(Context context, String cutom_action, String device_id, String token) {
         this.weakContext = new WeakReference<>(context);
-        this.action = custom_action;
+        this.action = cutom_action;
+        this.device_id = device_id;
+        this.token = token;
     }
 
-    public NKPayAsyncTask_CreateCustomer(Context context, NKPayApiCreateCustomerListener listener) {
+    public NKPushAsyncTask_SendToken(Context context, NKPushSendTokenListener listener, String device_id, String token) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
+        this.device_id = device_id;
+        this.token = token;
     }
 
     @Override
     protected Void doInBackground(Void... arg0) {
         putValuesAndCall();
-        if (NKApiManagerUtils.hasMapOkResults(map, true)) {
+        if (NKApiManagerUtils.hasMapOkResults(map, false)) {
             result = NKApiManagerConfig.RESULT_OK;
         } else {
             if (map.containsKey(NKApiManagerConfig.AM_RESULT)) {
@@ -79,13 +92,8 @@ public class NKPayAsyncTask_CreateCustomer extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-    public void putValuesAndCall() {
-        ContentValues values = new ContentValues();
-        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_CUSTOMER, values,
-                NKApiManagerConfig.MODE_POST, true, false);
-    }
-
-    protected void onPostExecute(Void postResult) {
+    @Override
+    protected void onPostExecute(Void aVoid) {
         if (weakContext != null) {
             if (listener == null) {
                 Intent i = new Intent(action);
@@ -94,13 +102,20 @@ public class NKPayAsyncTask_CreateCustomer extends AsyncTask<Void, Void, Void> {
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
-                    listener.onCustomerCreatedError(error);
+                    listener.onTokenSentError(error);
                 } else {
-                    listener.onCustomerCreated();
+                    listener.onTokenSent();
                 }
             }
         }
     }
 
+    public void putValuesAndCall() {
+        ContentValues values = new ContentValues();
+        values.put("token", token);
+        values.put("device_id", device_id);
+        values.put("platform", "and");
+        map = NKAPIManager3.callApi(weakContext.get(),
+                NKApiManagerConfig.API_TOKENS_PUSH, values, NKApiManagerConfig.MODE_POST, false, true);
+    }
 }
-

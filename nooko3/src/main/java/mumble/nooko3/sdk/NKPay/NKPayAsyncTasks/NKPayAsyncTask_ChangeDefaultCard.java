@@ -89,7 +89,7 @@ public class NKPayAsyncTask_ChangeDefaultCard extends AsyncTask<Void, Void, Void
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
         String api = NKApiManagerConfig.API_CARDS + "/" + card_id + NKApiManagerConfig.API_DEFAULT_PART;
-        map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_GET, false);
+        map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_GET, false, false);
     }
 
     protected void onPostExecute(Void postResult) {

@@ -149,7 +149,7 @@ public class NKAsyncTask_getSections extends AsyncTask<Void, Void, Void> {
         }
 
         NKCommonMethods.addFilters(values, filters);
-        map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_GET, true);
+        map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_GET, true, false);
     }
 
     public void getPayload(String sPayload) {

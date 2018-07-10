@@ -123,7 +123,7 @@ public class NKAsyncTask_getSection extends AsyncTask<Void, Void, Void> {
             values.put("include", "elements");
         }
 
-        map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_GET, true);
+        map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_GET, true, false);
     }
 
     public void getPayload(String sPayload) {

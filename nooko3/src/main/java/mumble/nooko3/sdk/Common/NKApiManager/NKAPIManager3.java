@@ -1,4 +1,5 @@
 package mumble.nooko3.sdk.Common.NKApiManager;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.provider.Settings;
@@ -23,27 +24,30 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
-import mumble.nooko3.sdk.Common.NKConstants.NKConstants;
-import mumble.nooko3.sdk.Common.NKCachingHelper;
-import mumble.nooko3.sdk.Common.NKConstants.NKUserConstants;
 import mumble.nooko3.R;
+import mumble.nooko3.sdk.Common.NKCachingHelper;
 import mumble.nooko3.sdk.Common.NKCommonMethods;
+import mumble.nooko3.sdk.Common.NKConstants.NKConstants;
+import mumble.nooko3.sdk.Common.NKConstants.NKUserConstants;
 
 /**
  * Static method class that wraps up web API calls and handles errors returning them to the user
  *
- * @author  Enrico Ori
+ * @author Enrico Ori
  * @version {@value NKConstants#version}
  */
 public class NKAPIManager3 {
 
-    /**Call api or check for cache if internet connection is not available*/
-    public static Map<String, Object> callApi(Context context, String api, ContentValues data, int type, boolean payload) {
+    /**
+     * Call api or check for cache if internet connection is not available
+     */
+    public static Map<String, Object> callApi(Context context, String api, ContentValues data, int type,
+                                              boolean payload, boolean pushApi) {
         Map<String, Object> map = new HashMap<>();
         NKCachingHelper helper3 = new NKCachingHelper(context);
         if (NKApiManagerUtils.isNetworkAvailable(context)) {
             NKApiManagerUtils.installCertificates(context);
-            map = callForData(context, api, data, type, payload);
+            map = callForData(context, api, data, type, payload, pushApi);
             if (map != null) {
                 if (NKUserConstants.cachingEnabled) {
                     if (payload) {
@@ -87,8 +91,11 @@ public class NKAPIManager3 {
         return map;
     }
 
-    /**Call api and retrieve data from web, if an error is present it will be saved inside the returning Map*/
-    private static Map<String, Object> callForData(Context context, String api, ContentValues postData, int mode, boolean payload) {
+    /**
+     * Call api and retrieve data from web, if an error is present it will be saved inside the returning Map
+     */
+    private static Map<String, Object> callForData(Context context, String api, ContentValues postData, int mode,
+                                                   boolean payload, boolean pushApi) {
         StringBuilder builder;
         Map<String, Object> map = new HashMap<>();
         HttpURLConnection urlConnection = null;
@@ -97,19 +104,19 @@ public class NKAPIManager3 {
         try {
             switch (mode) {
                 case NKApiManagerConfig.MODE_GET:
-                    urlConnection = initializeGetConnection(context, api, postData);
+                    urlConnection = initializeGetConnection(context, api, postData, pushApi);
                     break;
 
                 case NKApiManagerConfig.MODE_POST:
-                    urlConnection = initializePostDeleteConnection(context, api, postData, "POST");
+                    urlConnection = initializePostDeleteConnection(context, api, postData, "POST", pushApi);
                     break;
 
                 case NKApiManagerConfig.MODE_DELETE:
-                    urlConnection = initializePostDeleteConnection(context, api, postData, "DELETE");
+                    urlConnection = initializePostDeleteConnection(context, api, postData, "DELETE", pushApi);
                     break;
 
                 case NKApiManagerConfig.MODE_PUT:
-                    urlConnection = initializePostDeleteConnection(context, api, postData, "PUT");
+                    urlConnection = initializePostDeleteConnection(context, api, postData, "PUT", pushApi);
                     break;
             }
 
@@ -172,9 +179,11 @@ public class NKAPIManager3 {
         return map;
     }
 
-    /**Takes the API response and encapsulate it in a JSON, retieving payload and result*/
+    /**
+     * Takes the API response and encapsulate it in a JSON, retieving payload and result
+     */
     private static Map<String, Object> parseResponse(HttpURLConnection urlConnection, StringBuilder builder,
-                                                    boolean payload) throws IOException, JSONException {
+                                                     boolean payload) throws IOException, JSONException {
         Map<String, Object> map = new HashMap<>();
         int iResponse = urlConnection.getResponseCode();
         NKApiManagerUtils.doLogging("NOOKO3 RESPONSE " + Integer.toString(iResponse));
@@ -206,30 +215,48 @@ public class NKAPIManager3 {
         }
     }
 
-    /**Initialize connection with method (POST, PUT, DELETE) with all data inside the ContentValues*/
-    private static HttpsURLConnection initializePostDeleteConnection(Context context, String api, ContentValues postData, String method)
+    /**
+     * Initialize connection with method (POST, PUT, DELETE) with all data inside the ContentValues
+     */
+    private static HttpsURLConnection initializePostDeleteConnection(Context context, String api, ContentValues postData,
+                                                                     String method, final boolean pushApi)
             throws IOException {
 
         HttpsURLConnection urlConnection = null;
         URL url = null;
         HostnameVerifier hostnameVerifier = null;
-        if(NKUserConstants.devMode){
-            url = new URL(NKApiManagerConfig.endpoint_dev + api);
+        if (NKUserConstants.devMode) {
+            if (pushApi) {
+                url = new URL(NKApiManagerConfig.endpoint_push + api);
+            } else {
+                url = new URL(NKApiManagerConfig.endpoint_dev + api);
+            }
             hostnameVerifier = new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
                     HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                    return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME_DEV, session);
+                    if (pushApi) {
+                        return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME_PUSH, session);
+                    } else {
+                        return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME_DEV, session);
+                    }
                 }
             };
-        }
-        else {
-            url = new URL(NKApiManagerConfig.endpoint + api);
+        } else {
+            if (pushApi) {
+                url = new URL(NKApiManagerConfig.endpoint_push + api);
+            } else {
+                url = new URL(NKApiManagerConfig.endpoint + api);
+            }
             hostnameVerifier = new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
                     HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                    return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME, session);
+                    if (pushApi) {
+                        return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME_PUSH, session);
+                    } else {
+                        return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME, session);
+                    }
                 }
             };
         }
@@ -260,30 +287,48 @@ public class NKAPIManager3 {
         return urlConnection;
     }
 
-    /**Initialize a GET connection with all data inside the ContentValues*/
-    private static HttpsURLConnection initializeGetConnection(Context context, String api, ContentValues postData) throws IOException{
+    /**
+     * Initialize a GET connection with all data inside the ContentValues
+     */
+    private static HttpsURLConnection initializeGetConnection(Context context, String api,
+                                                              ContentValues postData, final boolean pushApi) throws IOException {
         addNecessaryPostData(context, postData);
 
         HttpsURLConnection urlConnection = null;
         URL url = null;
         HostnameVerifier hostnameVerifier = null;
-        if(NKUserConstants.devMode){
-            url = new URL(NKApiManagerConfig.endpoint_dev + api + NKApiManagerUtils.getGETQuery(postData));
+        if (NKUserConstants.devMode) {
+            if (pushApi) {
+                url = new URL(NKApiManagerConfig.endpoint_push + api + NKApiManagerUtils.getGETQuery(postData));
+            } else {
+                url = new URL(NKApiManagerConfig.endpoint_dev + api + NKApiManagerUtils.getGETQuery(postData));
+            }
             hostnameVerifier = new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
                     HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                    return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME_DEV, session);
+                    if (pushApi) {
+                        return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME_PUSH, session);
+                    } else {
+                        return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME_DEV, session);
+                    }
                 }
             };
-        }
-        else {
-            url = new URL(NKApiManagerConfig.endpoint + api + NKApiManagerUtils.getGETQuery(postData));
+        } else {
+            if (pushApi) {
+                url = new URL(NKApiManagerConfig.endpoint_push + api + NKApiManagerUtils.getGETQuery(postData));
+            } else {
+                url = new URL(NKApiManagerConfig.endpoint + api + NKApiManagerUtils.getGETQuery(postData));
+            }
             hostnameVerifier = new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
                     HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                    return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME, session);
+                    if (pushApi) {
+                        return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME_PUSH, session);
+                    } else {
+                        return hv.verify(NKApiManagerConfig.SERVER_HOSTNAME, session);
+                    }
                 }
             };
         }
@@ -305,7 +350,9 @@ public class NKAPIManager3 {
         return urlConnection;
     }
 
-    /**Adds basic data common to all calls, handled automatically so the developer has not to worry about it*/
+    /**
+     * Adds basic data common to all calls, handled automatically so the developer has not to worry about it
+     */
     private static void addNecessaryPostData(Context context, ContentValues postData) {
         postData.put("device_id", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
     }

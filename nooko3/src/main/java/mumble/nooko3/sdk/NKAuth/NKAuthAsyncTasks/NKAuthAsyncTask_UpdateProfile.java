@@ -174,7 +174,7 @@ public class NKAuthAsyncTask_UpdateProfile extends AsyncTask<Void, Void, Void> {
         }
 
         map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_PROFILE_UPDATE,
-                values, NKApiManagerConfig.MODE_POST, true);
+                values, NKApiManagerConfig.MODE_POST, true, false);
     }
 
     protected void onPostExecute(Void postResult) {

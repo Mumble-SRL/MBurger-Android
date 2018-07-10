@@ -159,7 +159,7 @@ public class NKPayAsyncTask_Subscribe extends AsyncTask<Void, Void, Void> {
         }
 
         map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_SUBSCRIBE, values,
-                NKApiManagerConfig.MODE_POST, false);
+                NKApiManagerConfig.MODE_POST, false, false);
     }
 
     protected void onPostExecute(Void postResult) {

@@ -88,6 +88,6 @@ public class NKAsyncTask_sendLiveMessage extends AsyncTask<Void, Void, Void> {
         values.put("text", text);
         values.put("sender_name", sender_name);
         map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_SEND_LIVE_MESSAGE, values,
-                NKApiManagerConfig.MODE_POST, true);
+                NKApiManagerConfig.MODE_POST, true, false);
     }
 }

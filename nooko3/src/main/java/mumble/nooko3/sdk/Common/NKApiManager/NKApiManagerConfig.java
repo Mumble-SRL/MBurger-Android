@@ -14,6 +14,8 @@ public class NKApiManagerConfig {
     public static String SERVER_HOSTNAME = "nooko2.mumbleserver.it";
     public static String endpoint_dev = "https://nooko2-dev.mumbleserver.it";
     public static String SERVER_HOSTNAME_DEV = "nooko2-dev.mumbleserver.it";
+    public static final String endpoint_push = "https://push.mumbleserver.it";
+    public static final String SERVER_HOSTNAME_PUSH = "push.mumbleserver.it";
 
     public static final int MODE_POST = -1;
     public static final int MODE_GET = -2;
@@ -52,6 +54,12 @@ public class NKApiManagerConfig {
     public static final String API_CARDS = "/api/cards";
     public static final String API_DEFAULT_PART = "/default";
     public static final String API_CUSTOMER = "/api/customer";
+
+    /**
+     * PUSH API
+     */
+    public static final String API_TOKENS_PUSH = "/api/tokens";
+    public static final String API_REGISTER_TOPICS = "/api/register";
 
     /**
      * ERRORS

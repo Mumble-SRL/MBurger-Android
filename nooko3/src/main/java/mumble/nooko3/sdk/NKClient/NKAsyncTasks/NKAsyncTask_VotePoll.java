@@ -100,7 +100,7 @@ public class NKAsyncTask_VotePoll extends AsyncTask<Void, Void, Void> {
         values.put("element_id", Long.toString(element_id));
         values.put("vote", Integer.toString(vote));
         map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_VOTE_POLL, values,
-                NKApiManagerConfig.MODE_POST, true);
+                NKApiManagerConfig.MODE_POST, true, false);
     }
 
     public void getPayload(String sPayload) {

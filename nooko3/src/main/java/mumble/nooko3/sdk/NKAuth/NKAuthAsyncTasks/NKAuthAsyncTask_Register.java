@@ -170,7 +170,8 @@ public class NKAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
             values.put("data", data);
         }
 
-        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_REGISTER, values, NKApiManagerConfig.MODE_POST, false);
+        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_REGISTER, values,
+                NKApiManagerConfig.MODE_POST, false, false);
     }
 
     protected void onPostExecute(Void postResult) {

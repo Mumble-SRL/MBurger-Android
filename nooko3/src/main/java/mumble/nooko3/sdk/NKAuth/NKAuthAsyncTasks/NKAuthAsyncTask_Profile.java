@@ -92,7 +92,7 @@ public class NKAuthAsyncTask_Profile extends AsyncTask<Void, Void, Void> {
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
         map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_PROFILE, values,
-                NKApiManagerConfig.MODE_GET, true);
+                NKApiManagerConfig.MODE_GET, true, false);
     }
 
     protected void onPostExecute(Void postResult) {

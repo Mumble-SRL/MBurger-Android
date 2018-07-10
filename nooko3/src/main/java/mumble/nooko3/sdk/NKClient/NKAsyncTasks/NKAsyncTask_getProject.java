@@ -109,7 +109,8 @@ public class NKAsyncTask_getProject extends AsyncTask<Void, Void, Void> {
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_PROJECT, values, NKApiManagerConfig.MODE_GET, true);
+        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_PROJECT, values,
+                NKApiManagerConfig.MODE_GET, true, false);
     }
 
     public void getPayload(String sPayload) {

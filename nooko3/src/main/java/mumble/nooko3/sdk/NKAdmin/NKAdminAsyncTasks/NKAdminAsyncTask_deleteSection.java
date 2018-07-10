@@ -108,6 +108,6 @@ public class NKAdminAsyncTask_deleteSection extends AsyncTask<Void, Void, Void> 
 
     public void putValuesAndCall() {
         String api = NKApiManagerConfig.API + NKApiManagerConfig.API_SECTION + "/" + Long.toString(section_id);
-        map = NKAPIManager3.callApi(weakContext.get(), api, new ContentValues(), NKApiManagerConfig.MODE_DELETE, false);
+        map = NKAPIManager3.callApi(weakContext.get(), api, new ContentValues(), NKApiManagerConfig.MODE_DELETE, false, false);
     }
 }

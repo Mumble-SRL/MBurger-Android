@@ -3,6 +3,7 @@ package mumble.nooko3.sdk.Common.NKConstants;
 import mumble.nooko3.sdk.NKAdmin.NKAdminAsyncTasks.NKAdminAsyncTask_deleteSection;
 import mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_Authenticate;
 import mumble.nooko3.sdk.NKAuth.NKAuthAsyncTasks.NKAuthAsyncTask_Register;
+import mumble.nooko3.sdk.NKPush.NKPushAsyncTasks.NKPushAsyncTask_SendToken;
 
 public class NKAPIConstants {
 
@@ -83,5 +84,8 @@ public class NKAPIConstants {
 
     /**Used with the API {@link mumble.nooko3.sdk.NKPay.NKPayAsyncTasks.NKPayAsyncTask_GetCards NKPayAsyncTask_GetCards}*/
     public static final String ACTION_GET_CARDS = "mumble.nooko3.ACTION_GET_CARDS";
+
+    /**Used with the API {@link NKPushAsyncTask_SendToken NKPayAsyncTask_GetCards}*/
+    public static final String ACTION_SEND_TOKEN = "mumble.nooko3.ACTION_SEND_TOKEN";
 
 }

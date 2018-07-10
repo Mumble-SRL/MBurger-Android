@@ -125,7 +125,7 @@ public class NKAsyncTask_getElements extends AsyncTask<Void, Void, Void> {
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
         String api = "/api" + NKApiManagerConfig.API_SECTION + "/" + Long.toString(section_id) + NKApiManagerConfig.API_ELEMENTS;
-        map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_GET, true);
+        map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_GET, true, false);
     }
 
     public void getPayload(String sPayload) {

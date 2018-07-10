@@ -92,7 +92,7 @@ public class NKPayAsyncTask_CancelSubscription extends AsyncTask<Void, Void, Voi
         ContentValues values = new ContentValues();
         values.put("subscription", subscription);
         map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_SUBSCRIBE_CANCEL, values,
-                NKApiManagerConfig.MODE_POST, false);
+                NKApiManagerConfig.MODE_POST, false, false);
     }
 
     protected void onPostExecute(Void postResult) {

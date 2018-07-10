@@ -111,7 +111,7 @@ public class NKAuthAsyncTask_Authenticate extends AsyncTask<Void, Void, Void> {
         values.put("password", password);
         values.put("mode", "email");
         map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_AUTHENTICATE, values,
-                NKApiManagerConfig.MODE_POST, true);
+                NKApiManagerConfig.MODE_POST, true, false);
     }
 
     protected void onPostExecute(Void postResult) {
