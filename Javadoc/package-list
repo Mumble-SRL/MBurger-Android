@@ -23,3 +23,11 @@ mumble.nooko3.sdk.NKData.NKElements.NKSubElements
 mumble.nooko3.sdk.NKData.NKProjects
 mumble.nooko3.sdk.NKData.NKSections
 mumble.nooko3.sdk.NKMapper
+mumble.nooko3.sdk.NKPay
+mumble.nooko3.sdk.NKPay.NKPayAsyncTasks
+mumble.nooko3.sdk.NKPay.NKPayData
+mumble.nooko3.sdk.NKPay.NKPayResultsListener
+mumble.nooko3.sdk.NKPush
+mumble.nooko3.sdk.NKPush.NKPushAsyncTasks
+mumble.nooko3.sdk.NKPush.NKPushResultsListener
+mumble.nooko3.sdk.test.Auth
