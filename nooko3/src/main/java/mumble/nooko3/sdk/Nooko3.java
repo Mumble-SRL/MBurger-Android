@@ -40,4 +40,8 @@ public class Nooko3 {
         NKUserConstants.cachingEnabled = true;
         NKUserConstants.cachingTime = cachingDuration;
     }
+
+    public static void initPush(String token){
+        NKUserConstants.pushKey = token;
+    }
 }

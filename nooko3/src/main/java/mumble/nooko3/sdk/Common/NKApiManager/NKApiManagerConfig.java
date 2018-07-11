@@ -60,6 +60,8 @@ public class NKApiManagerConfig {
      */
     public static final String API_TOKENS_PUSH = "/api/tokens";
     public static final String API_REGISTER_TOPICS = "/api/register";
+    public static final String API_UNREGISTER_TOPICS = "/api/unregister";
+    public static final String API_UNREGISTER_ALL_TOPICS = "/api/unregister-all";
 
     /**
      * ERRORS

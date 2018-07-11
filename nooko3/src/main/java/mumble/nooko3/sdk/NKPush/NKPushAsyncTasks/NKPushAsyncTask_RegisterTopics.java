@@ -42,7 +42,7 @@ public class NKPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> 
     /**
      * If you wish to change the action that accompanies the API result
      */
-    private String action = NKAPIConstants.ACTION_CANCEL_SUBSCRIPTION;
+    private String action = NKAPIConstants.ACTION_REGISTER_TOPICS;
 
     /**
      * If you wish to use a listener to retrieve the data instead of the ApiListener

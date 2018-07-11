@@ -273,6 +273,10 @@ public class NKAPIManager3 {
             urlConnection.setRequestProperty("Authorization", "Bearer " + NKCommonMethods.getAccessToken(context));
         }
 
+        if(pushApi){
+            urlConnection.setRequestProperty("X-MPush-Token", NKUserConstants.pushKey);
+        }
+
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(false);
 
@@ -345,6 +349,10 @@ public class NKAPIManager3 {
         urlConnection.setRequestProperty("Accept", "application/json");
         if (NKCommonMethods.hasLoggedIn(context)) {
             urlConnection.setRequestProperty("Authorization", "Bearer " + NKCommonMethods.getAccessToken(context));
+        }
+
+        if(pushApi){
+            urlConnection.setRequestProperty("X-MPush-Token", NKUserConstants.pushKey);
         }
 
         return urlConnection;

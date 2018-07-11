@@ -3,7 +3,7 @@ package mumble.nooko3.sdk.NKPush.NKPushResultsListener;
 import mumble.nooko3.sdk.Common.NKConstants.NKConstants;
 
 /**
- * Interface to use with {@link NKPushRegisterTopicsListener (Context)}, and similar, methods,
+ * Interface to use with {@link mumble.nooko3.sdk.NKPush.NKPushAsyncTasks.NKPushAsyncTask_RegisterTopics (Context)}, and similar, methods,
  * send the push token
  *
  * @author Enrico Ori

@@ -19,6 +19,9 @@ public class NKUserConstants {
     /**Boolean that indicates if API are used in development mode, initialized with {@link Nooko3#initialize(String, boolean)} method*/
     public static boolean devMode = false;
 
+    /**Push API key obtained from Nooko Push project, initialized with {@link Nooko3#initPush(String)} (String)} method*/
+    public static String pushKey = null;
+
     /**Default caching time for the data taken down by API (3 days)*/
     private static long defaultCaching = TimeUnit.DAYS.toMillis(3);
 

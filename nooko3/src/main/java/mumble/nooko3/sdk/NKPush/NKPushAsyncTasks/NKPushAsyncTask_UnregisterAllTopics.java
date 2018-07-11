@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import org.json.JSONArray;
+
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
@@ -15,9 +17,10 @@ import mumble.nooko3.sdk.Common.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.Common.NKApiManager.NKApiManagerUtils;
 import mumble.nooko3.sdk.Common.NKCommonMethods;
 import mumble.nooko3.sdk.Common.NKConstants.NKAPIConstants;
-import mumble.nooko3.sdk.NKPush.NKPushResultsListener.NKPushSendTokenListener;
+import mumble.nooko3.sdk.NKPush.NKPushResultsListener.NKPushUnregisterAllTopicsListener;
+import mumble.nooko3.sdk.NKPush.NKPushResultsListener.NKPushUnregisterTopicsListener;
 
-public class NKPushAsyncTask_SendToken extends AsyncTask<Void, Void, Void> {
+public class NKPushAsyncTask_UnregisterAllTopics extends AsyncTask<Void, Void, Void> {
 
     /**
      * Context reference used to send data to Activity/Fragment
@@ -32,43 +35,34 @@ public class NKPushAsyncTask_SendToken extends AsyncTask<Void, Void, Void> {
     private String device_id;
 
     /**
-     * Push token obtained from Firebase
-     */
-    @NonNull
-    private String token;
-
-    /**
      * If you wish to change the action that accompanies the API result
      */
-    private String action = NKAPIConstants.ACTION_SEND_TOKEN;
+    private String action = NKAPIConstants.ACTION_UNREGISTER_ALL_TOPICS;
 
     /**
      * If you wish to use a listener to retrieve the data instead of the ApiListener
      */
-    private NKPushSendTokenListener listener;
+    private NKPushUnregisterAllTopicsListener listener;
 
     private int result = NKApiManagerConfig.COMMON_INTERNAL_ERROR;
     private String error;
     private Map<String, Object> map;
 
-    public NKPushAsyncTask_SendToken(Context context, String device_id, String token) {
+    public NKPushAsyncTask_UnregisterAllTopics(Context context, String device_id) {
         this.weakContext = new WeakReference<>(context);
         this.device_id = device_id;
-        this.token = token;
     }
 
-    public NKPushAsyncTask_SendToken(Context context, String cutom_action, String device_id, String token) {
+    public NKPushAsyncTask_UnregisterAllTopics(Context context, String custom_action, String device_id) {
         this.weakContext = new WeakReference<>(context);
-        this.action = cutom_action;
+        this.action = custom_action;
         this.device_id = device_id;
-        this.token = token;
     }
 
-    public NKPushAsyncTask_SendToken(Context context, NKPushSendTokenListener listener, String device_id, String token) {
+    public NKPushAsyncTask_UnregisterAllTopics(Context context, NKPushUnregisterAllTopicsListener listener, String device_id) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
         this.device_id = device_id;
-        this.token = token;
     }
 
     @Override
@@ -102,9 +96,9 @@ public class NKPushAsyncTask_SendToken extends AsyncTask<Void, Void, Void> {
                 NAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
-                    listener.onTokenSentError(error);
+                    listener.onAllTopicsUnregisteredError(error);
                 } else {
-                    listener.onTokenSent();
+                    listener.onAllTopicsUnregistered();
                 }
             }
         }
@@ -112,10 +106,8 @@ public class NKPushAsyncTask_SendToken extends AsyncTask<Void, Void, Void> {
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        values.put("token", token);
         values.put("device_id", device_id);
-        values.put("platform", "and");
         map = NKAPIManager3.callApi(weakContext.get(),
-                NKApiManagerConfig.API_TOKENS_PUSH, values, NKApiManagerConfig.MODE_POST, false, true);
+                NKApiManagerConfig.API_UNREGISTER_ALL_TOPICS, values, NKApiManagerConfig.MODE_POST, false, true);
     }
 }

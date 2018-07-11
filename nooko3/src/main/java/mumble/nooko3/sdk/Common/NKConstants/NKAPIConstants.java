@@ -88,4 +88,13 @@ public class NKAPIConstants {
     /**Used with the API {@link NKPushAsyncTask_SendToken NKPayAsyncTask_GetCards}*/
     public static final String ACTION_SEND_TOKEN = "mumble.nooko3.ACTION_SEND_TOKEN";
 
+    /**Used with the API {@link mumble.nooko3.sdk.NKPush.NKPushAsyncTasks.NKPushAsyncTask_RegisterTopics NKPushAsyncTask_RegisterTopics}*/
+    public static final String ACTION_REGISTER_TOPICS = "mumble.nooko3.ACTION_REGISTER_TOPICS";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKPush.NKPushAsyncTasks.NKPushAsyncTask_UnregisterTopics NKPushAsyncTask_UnregisterTopics}*/
+    public static final String ACTION_UNREGISTER_TOPICS = "mumble.nooko3.ACTION_UNREGISTER_TOPICS";
+
+    /**Used with the API {@link mumble.nooko3.sdk.NKPush.NKPushAsyncTasks.NKPushAsyncTask_UnregisterAllTopics NKPushAsyncTask_UnregisterAllTopics}*/
+    public static final String ACTION_UNREGISTER_ALL_TOPICS = "mumble.nooko3.ACTION_UNREGISTER_ALL_TOPICS";
+
 }
