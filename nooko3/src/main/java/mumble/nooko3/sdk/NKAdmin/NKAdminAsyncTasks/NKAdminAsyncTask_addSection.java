@@ -198,6 +198,8 @@ public class NKAdminAsyncTask_addSection extends AsyncTask<Void, Void, Void> {
     public void getPayload(String sPayload) {
         try {
             JSONObject jPayload = new JSONObject(sPayload);
+            JSONObject jBody = jPayload.getJSONObject("body");
+            section_id = jBody.getLong("id");
         } catch (JSONException e) {
             e.printStackTrace();
         }
