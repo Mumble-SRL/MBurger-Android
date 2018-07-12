@@ -9,16 +9,17 @@ public class NKStripeSubscription implements Serializable{
     private String stripe_id;
     private String stripe_plan;
     private int quantity;
-    private boolean ends_at;
-    private boolean trial_ends_at;
+    private long ends_at;
+    private long trial_ends_at;
     private long created_at;
+    private long expires_at;
     private boolean valid;
     private boolean trial;
     private boolean grace_period;
     private boolean cancelled;
 
-    public NKStripeSubscription(long id, String name, String stripe_id, String stripe_plan, int quantity, boolean ends_at,
-                                boolean trial_ends_at, long created_at, boolean valid, boolean trial,
+    public NKStripeSubscription(long id, String name, String stripe_id, String stripe_plan, int quantity, long ends_at,
+                                long trial_ends_at, long created_at, long expires_at, boolean valid, boolean trial,
                                 boolean grace_period, boolean cancelled) {
         this.id = id;
         this.name = name;
@@ -28,6 +29,7 @@ public class NKStripeSubscription implements Serializable{
         this.ends_at = ends_at;
         this.trial_ends_at = trial_ends_at;
         this.created_at = created_at;
+        this.expires_at = expires_at;
         this.valid = valid;
         this.trial = trial;
         this.grace_period = grace_period;
@@ -74,19 +76,19 @@ public class NKStripeSubscription implements Serializable{
         this.quantity = quantity;
     }
 
-    public boolean isEnds_at() {
+    public long getEnds_at() {
         return ends_at;
     }
 
-    public void setEnds_at(boolean ends_at) {
+    public void setEnds_at(long ends_at) {
         this.ends_at = ends_at;
     }
 
-    public boolean isTrial_ends_at() {
+    public long getTrial_ends_at() {
         return trial_ends_at;
     }
 
-    public void setTrial_ends_at(boolean trial_ends_at) {
+    public void setTrial_ends_at(long trial_ends_at) {
         this.trial_ends_at = trial_ends_at;
     }
 
@@ -96,6 +98,14 @@ public class NKStripeSubscription implements Serializable{
 
     public void setCreated_at(long created_at) {
         this.created_at = created_at;
+    }
+
+    public long getExpires_at() {
+        return expires_at;
+    }
+
+    public void setExpires_at(long expires_at) {
+        this.expires_at = expires_at;
     }
 
     public boolean isValid() {

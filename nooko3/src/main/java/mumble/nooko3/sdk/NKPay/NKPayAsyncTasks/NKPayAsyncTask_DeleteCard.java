@@ -89,7 +89,8 @@ public class NKPayAsyncTask_DeleteCard extends AsyncTask<Void, Void, Void> {
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
         String api = NKApiManagerConfig.API_CARDS + "/" + card_id;
-        map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_DELETE, false, false);
+        map = NKAPIManager3.callApi(weakContext.get(), api, values, NKApiManagerConfig.MODE_DELETE,
+                false, false);
     }
 
     protected void onPostExecute(Void postResult) {

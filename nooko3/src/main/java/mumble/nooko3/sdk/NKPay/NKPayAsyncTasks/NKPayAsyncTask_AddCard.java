@@ -90,7 +90,7 @@ public class NKPayAsyncTask_AddCard extends AsyncTask<Void, Void, Void> {
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
         values.put("token", token);
-        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_SUBSCRIBE_CANCEL, values,
+        map = NKAPIManager3.callApi(weakContext.get(), NKApiManagerConfig.API_CARDS, values,
                 NKApiManagerConfig.MODE_POST, false, false);
     }
 

@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Map;
 
+import mumble.nooko3.sdk.Common.NKParser;
 import mumble.nooko3.sdk.NKAdmin.NKAdminData.NKAdminParameter;
 import mumble.nooko3.sdk.NKAdmin.NKAdminData.NKAdminParameterFile;
 import mumble.nooko3.sdk.NKAdmin.NKAdminData.NKAdminSingleFile;
@@ -109,7 +113,8 @@ public class NKAdminAsyncTask_addSection extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... arg0) {
         putValuesAndCall();
-        if (NKApiManagerUtils.hasMapOkResults(map, false)) {
+        if (NKApiManagerUtils.hasMapOkResults(map, true)) {
+            getPayload((String) map.get(NKApiManagerConfig.AM_PAYLOAD));
             result = NKApiManagerConfig.RESULT_OK;
         } else {
             if (map.containsKey(NKApiManagerConfig.AM_RESULT)) {
@@ -190,4 +195,11 @@ public class NKAdminAsyncTask_addSection extends AsyncTask<Void, Void, Void> {
         return builder.toString();
     }
 
+    public void getPayload(String sPayload) {
+        try {
+            JSONObject jPayload = new JSONObject(sPayload);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

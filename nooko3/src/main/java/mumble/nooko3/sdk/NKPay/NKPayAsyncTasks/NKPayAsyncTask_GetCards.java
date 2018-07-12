@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,6 +20,7 @@ import mumble.nooko3.sdk.Common.NKApiManager.NKApiManagerConfig;
 import mumble.nooko3.sdk.Common.NKApiManager.NKApiManagerUtils;
 import mumble.nooko3.sdk.Common.NKCommonMethods;
 import mumble.nooko3.sdk.Common.NKConstants.NKAPIConstants;
+import mumble.nooko3.sdk.Common.NKParser;
 import mumble.nooko3.sdk.NKPay.NKPayData.NKStripeCard;
 import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiResumeSubscriptionListener;
 import mumble.nooko3.sdk.NKPay.NKPayResultsListener.NKPayApiCardsListener;
@@ -65,6 +70,7 @@ public class NKPayAsyncTask_GetCards extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... arg0) {
         putValuesAndCall();
         if (NKApiManagerUtils.hasMapOkResults(map, true)) {
+            getPayload((String) map.get(NKApiManagerConfig.AM_PAYLOAD));
             result = NKApiManagerConfig.RESULT_OK;
         } else {
             if (map.containsKey(NKApiManagerConfig.AM_RESULT)) {
@@ -102,6 +108,16 @@ public class NKPayAsyncTask_GetCards extends AsyncTask<Void, Void, Void> {
                     listener.onCardsObtained(cards);
                 }
             }
+        }
+    }
+
+    public void getPayload(String sPayload) {
+        try {
+            JSONObject jPayload = new JSONObject(sPayload);
+            JSONArray jCards = jPayload.getJSONArray("body");
+            cards = NKParser.parseCards(jCards);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

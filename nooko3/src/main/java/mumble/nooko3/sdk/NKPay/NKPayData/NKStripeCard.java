@@ -7,13 +7,14 @@ public class NKStripeCard implements Serializable{
     private String stripe_id;
     private String last4;
     private String brand;
-    private long expiration_date;
+    private int exp_month, exp_year;
 
-    public NKStripeCard(String stripe_id, String last4, String brand, long expiration_date) {
+    public NKStripeCard(String stripe_id, String last4, String brand, int exp_month, int exp_year) {
         this.stripe_id = stripe_id;
         this.last4 = last4;
         this.brand = brand;
-        this.expiration_date = expiration_date;
+        this.exp_month = exp_month;
+        this.exp_year = exp_year;
     }
 
     public String getStripe_id() {
@@ -40,11 +41,19 @@ public class NKStripeCard implements Serializable{
         this.brand = brand;
     }
 
-    public long getExpiration_date() {
-        return expiration_date;
+    public int getExp_month() {
+        return exp_month;
     }
 
-    public void setExpiration_date(long expiration_date) {
-        this.expiration_date = expiration_date;
+    public void setExp_month(int exp_month) {
+        this.exp_month = exp_month;
+    }
+
+    public int getExp_year() {
+        return exp_year;
+    }
+
+    public void setExp_year(int exp_year) {
+        this.exp_year = exp_year;
     }
 }

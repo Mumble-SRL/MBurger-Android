@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import mumble.nooko3.sdk.Common.NKConstants.NKConstants;
 import mumble.nooko3.sdk.NKAuth.NKAuthData.NKAuthUser;
+import mumble.nooko3.sdk.NKPay.NKPayData.NKStripeCard;
 import mumble.nooko3.sdk.NKPay.NKPayData.NKStripeSubscription;
 import mumble.nooko3.sdk.NKData.NKAtomic.NKClass;
 import mumble.nooko3.sdk.NKData.NKBlocks.NKBlock;
@@ -449,7 +450,8 @@ public class NKParser {
         String name = null, stripe_id = null, stripe_plan = null;
         int quantity = 1;
         long created_at = -1;
-        boolean ends_at = false, trial_ends_at = false, valid = false, trial = false, grace_period = false, cancelled = false;
+        long ends_at = -1, trial_ends_at = -1, expires_at = -1;
+        boolean valid = false, trial = false, grace_period = false, cancelled = false;
 
         try {
             if (NKCommonMethods.isJSONOk(jsonObject, "id")) {
@@ -473,15 +475,19 @@ public class NKParser {
             }
 
             if (NKCommonMethods.isJSONOk(jsonObject, "ends_at")) {
-                ends_at = jsonObject.getBoolean("ends_at");
+                ends_at = TimeUnit.SECONDS.toMillis(jsonObject.getLong("ends_at"));
             }
 
             if (NKCommonMethods.isJSONOk(jsonObject, "trial_ends_at")) {
-                trial_ends_at = jsonObject.getBoolean("trial_ends_at");
+                trial_ends_at = TimeUnit.SECONDS.toMillis(jsonObject.getLong("trial_ends_at"));
             }
 
             if (NKCommonMethods.isJSONOk(jsonObject, "created_at")) {
                 created_at = TimeUnit.SECONDS.toMillis(jsonObject.getLong("created_at"));
+            }
+
+            if (NKCommonMethods.isJSONOk(jsonObject, "expires_at")) {
+                expires_at = TimeUnit.SECONDS.toMillis(jsonObject.getLong("expires_at"));
             }
 
             if (NKCommonMethods.isJSONOk(jsonObject, "valid")) {
@@ -504,6 +510,25 @@ public class NKParser {
         }
 
         return new NKStripeSubscription(id, name, stripe_id, stripe_plan, quantity, ends_at, trial_ends_at, created_at,
-                valid, trial, grace_period, cancelled);
+                expires_at, valid, trial, grace_period, cancelled);
+    }
+
+    public static ArrayList<NKStripeCard> parseCards(JSONArray jArr) {
+        ArrayList<NKStripeCard> cards = new ArrayList<>();
+        try {
+            for (int i = 0; i < jArr.length(); i++) {
+                JSONObject jObj = jArr.getJSONObject(i);
+                String id = jObj.getString("id");
+                String brand = jObj.getString("brand");
+                String last4 = jObj.getString("last4");
+                int exp_month = jObj.getInt("exp_month");
+                int exp_year = jObj.getInt("exp_year");
+                cards.add(new NKStripeCard(id, last4, brand, exp_month, exp_year));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return cards;
     }
 }

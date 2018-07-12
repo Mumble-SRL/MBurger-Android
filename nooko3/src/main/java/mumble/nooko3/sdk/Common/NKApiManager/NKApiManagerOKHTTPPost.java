@@ -30,13 +30,25 @@ public class NKApiManagerOKHTTPPost {
 
     public static Map<String, Object> callApi(Context context, String api, RequestBody requestBody, boolean payload) {
         Map<String, Object> map = new HashMap<>();
-        Request request = new Request.Builder()
-                .url(NKApiManagerConfig.endpoint + api)
-                .header("X-Nooko-Token", NKUserConstants.apiKey)
-                .header("X-Nooko-Version", "2")
-                .header("Accept", "application/json")
-                .post(requestBody)
-                .build();
+        Request request = null;
+        if(NKUserConstants.devMode){
+            request = new Request.Builder()
+                    .url(NKApiManagerConfig.endpoint_dev + api)
+                    .header("X-Nooko-Token", NKUserConstants.apiKey)
+                    .header("X-Nooko-Version", "2")
+                    .header("Accept", "application/json")
+                    .post(requestBody)
+                    .build();
+        }
+        else{
+            request = new Request.Builder()
+                    .url(NKApiManagerConfig.endpoint + api)
+                    .header("X-Nooko-Token", NKUserConstants.apiKey)
+                    .header("X-Nooko-Version", "2")
+                    .header("Accept", "application/json")
+                    .post(requestBody)
+                    .build();
+        }
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
