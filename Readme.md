@@ -456,7 +456,7 @@ boolean getSimpleValues = false;
 News n = (News) Nooko3Mapper.mapToCustomObject(nkSection, fieldsMapping, new News(), getSimpleValues);
 ```
 
-Pay attention that if you need to map images the SDK will return a `NKImages` object, which contains an array of `NKImage`, if you want an array of URLs you will have to set `getSimpleValues` to `true`. 
+Pay attention that if you need to map images the SDK will return a `MBImages` object, which contains an array of `NKImage`, if you want an array of URLs you will have to set `getSimpleValues` to `true`.
 
 > ```
 > Disclaimer:
