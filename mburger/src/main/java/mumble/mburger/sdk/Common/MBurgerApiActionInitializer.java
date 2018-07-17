@@ -203,6 +203,150 @@ public class MBurgerApiActionInitializer {
     }
 
     /**
+     * Initialize an activity/fragment to receive callback for adding credit card API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForAddCard(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_ADD_CARD};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for canceling subscription API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForCancelSubscription(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_CANCEL_SUBSCRIPTION};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for resume subscription API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForResumeSubscription(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_RESUME_SUBSCRIPTION};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for change default credit card API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForChangeDefaultCard(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_CHANGE_DEFAULT_CARD};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for create a Stripe customer API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForCreateCustomer(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_CREATE_CUSTOMER};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for delete credit card API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForDeleteCard(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_DELETE_CARD};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for getting credit card API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForGettingCard(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_GET_CARDS};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for subscribe to Stripe plan API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForSubscribe(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_SUBSCRIBE};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for sending InstanceID token API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForSendToken(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_SEND_TOKEN};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for register topics API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForRegisterTopics(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_REGISTER_TOPICS};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for unregister topics API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForUnregisterTopics(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_UNREGISTER_TOPICS};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Initialize an activity/fragment to receive callback for unregister all topics API
+     */
+    public static BroadcastReceiver initializeMBurgerReceiverForUnregisterAllTopics(Activity activity, MBGenericApiResultListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            String[] receivers = new String[]{MBAPIConstants.ACTION_UNREGISTER_ALL_TOPICS};
+            return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);
+        } else {
+            throw new MBSDKInitializeException(activity.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
      * Initialize an activity/fragment to receive custom data with custom actions
      */
     public static BroadcastReceiver initializeMBurgerReceiverCustom(Activity activity, MBGenericApiResultListener listener, String[] receivers) {

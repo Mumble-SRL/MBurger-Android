@@ -18,6 +18,7 @@ import mumble.mburger.sdk.Common.MBApiManager.MBAPIManager3;
 import mumble.mburger.sdk.Common.MBApiManager.MBApiManagerConfig;
 import mumble.mburger.sdk.Common.MBApiManager.MBAMActivityUtils;
 import mumble.mburger.sdk.Common.MBApiManager.MBApiManagerUtils;
+import mumble.mburger.sdk.Common.MBApiManager.MBApiPayloadKeys;
 import mumble.mburger.sdk.Common.MBCommonMethods;
 import mumble.mburger.sdk.Common.MBConstants.MBAPIConstants;
 import mumble.mburger.sdk.Common.MBParser;
@@ -99,6 +100,7 @@ public class MBPayAsyncTask_GetCards extends AsyncTask<Void, Void, Void> {
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
+                i.putExtra(MBApiPayloadKeys.key_credit_cards, cards);
                 MBAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {

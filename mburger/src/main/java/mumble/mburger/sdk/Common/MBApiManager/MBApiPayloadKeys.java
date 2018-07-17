@@ -86,4 +86,9 @@ public class MBApiPayloadKeys {
      */
     public static String key_profile = "profile";
 
+    /**
+     * My vote key, used with {@link mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_GetCards MBPayAsyncTask_GetCards}
+     */
+    public static String key_credit_cards = "cards";
+
 }
