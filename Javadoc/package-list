@@ -22,6 +22,7 @@ mumble.mburger.sdk.MBClient.MBData.MBElements
 mumble.mburger.sdk.MBClient.MBData.MBElements.MBSubElements
 mumble.mburger.sdk.MBClient.MBData.MBProjects
 mumble.mburger.sdk.MBClient.MBData.MBSections
+mumble.mburger.sdk.MBClient.MBMapper
 mumble.mburger.sdk.MBPay
 mumble.mburger.sdk.MBPay.MBPayAsyncTasks
 mumble.mburger.sdk.MBPay.MBPayData
@@ -29,5 +30,4 @@ mumble.mburger.sdk.MBPay.MBPayResultsListener
 mumble.mburger.sdk.MBPush
 mumble.mburger.sdk.MBPush.MBPushAsyncTasks
 mumble.mburger.sdk.MBPush.MBPushResultsListener
-mumble.mburger.sdk.NKMapper
 mumble.mburger.sdk.test.Auth
