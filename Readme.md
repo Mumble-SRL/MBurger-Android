@@ -129,14 +129,14 @@ private BroadcastReceiver bRec;
 @Override
 protected void onResume() {
     super.onResume();
-    bRec = MBurgerApiActionInitializer.initializeNookoReceiverForProject(this, this);
+    bRec = MBurgerApiActionInitializer.initializeMBurgerReceiverForProject(this, this);
     //Call api from this moment on
 }
 
 @Override
 protected void onPause() {
 	super.onPause();
-	MBurgerApiActionInitializer.pauseNookoReceiver(this, bRec);
+	MBurgerApiActionInitializer.pauseMBurgerReceiver(this, bRec);
 }
 
 @Override
@@ -196,14 +196,14 @@ MBurgerTasks.askForProject(this, new NKApiProjectResultListener() {
 @Override
 protected void onResume() {
 	super.onResume();
-    bRec = MBurgerApiActionInitializer.initializeNookoReceiverForProject(this, this);
+    bRec = MBurgerApiActionInitializer.initializeMBurgerReceiverForProject(this, this);
     MBurgerTasks.askForProject(this);
 }
 
 @Override
 protected void onPause() {
 	super.onPause();
-    MBurgerApiActionInitializer.pauseNookoReceiver(this, bRec);
+    MBurgerApiActionInitializer.pauseMBurgerReceiver(this, bRec);
 }
 
 @Override
@@ -253,7 +253,7 @@ MBurgerTasks.askForBlocks(this, arrayOfFilters, getSections, getElements,
 @Override
 protected void onResume() {
 	super.onResume();
-    bRec = MBurgerApiActionInitializer.initializeNookoReceiverForBlocks(this, this);
+    bRec = MBurgerApiActionInitializer.initializeMBurgerReceiverForBlocks(this, this);
 	
     //Add custom filters to the API call or leave it null
 	ArrayList<Object> arrayOfFilters = null;
@@ -270,7 +270,7 @@ protected void onResume() {
 @Override
 protected void onPause() {
 	super.onPause();
-    MBurgerApiActionInitializer.pauseNookoReceiver(this, bRec);
+    MBurgerApiActionInitializer.pauseMBurgerReceiver(this, bRec);
 }
 
 @Override
@@ -321,7 +321,7 @@ MBurgerTasks.askForSections(this, block_id, arrayOfFilters, getElements,
 @Override
 protected void onResume() {
 	super.onResume();
-	bRec = MBurgerApiActionInitializer.initializeNookoReceiverForSections(this, this);
+	bRec = MBurgerApiActionInitializer.initializeMBurgerReceiverForSections(this, this);
     
     //Add custom filters to the API call or leave it null
 	ArrayList<Object> arrayOfFilters = null;
@@ -337,7 +337,7 @@ protected void onResume() {
 @Override
 protected void onPause() {
 	super.onPause();
-    MBurgerApiActionInitializer.pauseNookoReceiver(this, bRec);
+    MBurgerApiActionInitializer.pauseMBurgerReceiver(this, bRec);
 }
 
 @Override
@@ -361,7 +361,7 @@ public void onApiResult(NKAPIResponse response) {
     protected void onResume() {
         super.onResume();
         String[] receivers = {MBAPIConstants.ACTION_GET_PROJECT, MBAPIConstants.ACTION_GET_BLOCKS};
-        bRec = MBurgerApiActionInitializer.initializeNookoReceiverCustom(this, this, receivers);
+        bRec = MBurgerApiActionInitializer.initializeMBurgerReceiverCustom(this, this, receivers);
         MBurgerTasks.askForProject(getApplicationContext());
         MBurgerTasks.askForBlocks(getApplicationContext(), null, true);
     }
@@ -369,7 +369,7 @@ public void onApiResult(NKAPIResponse response) {
     @Override
     protected void onPause() {
         super.onPause();
-        MBurgerApiActionInitializer.pauseNookoReceiver(this, bRec);
+        MBurgerApiActionInitializer.pauseMBurgerReceiver(this, bRec);
     }
 
 @Override
