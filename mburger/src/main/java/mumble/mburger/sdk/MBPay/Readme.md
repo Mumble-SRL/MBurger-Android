@@ -2,10 +2,10 @@
 
 
 
-## Nooko 3: Pay
+## MBurger: Pay
 
-If your project it configured to accept subscriptions, you can use the "Pay" features of Nooko3.
-You will need to check the `Nooko3PayTasks` class, where you will find all static methods to use pay API, both with "action" and "listener" approach.
+If your project it configured to accept subscriptions, you can use the "Pay" features of MBurger.
+You will need to check the `MBurgerPayTasks` class, where you will find all static methods to use pay API, both with "action" and "listener" approach.
 
 
 
@@ -100,7 +100,7 @@ To **retrieve the cards** associated with a customer, you should call the API
 Nooko3PayTasks.getCards()
 ```
 
-which will return an array of `NKStripeCard`, that represent a credit card associated with the customer.
+which will return an array of `MBStripeCard`, that represent a credit card associated with the customer.
 Stripe secures the card data so you can not read the complete number (only the last 4 digits, the brand and the expiration date).
 
 You can **add a new card** by using the API

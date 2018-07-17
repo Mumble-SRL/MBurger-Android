@@ -1,15 +1,15 @@
 <img src="https://mumbleideas.it/wp-content/uploads/2017/12/Mumble-anim-300.gif" alt="Mumble Logo" title="Mumble Logo">
 
-## Nooko 3: Auth Usage
+## MBurger: Auth Usage
 
-If your project is configured to register users you can use the "Auth" features of Nooko3.
-You will need to check the `Nooko3AuthTasks` class, where you will find all static methods to use authentication API, both with "action" and "listener" approach.
+If your project is configured to register users you can use the "Auth" features of MBurger.
+You will need to check the `MBurgerAuthTasks` class, where you will find all static methods to use authentication API, both with "action" and "listener" approach.
 
 
 
 ### Register a new user
 
-If you wish to register a new user you will have to call the `Nooko3AuthTasks.registerUser(...)` method. 
+If you wish to register a new user you will have to call the `MBurgerAuthTasks.registerUser(...)` method. 
 Be aware that a Nooko user contains these fields, some required, some unrequired, some autofilled when registering:
 
 - (Auto-filled) **ID**
@@ -61,7 +61,7 @@ Nooko3AuthTasks.authenticateUser(getApplicationContext(),
 	password);           //Password of the user
 ```
 
-This method will return the `jwt_token` that <u>will automatically be used in all subsequential calls until app is uninstalled or user is logged out</u> in order to authenticate all API calls. It will be automatically stored encrypted within your application, but if you need to save it for your purposes you can obtain int through the listener or with the "action" mode inside the returned bundle with the key `NKApiPayloadKeys.key_jwt_token`.
+This method will return the `jwt_token` that <u>will automatically be used in all subsequential calls until app is uninstalled or user is logged out</u> in order to authenticate all API calls. It will be automatically stored encrypted within your application, but if you need to save it for your purposes you can obtain int through the listener or with the "action" mode inside the returned bundle with the key `MBApiPayloadKeys.key_jwt_token`.
 
 If you wish to logout an user just call
 
@@ -83,9 +83,9 @@ private NKAuthApiProfileListener listener;
 Nooko3AuthTasks.getLoggedUserProfile(getApplicationContext(), listener);
 ```
 
-This API call will return the profile of the actual authenticated user in the form of a `NKAuthUser`.
+This API call will return the profile of the actual authenticated user in the form of a `MBAuthUser`.
 
-**BE AWARE** that if you call this method before a login you will receive an error because there is no user authenticated, so make sure an user is authenticated before calling this API (you can easily achieve this by calling `NKCommonMethods.hasLoggedIn(context)`).
+**BE AWARE** that if you call this method before a login you will receive an error because there is no user authenticated, so make sure an user is authenticated before calling this API (you can easily achieve this by calling `MBCommonMethods.hasLoggedIn(context)`).
 
 
 
