@@ -14,7 +14,7 @@ First thing, you should download or clone this repo, you will find a `MBurger` d
 Note that MBurger requires at least Android Studio 3.1.3 and your project should target, at least, Android Version 27, with minimum SDK version 17, also your project would need these permissions:
 
 ```xml
-//To gather data from Nooko API
+//To gather data from MBurger API
 <uses-permission android:name="android.permission.INTERNET" />
 
 //To check internet connection and also provide error checking
@@ -74,19 +74,19 @@ MBurger.initialize("<Your API Key>", <Development mode>);
 
 ## Client usage
 
-Basically you can obtain and use all your project data using 3 classes with public static methods: `MBurgerTasks`, `MBurgerMapper` and `MBurgerApiActionInitializer`. All these classes are used to obtain and map your custom objects from Nooko objects.
+Basically you can obtain and use all your project data using 3 classes with public static methods: `MBurgerTasks`, `MBurgerMapper` and `MBurgerApiActionInitializer`. All these classes are used to obtain and map your custom objects from MBurger objects.
 
 
 
 ### Data model
 
-Nooko classes represent basic informations you put from the Dashboard, at the most basic you will have to use **MBProject****, MBBlocks**, **MBSections** and **MBClasses**.
+MBurger classes represent basic informations you put from the Dashboard, at the most basic you will have to use **MBProject****, MBBlocks**, **MBSections** and **MBClasses**.
 
 **MBProject** represents the informations about your project, name, id and features.
 A **MBBlock** represent a part of your Project, e.g. a list of News. They have a title, subtitle, order and an ArrayList of *MBSections* which represent the elements of the block.
-**MBSections** are the single elements of the blocks, every section contains a Map of *Elements*, which are the parts you choose from the dashboard to create your items. The Map uses the name of the Element as a key and a *MBClass* as a value. You should prior know which MBClass is which Element if you wish to map Nooko object to your custom objects manually, or you can use the `MBurgerMapper` to do this automatically for simple classes. **MBClass** is a basic class which every Element extends, you will find all about the MBElements consulting the [Javadoc](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/tree/master/Javadoc "Javadoc").
+**MBSections** are the single elements of the blocks, every section contains a Map of *Elements*, which are the parts you choose from the dashboard to create your items. The Map uses the name of the Element as a key and a *MBClass* as a value. You should prior know which MBClass is which Element if you wish to map MBurger object to your custom objects manually, or you can use the `MBurgerMapper` to do this automatically for simple classes. **MBClass** is a basic class which every Element extends, you will find all about the MBElements consulting the [Javadoc](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/tree/master/Javadoc "Javadoc").
 
-You can consult the [Javadoc](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/tree/master/Javadoc "Javadoc") to know all the Nooko classes and methods if you will.
+You can consult the [Javadoc](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/tree/master/Javadoc "Javadoc") to know all the MBurger classes and methods if you will.
 
 
 
@@ -94,7 +94,7 @@ You can consult the [Javadoc](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/tr
 
 You should use `MBurgerTasks` static methods to retrieve data from MBurger dashboard, this class has public static fuctions which will call asynchronously MBurger API. You have 2 ways to retrieve data from API, using a **Listener** or using **Actions**.
 
-The **Listener** approach is the easiest one, with every method of the `MBurgerTasks` class you should pass the corresponding listener to return data from the fuction to your control. All the listeners are inside the `MBApiResultsListeners` and all of them are simple interfaces that will return the Nooko object you asked or or an error message. 
+The **Listener** approach is the easiest one, with every method of the `MBurgerTasks` class you should pass the corresponding listener to return data from the fuction to your control. All the listeners are inside the `MBApiResultsListeners` and all of them are simple interfaces that will return the MBurger object you asked or or an error message. 
 For example, you should use a `MBApiProjectResultListener` (implementing it to your Activity or Fragment or creating a new one runtime) to obtain Project basic data, so the class will implement these methods:
 
 ```java
@@ -158,9 +158,9 @@ Pay attention that if you are using the "action" mode you should check for the a
 
 
 
-### Filtering Nooko data requests
+### Filtering MBurger data requests
 
-You can filter, sort and request for particular data using a set of premade filters adding them to the Nooko calls. It's applied to the sections, so, if you want to only have a list of POI on a particular place you can add a filter to have a geofenced array of sections. FIlters are
+You can filter, sort and request for particular data using a set of premade filters adding them to the MBurger calls. It's applied to the sections, so, if you want to only have a list of POI on a particular place you can add a filter to have a geofenced array of sections. FIlters are
 
 - `MBFilterParameter`
 - `MBGeofenceParameter`
@@ -170,7 +170,7 @@ You can filter, sort and request for particular data using a set of premade filt
 If you want to pass another type of parameter you can use the `MBGeneralParameter` class that can be initialized with a key and a value that will be passed to the apis.
 You can add whatever number you wish, but remember that for same type of filters <u>it will be considered only the last one of the array.</u>
 
-### Requesting Nooko data examples
+### Requesting MBurger data examples
 
 #### Project
 
@@ -397,14 +397,14 @@ public void onApiResult(NKAPIResponse response) {
 If your project has been set up for using these two features please note that there are special rules to use them:
 
 - **Live Messages**: the method to send live messages can only send text messages with a name and a content, no results are provided apart from the standard "OK"/"Not OK"
-- **Poll**: You should use Nooko objects if you use poll feature, the dashboard will take care to take only one answer per user (using device_id or user token if authenticated) but it's a best practice to control in-app if your user has already voted checking the `MBPollAnswers` object, which contains all the answers and also your personal answer. You should absolutely check if the poll is still valid checking the "available_at" for the section object.
+- **Poll**: You should use MBurger objects if you use poll feature, the dashboard will take care to take only one answer per user (using device_id or user token if authenticated) but it's a best practice to control in-app if your user has already voted checking the `MBPollAnswers` object, which contains all the answers and also your personal answer. You should absolutely check if the poll is still valid checking the "available_at" for the section object.
 
 
 
 ### Mapping
 
 You can map your custom objects starting from `MBSection` automatically using `MBurgerMapper` class.
-Using the commodity class `MBFieldsMapping` which fields of your custom class should be mapped with the fields of the MBSection you named on your Project dashboard, your destination object **should at least override getters and setters** and if you wish to obtain simple values or Nooko object values for:
+Using the commodity class `MBFieldsMapping` which fields of your custom class should be mapped with the fields of the MBSection you named on your Project dashboard, your destination object **should at least override getters and setters** and if you wish to obtain simple values or MBurger object values for:
 
 - Images -> First MBImage (only an object, not an array)
 - Media & Documents -> First MBFile (only an object, not an array)
@@ -413,7 +413,7 @@ Using the commodity class `MBFieldsMapping` which fields of your custom class sh
 You will find all possible simple data inside the `MBMappingArgs` class.
 Make sure your custom class is public and that provides getters and setters for all fields you wish to map.
 
-For example, for a simple "News" class with title and Nooko image
+For example, for a simple "News" class with title and MBurger image
 
 ```java
 public class News implements Serializable {
