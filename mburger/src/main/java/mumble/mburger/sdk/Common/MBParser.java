@@ -52,6 +52,11 @@ public class MBParser {
         boolean hasLiveMessages = false;
         boolean hasEvidence = false;
         boolean hasPush = false;
+        long evidence_id = -1;
+        long evidence_block_id = -1;
+        long evidence_section_id = -1;
+        String evidence_title = null;
+        String evidence_image = null;
 
         try {
             if (MBCommonMethods.isJSONOk(jsonObject, "id")) {
@@ -82,11 +87,33 @@ public class MBParser {
                 hasPush = jsonObject.getBoolean("has_push");
             }
 
+            if (MBCommonMethods.isJSONOk(jsonObject, "evidence_id")) {
+                evidence_id = jsonObject.getLong("evidence_id");
+            }
+
+            if (MBCommonMethods.isJSONOk(jsonObject, "evidence_block_id")) {
+                evidence_block_id = jsonObject.getLong("evidence_block_id");
+            }
+
+            if (MBCommonMethods.isJSONOk(jsonObject, "evidence_section_id")) {
+                evidence_section_id = jsonObject.getLong("evidence_section_id");
+            }
+
+            if (MBCommonMethods.isJSONOk(jsonObject, "evidence_title")) {
+                evidence_title = jsonObject.getString("evidence_title");
+            }
+
+            if (MBCommonMethods.isJSONOk(jsonObject, "evidence_image")) {
+                evidence_image = jsonObject.getString("evidence_image");
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return new MBProject(id, name, hasBeacons, hasUsers, hasMultilanguage, hasLiveMessages, hasEvidence, hasPush);
+        return new MBProject(id, name, hasBeacons, hasUsers, hasMultilanguage, hasLiveMessages, hasEvidence, hasPush,
+                evidence_id, evidence_block_id, evidence_section_id, evidence_title, evidence_image);
+
     }
 
     /**

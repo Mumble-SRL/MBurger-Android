@@ -1,4 +1,4 @@
-package mumble.mburger.sdk.NKMapper;
+package mumble.mburger.sdk.MBClient.MBMapper;
 
 import java.util.HashMap;
 
@@ -7,10 +7,10 @@ import mumble.mburger.sdk.MBClient.MBurgerMapper;
 
 /**
  * Commodity class for mapping fields in custom objects to fields from MBurger sections, it is used with the method
- * {@link MBurgerMapper#mapToCustomObject(mumble.mburger.sdk.MBData.NKSections.MBSection, mumble.mburger.sdk.NKMapper.MBFieldsMapping, Object, boolean)}}.
+ * {@link MBurgerMapper#(mumble.mburger.sdk.MBClient.MBData.MBSections.MBSection, MBFieldsMapping, Object, boolean)}}.
  * You can specify different arguments to get specific data from fields (like the first image
- * or only the latitude from a {@link mumble.mburger.sdk.MBData.NKElements.MBAddressElement MBAddressElement} object.
- * You can find all the arguments and how to use them in {@link NKMappingArgs}
+ * or only the latitude from a {@link mumble.mburger.sdk.MBClient.MBData.MBElements.MBAddressElement MBAddressElement} object.
+ * You can find all the arguments and how to use them in {@link MBMappingArgs}
  *
  * @author Enrico Ori
  * @version {@value MBConstants#version}

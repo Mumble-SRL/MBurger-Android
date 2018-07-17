@@ -18,6 +18,8 @@ import mumble.mburger.sdk.MBClient.MBData.MBElements.MBPollAnswers;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBTextElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBWYSIWYGElement;
 import mumble.mburger.sdk.MBClient.MBData.MBSections.MBSection;
+import mumble.mburger.sdk.MBClient.MBMapper.MBFieldsMapping;
+import mumble.mburger.sdk.MBClient.MBMapper.MBMappingArgs;
 
 /**
  * Class to map custom user objects from a Nooko section. Only works with Classes with values or Nooko objects,
@@ -37,7 +39,7 @@ public class MBurgerMapper {
      * @param destinationObject is an empty user object, which has at least getters and setters
      * @param getSimpleValues   represents if for media and images you wish to have only the url of the media or the whole object
      */
-    public static Object mapToCustomObject(MBSection section, mumble.mburger.sdk.NKMapper.MBFieldsMapping fieldsMap,
+    public static Object mapToCustomObject(MBSection section, MBFieldsMapping fieldsMap,
                                            Object destinationObject, boolean getSimpleValues) {
         HashMap<String, String> map = fieldsMap.getFieldsMap();
         for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -51,7 +53,7 @@ public class MBurgerMapper {
 
                     if (sectionObject instanceof MBImages) {
                         MBImages nImages = (MBImages) sectionObject;
-                        if (secondPart.equals(mumble.mburger.sdk.NKMapper.MBMappingArgs.mapping_first_image_media)) {
+                        if (secondPart.equals(MBMappingArgs.mapping_first_image_media)) {
                             if (getSimpleValues) {
                                 BeanUtils.setProperty(destinationObject, field, nImages.getFirstImage().getUrl());
                             } else {
@@ -62,7 +64,7 @@ public class MBurgerMapper {
 
                     if (sectionObject instanceof MBMediaElement) {
                         MBMediaElement nMedia = (MBMediaElement) sectionObject;
-                        if (secondPart.equals(mumble.mburger.sdk.NKMapper.MBMappingArgs.mapping_first_image_media)) {
+                        if (secondPart.equals(MBMappingArgs.mapping_first_image_media)) {
                             if (getSimpleValues) {
                                 BeanUtils.setProperty(destinationObject, field, nMedia.getFirstMedia().getUrl());
                             } else {
@@ -73,15 +75,15 @@ public class MBurgerMapper {
 
                     if (sectionObject instanceof MBAddressElement) {
                         MBAddressElement MBAddressElement = (MBAddressElement) sectionObject;
-                        if (secondPart.equals(mumble.mburger.sdk.NKMapper.MBMappingArgs.mapping_latitude)) {
+                        if (secondPart.equals(MBMappingArgs.mapping_latitude)) {
                             BeanUtils.setProperty(destinationObject, field, MBAddressElement.getLatitude());
                         }
 
-                        if (secondPart.equals(mumble.mburger.sdk.NKMapper.MBMappingArgs.mapping_longitude)) {
+                        if (secondPart.equals(MBMappingArgs.mapping_longitude)) {
                             BeanUtils.setProperty(destinationObject, field, MBAddressElement.getLongitude());
                         }
 
-                        if (secondPart.equals(mumble.mburger.sdk.NKMapper.MBMappingArgs.mapping_address)) {
+                        if (secondPart.equals(MBMappingArgs.mapping_address)) {
                             BeanUtils.setProperty(destinationObject, field, MBAddressElement.getAddress());
                         }
                     }

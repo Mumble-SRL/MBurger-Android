@@ -52,8 +52,14 @@ public class MBProject implements Serializable {
      */
     private boolean hasPush;
 
+    private long evidence_id, evidence_block_id, evidence_section_id;
+    private String evidence_title, evidence_image;
+
+
     public MBProject(long id, String name, boolean hasBeacons, boolean hasUsers, boolean hasMultilanguage,
-                     boolean hasLiveMessages, boolean hasEvidence, boolean hasPush) {
+                     boolean hasLiveMessages, boolean hasEvidence, boolean hasPush,
+                     long evidence_id, long evidence_block_id, long evidence_section_id, String evidence_title,
+                     String evidence_image) {
         this.id = id;
         this.name = name;
         this.hasBeacons = hasBeacons;
@@ -62,6 +68,11 @@ public class MBProject implements Serializable {
         this.hasLiveMessages = hasLiveMessages;
         this.hasEvidence = hasEvidence;
         this.hasPush = hasPush;
+        this.evidence_id = evidence_id;
+        this.evidence_block_id = evidence_block_id;
+        this.evidence_section_id = evidence_section_id;
+        this.evidence_title = evidence_title;
+        this.evidence_image = evidence_image;
     }
 
     /**
@@ -138,5 +149,45 @@ public class MBProject implements Serializable {
 
     public void setHasPush(boolean hasPush) {
         this.hasPush = hasPush;
+    }
+
+    public long getEvidence_id() {
+        return evidence_id;
+    }
+
+    public void setEvidence_id(long evidence_id) {
+        this.evidence_id = evidence_id;
+    }
+
+    public long getEvidence_block_id() {
+        return evidence_block_id;
+    }
+
+    public void setEvidence_block_id(long evidence_block_id) {
+        this.evidence_block_id = evidence_block_id;
+    }
+
+    public long getEvidence_section_id() {
+        return evidence_section_id;
+    }
+
+    public void setEvidence_section_id(long evidence_section_id) {
+        this.evidence_section_id = evidence_section_id;
+    }
+
+    public String getEvidence_title() {
+        return evidence_title;
+    }
+
+    public void setEvidence_title(String evidence_title) {
+        this.evidence_title = evidence_title;
+    }
+
+    public String getEvidence_image() {
+        return evidence_image;
+    }
+
+    public void setEvidence_image(String evidence_image) {
+        this.evidence_image = evidence_image;
     }
 }
