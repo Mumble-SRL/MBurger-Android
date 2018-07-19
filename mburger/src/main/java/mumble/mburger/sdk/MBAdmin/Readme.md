@@ -94,7 +94,7 @@ Where `getFileName()`, `getMimeType()`, `getUriRealPath(getApplication(), img_ur
 ### Update an existing Section
 
 Updating a section is a process very similar to creating a new one, but you will need the id of the section ou wish to update, the block_id is not necessary.
-You should only pay attention that you must provide a valid locale and <u>only the section with the given locale will be updated</u>, other locale variants will remain untouched. Also a<u>ll media you will send through the API will be appended to the pre-existent array of media</u>. If you wish to replace and image or a media you will need to call the `MBurgerAdminTasks.deleteMedia(this, media_id)` method before calling the update.
+You should only pay attention that you must provide a valid locale and <u>only the section with the given locale will be updated</u>, other locale variants will remain untouched. Also <u>all media you will send through the API will be appended to the pre-existent array of media</u>. If you wish to replace and image or a media you will need to call the `MBurgerAdminTasks.deleteMedia(this, media_id)` method before calling the update.
 
 If you wish to update a section, the method is similar to the create one:
 
@@ -108,6 +108,9 @@ private section_id = //ID of the section you wish to update
     
 //URI of the image, taken from camera or gallery
 private Uri img_uri;
+
+//Set if you want this section to be hidden when requesting for block sections, or not
+private boolean show_in_app = true;
 
 public void updateSection() {
 	ArrayList<MBAdminParameter> params = new ArrayList<>();
@@ -127,7 +130,7 @@ public void updateSection() {
                             listener, 
                             params, 
                             params_file, 
-                            Locale.getDefault().getLanguage());
+                            Locale.getDefault().getLanguage(), show_in_app);
 }
 ```
 

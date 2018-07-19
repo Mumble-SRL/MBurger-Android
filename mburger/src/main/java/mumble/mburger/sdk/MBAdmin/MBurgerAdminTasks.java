@@ -90,9 +90,9 @@ public class MBurgerAdminTasks {
      * Add a section
      */
     public static void updateSection(Context context, long section_id, ArrayList<MBAdminParameter> params,
-                                     ArrayList<MBAdminParameterFile> parameters_files, String locale) {
+                                     ArrayList<MBAdminParameterFile> parameters_files, String locale, boolean show_in_app) {
         if (MBUserConstants.apiKey != null) {
-            new MBAdminAsyncTask_updateSection(context, section_id, params, parameters_files, locale).execute();
+            new MBAdminAsyncTask_updateSection(context, section_id, params, parameters_files, locale, show_in_app).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -102,9 +102,9 @@ public class MBurgerAdminTasks {
      * Add a section with custom action return
      */
     public static void updateSection(Context context, long section_id, String custom_action, ArrayList<MBAdminParameter> params,
-                                     ArrayList<MBAdminParameterFile> parameters_files, String locale) {
+                                     ArrayList<MBAdminParameterFile> parameters_files, String locale, boolean show_in_app) {
         if (MBUserConstants.apiKey != null) {
-            new MBAdminAsyncTask_updateSection(context, custom_action, section_id, params, parameters_files, locale).execute();
+            new MBAdminAsyncTask_updateSection(context, custom_action, section_id, params, parameters_files, locale, show_in_app).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -114,9 +114,9 @@ public class MBurgerAdminTasks {
      * Add a section with listener
      */
     public static void updateSection(Context context, long section_id, MBAdminApiUpdateSectionListener listener, ArrayList<MBAdminParameter> params,
-                                     ArrayList<MBAdminParameterFile> parameters_files, String locale) {
+                                     ArrayList<MBAdminParameterFile> parameters_files, String locale, boolean show_in_app) {
         if (MBUserConstants.apiKey != null) {
-            new MBAdminAsyncTask_updateSection(context, listener, section_id, params, parameters_files, locale).execute();
+            new MBAdminAsyncTask_updateSection(context, listener, section_id, params, parameters_files, locale, show_in_app).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }

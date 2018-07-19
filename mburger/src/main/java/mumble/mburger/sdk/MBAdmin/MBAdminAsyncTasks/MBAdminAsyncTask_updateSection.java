@@ -59,6 +59,11 @@ public class MBAdminAsyncTask_updateSection extends AsyncTask<Void, Void, Void> 
     private String locale;
 
     /**
+     * Set hidden or to show in app
+     */
+    private boolean show_in_app;
+
+    /**
      * If you wish to change the action that accompanies the API result
      */
     private String action = MBAPIConstants.ACTION_UPDATE_SECTION;
@@ -73,32 +78,35 @@ public class MBAdminAsyncTask_updateSection extends AsyncTask<Void, Void, Void> 
     private Map<String, Object> map;
 
     public MBAdminAsyncTask_updateSection(Context context, long section_id, ArrayList<MBAdminParameter> parameters,
-                                          ArrayList<MBAdminParameterFile> parameters_files, String locale) {
+                                          ArrayList<MBAdminParameterFile> parameters_files, String locale, boolean show_in_app) {
         this.weakContext = new WeakReference<>(context);
         this.section_id = section_id;
         this.parameters = parameters;
         this.parameters_files = parameters_files;
         this.locale = locale;
+        this.show_in_app = show_in_app;
     }
 
     public MBAdminAsyncTask_updateSection(Context context, String custom_action, long section_id, ArrayList<MBAdminParameter> parameters,
-                                          ArrayList<MBAdminParameterFile> parameters_files, String locale) {
+                                          ArrayList<MBAdminParameterFile> parameters_files, String locale, boolean show_in_app) {
         this.weakContext = new WeakReference<>(context);
         this.section_id = section_id;
         this.parameters = parameters;
         this.parameters_files = parameters_files;
         this.action = custom_action;
         this.locale = locale;
+        this.show_in_app = show_in_app;
     }
 
     public MBAdminAsyncTask_updateSection(Context context, MBAdminApiUpdateSectionListener listener, long section_id, ArrayList<MBAdminParameter> parameters,
-                                          ArrayList<MBAdminParameterFile> parameters_files, String locale) {
+                                          ArrayList<MBAdminParameterFile> parameters_files, String locale, boolean show_in_app) {
         this.weakContext = new WeakReference<>(context);
         this.section_id = section_id;
         this.parameters = parameters;
         this.parameters_files = parameters_files;
         this.listener = listener;
         this.locale = locale;
+        this.show_in_app = show_in_app;
     }
 
     @Override
@@ -156,6 +164,8 @@ public class MBAdminAsyncTask_updateSection extends AsyncTask<Void, Void, Void> 
                 requestBodyBuilder.addFormDataPart(createKey(param), param.getValue());
             }
         }
+
+        requestBodyBuilder.addFormDataPart("show_in_app", Boolean.toString(show_in_app));
 
         if (parameters_files != null) {
             for (int i = 0; i < parameters_files.size(); i++) {
