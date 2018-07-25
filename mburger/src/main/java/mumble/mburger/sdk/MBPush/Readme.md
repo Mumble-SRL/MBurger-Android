@@ -20,7 +20,7 @@ com.google.firebase:firebase-core
 com.google.firebase:firebase-messaging
 ```
 
-For **FCM client setup** refer [this](https://firebase.google.com/docs/cloud-messaging/android/client) documentation. Long story short you'll ned to extend a new `FirebaseInstanceIdService` , which you'll need for obtaining the push token from your device and sent it to Nooko, and a `FirebaseMessagingService`  which will trigger an event when a push message is received.
+For **FCM client setup** refer [this](https://firebase.google.com/docs/cloud-messaging/android/client) documentation. Long story short you'll ned to extend a new `FirebaseMessagingService`  which will trigger `onNewToken` to obtain the Firebase token which you'll need to send to the MBurger API and `onMessageReceived`, an event triggered when a push message is received.
 Be aware that **MBurger uses the "data" message** types in order to permit the developers to completely customize notifications and behaviour on receiveing notifications (you'll find all about data messages [here](https://firebase.google.com/docs/cloud-messaging/concept-options))
 
 After you have set up your project for Firebase you can start using Nooko SDK to register users receive FCM messages.
@@ -29,33 +29,25 @@ After you have set up your project for Firebase you can start using Nooko SDK to
 
 ### Register a device
 
-To register a new device you'll need to have an InstanceId, which you can obtain one from your `FirebaseInstanceIdService:`
+To register a new device you'll need to have a Firebase token, which you can obtain one from your `FirebaseMessagingService` method  `onNewToken`:
 
 ```java
-public class InstanceIDReceiver extends FirebaseInstanceIdService {
-
-    @Override
-    public void onTokenRefresh() {
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-    }
+@Override
+public void onNewToken(String token) {
 }
 ```
 
  Then is a best practice to register your device calling the registration API:
 
 ```java
-public class InstanceIDReceiver extends FirebaseInstanceIdService {
-
-    @Override
-    public void onTokenRefresh() {
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Nooko3PushTasks.sendToken(getApplicationContext(), getDeviceID(), refreshedToken);
-    }
+@Override
+public void onNewToken(String token) {
+    Nooko3PushTasks.sendToken(getApplicationContext(), getDeviceID(), token);
 }
 ```
 
 Where `getDeviceID()` is your method to obtain the **Android ID**  which will be your unique identifier. Pay attention to the changes Oreo makes to this data, refer to [this documentation](https://developer.android.com/reference/android/provider/Settings.Secure#ANDROID_ID).
-Now your device is ready to receive push messages with your `FirebaseMessagingService`, but if you need to differentiate push groups you may need to use **topics**.
+Now your device is ready to receive push messages with your `FirebaseMessagingService` method `onMessageReceived`, but if you need to differentiate push groups you may need to use **topics**.
 
 
 
