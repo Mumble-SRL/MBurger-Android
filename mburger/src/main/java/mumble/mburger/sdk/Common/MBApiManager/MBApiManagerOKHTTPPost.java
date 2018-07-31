@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import mumble.mburger.R;
+import mumble.mburger.sdk.Common.MBCommonMethods;
 import mumble.mburger.sdk.Common.MBConstants.MBUserConstants;
 import mumble.mburger.sdk.Common.MBConstants.MBConstants;
 import okhttp3.Call;
@@ -30,25 +31,23 @@ public class MBApiManagerOKHTTPPost {
 
     public static Map<String, Object> callApi(Context context, String api, RequestBody requestBody, boolean payload) {
         Map<String, Object> map = new HashMap<>();
+        Request.Builder builder = new Request.Builder();
         Request request = null;
-        if(MBUserConstants.devMode){
-            request = new Request.Builder()
-                    .url(MBApiManagerConfig.endpoint_dev + api)
-                    .header("X-Nooko-Token", MBUserConstants.apiKey)
-                    .header("X-Nooko-Version", "2")
-                    .header("Accept", "application/json")
-                    .post(requestBody)
-                    .build();
+        if (MBUserConstants.devMode) {
+            builder.url(MBApiManagerConfig.endpoint_dev + api);
+        } else {
+            builder.url(MBApiManagerConfig.endpoint + api);
         }
-        else{
-            request = new Request.Builder()
-                    .url(MBApiManagerConfig.endpoint + api)
-                    .header("X-Nooko-Token", MBUserConstants.apiKey)
-                    .header("X-Nooko-Version", "2")
-                    .header("Accept", "application/json")
-                    .post(requestBody)
-                    .build();
+
+        if (MBCommonMethods.hasLoggedIn(context)) {
+            builder.header("Authorization", "Bearer " + MBCommonMethods.getAccessToken(context));
         }
+
+        request = builder.header("X-Nooko-Token", MBUserConstants.apiKey)
+                .header("X-Nooko-Version", "2")
+                .header("Accept", "application/json")
+                .post(requestBody)
+                .build();
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
