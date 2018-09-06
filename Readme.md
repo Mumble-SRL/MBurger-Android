@@ -59,7 +59,7 @@ implementation files('libs/android-java-air-bridge.jar')
 In order to use the SDK you should create an API Key, which will let you use MBurger APIs, you can do that on the [dashboard](https://MBurger.mumbleserver.it/) settings for your Project and decide key permissions, at minimum it should be `"read"`.  If you wish to delete, update or create new sections you should add `"write"` and `"delete"` permissions.
 
 
-![Dashboard image](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/raw/master/Images/api_token.png)
+![Dashboard image](/Images/api_token.png)
 
 API Keys can be used for Android apps as well as iOS apps, so you don't really need to create 2 keys for the two OS.
 On your app before doing anything you must initialize the SDK with your API Key by using the `MBurger` class, also you should specify if you are using the development api or the standard API, be aware that different mode means different key, so a "development api key" would not work if you are using standard api.
