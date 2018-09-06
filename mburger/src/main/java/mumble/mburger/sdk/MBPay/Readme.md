@@ -13,7 +13,7 @@ You will need to check the `MBurgerPayTasks` class, where you will find all stat
 
 The pay api, uses Stripe to process payments and subscriptions, so, before you start, you should create a Stripe account from [here](https://dashboard.stripe.com/login). Then you should provide the Nooko dashboard with the secret key you will find inside the "Developers -> API Keys" section if your Stripe dashboard.
 
-![Stripe™ Api Keys](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/raw/develop/Images/stripe_dashboard_keys.JPG)
+![Stripe™ Api Keys](https://raw.githubusercontent.com/Mumble-SRL/MBurger/develop/Images/stripe_dashboard_keys.JPG?token=ATfTHckVNUbXF1p62fx4FUrbjbarAfUBks5bml8hwA%3D%3D)
 
 Then also copy the Publishable key inside you app, because you will need it to create new customers and add new credit cards. You SHOULD NOT write the secret API key inside you application.
 
@@ -23,18 +23,18 @@ Be aware you should first use the test keys and Stripe devMode before using the 
 
 Also, in order to charge an user for a subscription you should, first, create a "Product" on Stripe dashboard and add a paying plan to it:
 
-![Stripe™ product](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/raw/develop/Images/stripe_product.JPG)
+![Stripe™ product](https://raw.githubusercontent.com/Mumble-SRL/MBurger/develop/Images/stripe_product.JPG?token=ATfTHaL6jftW8SyXRM-Kif9_owXZTeWtks5bml7HwA%3D%3D)
 
 
 Set a price and a billing interval
 
-![Stripe™ pricing plan](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/raw/develop/Images/stripe_product_payment.JPG)
+![Stripe™ pricing plan](https://raw.githubusercontent.com/Mumble-SRL/MBurger/develop/Images/stripe_product_payment.JPG?token=ATfTHfC49xMt5cVP3Z4b459_nz--SwAtks5bml8GwA%3D%3D)
 
 
 
 Take note of the plan id (starts with **plan_**), you will need inside your app.
 
-![Stripe™ product plan id](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/raw/develop/Images/stripe_product_plan.JPG)
+![Stripe™ product plan id](https://raw.githubusercontent.com/Mumble-SRL/MBurger/develop/Images/stripe_product_plan.JPG?token=ATfTHZWz1XwgAXRN3bhWAfj4Xlm1_samks5bml7swA%3D%3D)
 
 
 
@@ -42,7 +42,7 @@ Take note of the plan id (starts with **plan_**), you will need inside your app.
 
 ### Creating and charge a customer
 
-You will need to have an user logged in on your application in order to create a new customer and subscribe it to the previously created plan. So, check out the [Auth](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/develop/nooko3/src/main/java/mumble/nooko3/sdk/NKAuth) section if you have not done that before.
+You will need to have an user logged in on your application in order to create a new customer and subscribe it to the previously created plan. So, check out the [Auth](https://github.com/Mumble-SRL/MBurger/tree/develop/mburger/src/main/java/mumble/mburger/sdk/MBAuth) section if you have not done that before.
 After that you can just create a new customer or create a customer and already start the new subscribe plan. In order to do the first you have just to call
 
 ```java

@@ -1,6 +1,6 @@
 <img src="https://mumbleideas.it/wp-content/uploads/2017/12/Mumble-anim-300.gif" alt="Mumble Logo" title="Mumble Logo">
 
-# MBurger Android SDK 0.9 Beta
+# MBurger Android SDK 1.0 Beta
 
 With the MBurger Android SDK you can easily create a content-ful app without the need of a database or a backend. Remember that you would have to provide your own UI for your project, MBurger will not create any Activity or View, it would only provide data using a set of API which interfaces with MBurger backend.
 Before starting, make sure you read the MBurger guide on MBurger website in order to take confidence with MBurger namespaces and objects, also create an account and a Project.
@@ -11,7 +11,7 @@ Before starting, make sure you read the MBurger guide on MBurger website in orde
 
 First thing, you should download or clone this repo, you will find a `MBurger` directory, which contains the client SDK to use MBurger. 
 
-Note that MBurger requires at least Android Studio 3.1.3 and your project should target, at least, Android Version 27, with minimum SDK version 17, also your project would need these permissions:
+Note that MBurger requires at least Android Studio 3.1.4 and your project should target, at least, Android Version 27, with minimum SDK version 17, also your project would need these permissions:
 
 ```xml
 //To gather data from MBurger API
@@ -46,12 +46,6 @@ implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 implementation 'com.scottyab:aescrypt:0.0.1'
 ```
 
-And also a jar containing Apache Commons methods:
-
-```java
-implementation files('libs/android-java-air-bridge.jar')
-```
-
 
 
 ## Initialization
@@ -68,7 +62,7 @@ On your app before doing anything you must initialize the SDK with your API Key 
 MBurger.initialize("<Your API Key>", <Development mode>);
 ```
 
-`MBurger.initialize()` also may accept other parameters to control if you want MBurger SDK to cache your requests, you will find all information you need inside the [Javadoc](https://gitlab.mumbleserver.it/Enri/Nooko3_LIB/tree/master/Javadoc "Javadoc"). Requesting anything from the SDK before initializing will result in an exception, so you shoud initialize on your `onCreate` starting Activity or on your custom `Application` class.
+`MBurger.initialize()` also may accept other parameters to control if you want MBurger SDK to cache your requests, you will find all information you need inside the [Javadoc](https://github.com/Mumble-SRL/MBurger/tree/master/Javadoc "Javadoc"). Requesting anything from the SDK before initializing will result in an exception, so you shoud initialize on your `onCreate` starting Activity or on your custom `Application` class.
 
 
 
@@ -84,9 +78,9 @@ MBurger classes represent basic informations you put from the Dashboard, at the 
 
 **MBProject** represents the informations about your project, name, id and features.
 A **MBBlock** represent a part of your Project, e.g. a list of News. They have a title, subtitle, order and an ArrayList of *MBSections* which represent the elements of the block.
-**MBSections** are the single elements of the blocks, every section contains a Map of *Elements*, which are the parts you choose from the dashboard to create your items. The Map uses the name of the Element as a key and a *MBClass* as a value. You should prior know which MBClass is which Element if you wish to map MBurger object to your custom objects manually, or you can use the `MBurgerMapper` to do this automatically for simple classes. **MBClass** is a basic class which every Element extends, you will find all about the MBElements consulting the [Javadoc](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/tree/master/Javadoc "Javadoc").
+**MBSections** are the single elements of the blocks, every section contains a Map of *Elements*, which are the parts you choose from the dashboard to create your items. The Map uses the name of the Element as a key and a *MBClass* as a value. You should prior know which MBClass is which Element if you wish to map MBurger object to your custom objects manually, or you can use the `MBurgerMapper` to do this automatically for simple classes. **MBClass** is a basic class which every Element extends, you will find all about the MBElements consulting the [Javadoc](https://github.com/Mumble-SRL/MBurger/tree/master/Javadoc "Javadoc").
 
-You can consult the [Javadoc](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/tree/master/Javadoc "Javadoc") to know all the MBurger classes and methods if you will.
+You can consult the[Javadoc](https://github.com/Mumble-SRL/MBurger/tree/master/Javadoc "Javadoc") to know all the MBurger classes and methods if you will.
 
 
 
@@ -460,14 +454,14 @@ Pay attention that if you need to map images the SDK will return a `MBImages` ob
 
 > ```
 > Disclaimer:
-> Due to the new nature of Android P whis functionaity could make give you light greylist messages because it uses reflections. For now on, there should be no problem, but this functionality may change when Android P is released or could be not available for P application users.
+> Due to the new nature of Android Pie whis functionaity could make give you light greylist messages because it uses reflections. For now on, there should be no problem, but this functionality may change when Android P is released or could be not available for P application users.
 > ```
 
 
 
 ## Admin, Auth, Pay and Push
 
-For admin (create/delete/edit sections) and auth (login user/register, profile) please check out **Admin usage** [here](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/tree/develop/MBurger/src/main/java/mumble/MBurger/sdk/NKAdmin) and for **Auth usage** [here](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/tree/develop/MBurger/src/main/java/mumble/MBurger/sdk/NKAuth). For using the **Pay** functionalities, please check out [this documentation](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/blob/develop/MBurger/src/main/java/mumble/MBurger/sdk/NKPay/Readme.md), for **Push notifications** functionality look it up [here](https://gitlab.mumbleserver.it/Enri/MBurger_LIB/blob/develop/MBurger/src/main/java/mumble/MBurger/sdk/NKPush/Readme.md).
+For admin (create/delete/edit sections) and auth (login user/register, profile) please check out **Admin usage** [here](https://github.com/Mumble-SRL/MBurger/tree/develop/mburger/src/main/java/mumble/mburger/sdk/MBAdmin) and for **Auth usage** [here](https://github.com/Mumble-SRL/MBurger/tree/develop/mburger/src/main/java/mumble/mburger/sdk/MBAuth). For using the **Pay** functionalities, please check out [this documentation](https://github.com/Mumble-SRL/MBurger/tree/develop/mburger/src/main/java/mumble/mburger/sdk/MBPay), for **Push notifications** functionality look it up [here](https://github.com/Mumble-SRL/MBurger/tree/develop/mburger/src/main/java/mumble/mburger/sdk/MBPush).
 
 
 
