@@ -1,11 +1,10 @@
 package mumble.mburger.sdk.MBClient;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javadz.beanutils.BeanUtils;
 import mumble.mburger.sdk.MBClient.MBData.MBAtomic.MBClass;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBAddressElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBCheckboxElement;
@@ -46,6 +45,8 @@ public class MBurgerMapper {
             String field = entry.getKey();
             String sectionKey = fieldsMap.get(field);
             try {
+                Field objField = destinationObject.getClass().getDeclaredField(field);
+                objField.setAccessible(true);
                 if (sectionKey.contains(".")) {
                     String firstPart = sectionKey.substring(0, sectionKey.indexOf("."));
                     String secondPart = sectionKey.substring(sectionKey.indexOf(".") + 1);
@@ -55,9 +56,9 @@ public class MBurgerMapper {
                         MBImages nImages = (MBImages) sectionObject;
                         if (secondPart.equals(MBMappingArgs.mapping_first_image_media)) {
                             if (getSimpleValues) {
-                                BeanUtils.setProperty(destinationObject, field, nImages.getFirstImage().getUrl());
+                                objField.set(destinationObject, nImages.getFirstImage().getUrl());
                             } else {
-                                BeanUtils.setProperty(destinationObject, field, nImages.getFirstImage());
+                                objField.set(destinationObject, nImages.getFirstImage());
                             }
                         }
                     }
@@ -66,9 +67,9 @@ public class MBurgerMapper {
                         MBMediaElement nMedia = (MBMediaElement) sectionObject;
                         if (secondPart.equals(MBMappingArgs.mapping_first_image_media)) {
                             if (getSimpleValues) {
-                                BeanUtils.setProperty(destinationObject, field, nMedia.getFirstMedia().getUrl());
+                                objField.set(destinationObject, nMedia.getFirstMedia().getUrl());
                             } else {
-                                BeanUtils.setProperty(destinationObject, field, nMedia.getFirstMedia());
+                                objField.set(destinationObject, nMedia.getFirstMedia());
                             }
                         }
                     }
@@ -76,15 +77,15 @@ public class MBurgerMapper {
                     if (sectionObject instanceof MBAddressElement) {
                         MBAddressElement MBAddressElement = (MBAddressElement) sectionObject;
                         if (secondPart.equals(MBMappingArgs.mapping_latitude)) {
-                            BeanUtils.setProperty(destinationObject, field, MBAddressElement.getLatitude());
+                            objField.set(destinationObject, MBAddressElement.getLatitude());
                         }
 
                         if (secondPart.equals(MBMappingArgs.mapping_longitude)) {
-                            BeanUtils.setProperty(destinationObject, field, MBAddressElement.getLongitude());
+                            objField.set(destinationObject, MBAddressElement.getLongitude());
                         }
 
                         if (secondPart.equals(MBMappingArgs.mapping_address)) {
-                            BeanUtils.setProperty(destinationObject, field, MBAddressElement.getAddress());
+                            objField.set(destinationObject, MBAddressElement.getAddress());
                         }
                     }
 
@@ -92,12 +93,12 @@ public class MBurgerMapper {
                     MBClass sectionObject = section.getField(sectionKey);
                     if (sectionObject instanceof MBCheckboxElement) {
                         MBCheckboxElement nCheckbox = (MBCheckboxElement) sectionObject;
-                        BeanUtils.setProperty(destinationObject, field, nCheckbox.getContent());
+                        objField.set(destinationObject, nCheckbox.getContent());
                     }
 
                     if (sectionObject instanceof MBDateElement) {
                         MBDateElement nDate = (MBDateElement) sectionObject;
-                        BeanUtils.setProperty(destinationObject, field, nDate.getTimestamp());
+                        objField.set(destinationObject, nDate.getTimestamp());
                     }
 
                     if (sectionObject instanceof MBImages) {
@@ -108,9 +109,9 @@ public class MBurgerMapper {
                                 images.add(nImages.getImages().get(i).getUrl());
                             }
 
-                            BeanUtils.setProperty(destinationObject, field, images);
+                            objField.set(destinationObject, images);
                         } else {
-                            BeanUtils.setProperty(destinationObject, field, nImages);
+                            objField.set(destinationObject, nImages);
                         }
                     }
 
@@ -121,43 +122,43 @@ public class MBurgerMapper {
                             files.add(nMedia.getFiles().get(i).getUrl());
                         }
 
-                        BeanUtils.setProperty(destinationObject, field, files);
+                        objField.set(destinationObject, files);
                     }
 
                     if (sectionObject instanceof MBTextElement) {
                         MBTextElement nText = (MBTextElement) sectionObject;
-                        BeanUtils.setProperty(destinationObject, field, nText.getContent());
+                        objField.set(destinationObject, nText.getContent());
                     }
 
                     if (sectionObject instanceof MBWYSIWYGElement) {
                         MBWYSIWYGElement nWYSIWYG = (MBWYSIWYGElement) sectionObject;
-                        BeanUtils.setProperty(destinationObject, field, nWYSIWYG.getContent());
+                        objField.set(destinationObject, nWYSIWYG.getContent());
                     }
 
                     if (sectionObject instanceof MBDropdownElement) {
                         MBDropdownElement nDropdownElem = (MBDropdownElement) sectionObject;
-                        BeanUtils.setProperty(destinationObject, field, nDropdownElem.getContent());
+                        objField.set(destinationObject, nDropdownElem.getContent());
                     }
 
                     if (sectionObject instanceof MBAddressElement) {
                         MBAddressElement nAddress = (MBAddressElement) sectionObject;
-                        BeanUtils.setProperty(destinationObject, field, nAddress);
+                        objField.set(destinationObject, nAddress);
                     }
 
                     if (sectionObject instanceof MBPollAnswers) {
                         MBPollAnswers nPollAnswers = (MBPollAnswers) sectionObject;
-                        BeanUtils.setProperty(destinationObject, field, nPollAnswers);
+                        objField.set(destinationObject, nPollAnswers);
                     }
 
                     if (sectionObject instanceof MBGenericElement) {
                         MBGenericElement nGeneric = (MBGenericElement) sectionObject;
-                        BeanUtils.setProperty(destinationObject, field, nGeneric.getContent());
+                        objField.set(destinationObject, nGeneric.getContent());
                     }
 
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             }
         }

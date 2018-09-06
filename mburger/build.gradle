@@ -20,10 +20,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation files('libs/android-java-air-bridge.jar')
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.google.android.gms:play-services-base:15.0.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.github.omegasoft7.FSLogger:fslogger:1.9.1@aar'
     implementation 'com.scottyab:aescrypt:0.0.1'
 
