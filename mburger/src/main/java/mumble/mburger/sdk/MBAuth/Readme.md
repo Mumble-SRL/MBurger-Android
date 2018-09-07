@@ -36,11 +36,11 @@ Nooko3AuthTasks.registerUser(getApplicationContext(),
 	listener,                             //Listener for registration
     edt_name.getText().toString(),        //Name, REQUIRED
     edt_surname.getText().toString(),     //Surname, REQUIRED
-    phone,							    //Phone number, nullable
-    img_uri, 						    //Image, nullable
+    phone,							      //Phone number, nullable
+    img_uri, 						      //Image, nullable
     edt_email.getText().toString(),       //Email, REQUIRED
     edt_password.getText().toString(),    //Password REQUIRED
-    auxiliar_data);					    //Auxiliar data nullable
+    auxiliar_data);					      //Auxiliar data nullable
 ```
 
 This method won't return anything less than an error if the email is already taken or any other problem happened. To obtain the profile of the user and also call all the other API with this authorization, you will need to **login** this user.

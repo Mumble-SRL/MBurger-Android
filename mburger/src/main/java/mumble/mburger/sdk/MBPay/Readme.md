@@ -38,8 +38,6 @@ Take note of the plan id (starts with **plan_**), you will need inside your app.
 
 
 
-
-
 ### Creating and charge a customer
 
 You will need to have an user logged in on your application in order to create a new customer and subscribe it to the previously created plan. So, check out the [Auth](https://github.com/Mumble-SRL/MBurger/tree/develop/mburger/src/main/java/mumble/mburger/sdk/MBAuth) section if you have not done that before.

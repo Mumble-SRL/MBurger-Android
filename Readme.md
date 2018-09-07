@@ -40,7 +40,7 @@ implementation 'com.google.android.gms:play-services-base:15.0.1'
 implementation 'com.github.omegasoft7.FSLogger:fslogger:1.9.1@aar'
     
 //For Admin API support
-implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     
 //For storing auth token
 implementation 'com.scottyab:aescrypt:0.0.1'
@@ -80,7 +80,7 @@ MBurger classes represent basic informations you put from the Dashboard, at the 
 A **MBBlock** represent a part of your Project, e.g. a list of News. They have a title, subtitle, order and an ArrayList of *MBSections* which represent the elements of the block.
 **MBSections** are the single elements of the blocks, every section contains a Map of *Elements*, which are the parts you choose from the dashboard to create your items. The Map uses the name of the Element as a key and a *MBClass* as a value. You should prior know which MBClass is which Element if you wish to map MBurger object to your custom objects manually, or you can use the `MBurgerMapper` to do this automatically for simple classes. **MBClass** is a basic class which every Element extends, you will find all about the MBElements consulting the [Javadoc](https://github.com/Mumble-SRL/MBurger/tree/master/Javadoc "Javadoc").
 
-You can consult the[Javadoc](https://github.com/Mumble-SRL/MBurger/tree/master/Javadoc "Javadoc") to know all the MBurger classes and methods if you will.
+You can consult the [Javadoc](https://github.com/Mumble-SRL/MBurger/tree/master/Javadoc "Javadoc") to know all the MBurger classes and methods if you will.
 
 
 
@@ -453,8 +453,8 @@ News n = (News) MBurgerMapper.mapToCustomObject(nkSection, fieldsMapping, new Ne
 Pay attention that if you need to map images the SDK will return a `MBImages` object, which contains an array of `MBImage`, if you want an array of URLs you will have to set `getSimpleValues` to `true`.
 
 > ```
-> Disclaimer:
-> Due to the new nature of Android Pie whis functionaity could make give you light greylist messages because it uses reflections. For now on, there should be no problem, but this functionality may change when Android P is released or could be not available for P application users.
+> DISCLAIMER:
+> Due to the nature of Android 9.0 Pie this functionaity could give you light greylist logcat messages because it uses reflections. For now on, there should be no problem, but this functionality may change when Android Pie is fully released or could be not available for Pie application users.
 > ```
 
 
