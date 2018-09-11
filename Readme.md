@@ -1,6 +1,6 @@
 <img src="https://mumbleideas.it/wp-content/uploads/2017/12/Mumble-anim-300.gif" alt="Mumble Logo" title="Mumble Logo">
 
-# MBurger Android SDK 1.0 Beta
+# MBurger Android SDK 1.0
 
 With the MBurger Android SDK you can easily create a content-ful app without the need of a database or a backend. Remember that you would have to provide your own UI for your project, MBurger will not create any Activity or View, it would only provide data using a set of API which interfaces with MBurger backend.
 Before starting, make sure you read the MBurger guide on MBurger website in order to take confidence with MBurger namespaces and objects, also create an account and a Project.
@@ -20,7 +20,7 @@ maven {
 Then add to your dependencies:
 
 ```
-implementation 'mumble.mburger:android:1.0'
+implementation 'mumble.mburger:android:1.0.1'
 ```
 
 If you want you can also download or clone this repo, you will find a `MBurger` directory, which contains the client SDK to use MBurger. 
