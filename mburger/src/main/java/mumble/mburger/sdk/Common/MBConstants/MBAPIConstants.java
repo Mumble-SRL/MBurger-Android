@@ -84,6 +84,9 @@ public class MBAPIConstants {
     /**Used with the API {@link MBAuthAsyncTask_ChangePassword MBAuthAsyncTask_ChangePassword}*/
     public static final String ACTION_CHANGE_PASSWORD = "mumble.mburger.ACTION_CHANGE_PASSWORD";
 
+    /**Used with the API {@link mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_DeleteProfile MBAuthAsyncTask_DeleteProfile}*/
+    public static final String ACTION_DELETE_PROFILE = "mumble.mburger.ACTION_DELETE_PROFILE";
+
     /**Used with the API {@link MBAuthAsyncTask_UpdateProfile MBAuthAsyncTask_UpdateProfile}*/
     public static final String ACTION_UPDATE_PROFILE = "mumble.mburger.ACTION_UPDATE_PROFILE";
 

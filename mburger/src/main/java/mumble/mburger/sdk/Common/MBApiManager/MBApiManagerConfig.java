@@ -47,6 +47,7 @@ public class MBApiManagerConfig {
     public static final String API_CHANGE_PASSWORD = "/api/change-password";
     public static final String API_FORGOT_PASSWORD = "/api/forgot-password";
     public static final String API_PROFILE = "/api/profile";
+    public static final String API_PROFILE_DELETE = "/api/profile/delete";
     public static final String API_PROFILE_UPDATE = "/api/profile/update";
     public static final String API_SUBSCRIBE = "/api/subscriptions";
     public static final String API_SUBSCRIBE_CANCEL = "/api/subscriptions/cancel";
