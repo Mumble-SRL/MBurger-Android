@@ -1,4 +1,36 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+ext {
+    bintrayRepo = 'MBurger-Android'
+    bintrayName = 'sdk'
+
+    publishedGroupId = 'mumble.mburger'
+    libraryName = 'MBurgerLib'
+    artifact = 'android'
+
+    libraryDescription = 'Android library for MBurger system'
+
+    siteUrl = 'https://github.com/Mumble-SRL/MBurger-Android'
+    gitUrl = 'https://github.com/Mumble-SRL/MBurger-Android.git'
+
+    libraryVersion = '1.0'
+
+    developerId = 'MBurger-Android'
+    developerName = 'Mumble'
+    developerEmail = 'giacomo.torricelli@mumbleideas.it'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
 
 android {
     compileSdkVersion 27
@@ -8,13 +40,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-            consumerProguardFiles 'proguard-rules.pro'
-        }
     }
 }
 
@@ -33,3 +58,5 @@ dependencies {
     androidTestImplementation 'com.android.support:support-annotations:27.1.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+apply from: 'https://raw.githubusercontent.com/Mumble-SRL/JCenter/master/script.gradle'

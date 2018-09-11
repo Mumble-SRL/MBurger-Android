@@ -1,5 +1,3 @@
--keep class org.apache.commons.logging.** { *; }
--keep class org.apache.commons.codec.** { *; }
 -dontwarn org.apache.commons.logging.impl.**
 -dontwarn org.apache.http.conn.scheme.**
 -dontwarn okhttp3.**

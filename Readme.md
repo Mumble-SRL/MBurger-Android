@@ -9,7 +9,21 @@ Before starting, make sure you read the MBurger guide on MBurger website in orde
 
 ## Setup
 
-First thing, you should download or clone this repo, you will find a `MBurger` directory, which contains the client SDK to use MBurger. 
+First thing, you can get this sdk via **Maven** adding to your top `build.gradle` file this repository:
+
+```
+maven { 
+	url "https://dl.bintray.com/mumbleideas/MBurger-Android/" 
+}
+```
+
+Then add to your dependencies:
+
+```
+implementation 'mumble.mburger:android:1.0'
+```
+
+If you want you can also download or clone this repo, you will find a `MBurger` directory, which contains the client SDK to use MBurger. 
 
 Note that MBurger requires at least Android Studio 3.1.4 and your project should target, at least, Android Version 27, with minimum SDK version 17, also your project would need these permissions:
 
@@ -472,6 +486,16 @@ If you are using proguard to shring and obfuscate your code, you must not objusc
 ```java
 -keep class your.package.classname
 -keepclassmembers class your.package.classname { *; }
+```
+
+Also you may need to add these lines to your proguard file:
+
+```java
+-dontwarn okhttp3.**
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+-dontwarn org.conscrypt.**
+-keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
 ```
 
 
