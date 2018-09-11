@@ -9,10 +9,12 @@ import mumble.mburger.sdk.Common.MBConstants.MBUserConstants;
 import mumble.mburger.sdk.Common.MBExceptions.MBSDKInitializeException;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Authenticate;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_ChangePassword;
+import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_DeleteProfile;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_ForgotPassword;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Profile;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Register;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_UpdateProfile;
+import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiDeleteProfileListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiRegisterListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiAuthenticateListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiChangePasswordListener;
@@ -221,6 +223,39 @@ public class MBurgerAuthTasks {
                                      String surname, String phone, Uri image, String email, String data) {
         if (MBUserConstants.apiKey != null) {
             new MBAuthAsyncTask_UpdateProfile(context, listener, name, surname, phone, image, email, data).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Deletes an user profile an user
+     */
+    public static void deleteProfile(Context context) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_DeleteProfile(context).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Deletes an user profile an user with custom action callback
+     */
+    public static void deleteProfile(Context context, String custom_action) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_DeleteProfile(context, custom_action).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Deletes an user with listener callback
+     */
+    public static void deleteProfile(Context context, MBAuthApiDeleteProfileListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_DeleteProfile(context, listener).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
