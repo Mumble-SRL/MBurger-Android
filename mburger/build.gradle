@@ -21,7 +21,7 @@ ext {
     siteUrl = 'https://github.com/Mumble-SRL/MBurger-Android'
     gitUrl = 'https://github.com/Mumble-SRL/MBurger-Android.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.2'
 
     developerId = 'MBurger-Android'
     developerName = 'Mumble'

@@ -20,7 +20,7 @@ maven {
 Then add to your dependencies:
 
 ```
-implementation 'mumble.mburger:android:1.0.1'
+implementation 'mumble.mburger:android:1.0.2'
 ```
 
 If you want you can also download or clone this repo, you will find a `MBurger` directory, which contains the client SDK to use MBurger. 

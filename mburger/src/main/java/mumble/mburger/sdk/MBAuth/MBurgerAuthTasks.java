@@ -8,19 +8,20 @@ import mumble.mburger.sdk.Common.MBCommonMethods;
 import mumble.mburger.sdk.Common.MBConstants.MBUserConstants;
 import mumble.mburger.sdk.Common.MBExceptions.MBSDKInitializeException;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Authenticate;
+import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_AuthenticateSocial;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_ChangePassword;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_DeleteProfile;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_ForgotPassword;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Profile;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Register;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_UpdateProfile;
-import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiDeleteProfileListener;
-import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiRegisterListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiAuthenticateListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiChangePasswordListener;
+import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiDeleteProfileListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiForgotPasswordListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiProfileListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiProfileUpdateListener;
+import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiRegisterListener;
 
 public class MBurgerAuthTasks {
 
@@ -52,6 +53,39 @@ public class MBurgerAuthTasks {
     public static void authenticateUser(Context context, MBAuthApiAuthenticateListener listener, String email, String password) {
         if (MBUserConstants.apiKey != null) {
             new MBAuthAsyncTask_Authenticate(context, listener, email, password).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Authenticate an user
+     */
+    public static void authenticateUserWithSocial(Context context, String token, int social_type) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_AuthenticateSocial(context, token, social_type).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Authenticate an user with custom action callback
+     */
+    public static void authenticateUserWithSocial(Context context, String custom_action, String token, int social_type) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_AuthenticateSocial(context, custom_action, token, social_type).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Authenticate an user with listener callback
+     */
+    public static void authenticateUserWithSocial(Context context, MBAuthApiAuthenticateListener listener, String token, int social_type) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_AuthenticateSocial(context, listener, token, social_type).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
