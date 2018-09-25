@@ -56,7 +56,7 @@ private NKAuthApiAuthenticateListener listener;
 private String email, password;
 
 Nooko3AuthTasks.authenticateUser(getApplicationContext(), 
-	listener, 			//Listener for authentication
+	listener, 			 //Listener for authentication
 	email,               //Email of the user
 	password);           //Password of the user
 ```
@@ -64,6 +64,39 @@ Nooko3AuthTasks.authenticateUser(getApplicationContext(),
 This method will return the `jwt_token` that <u>will automatically be used in all subsequential calls until app is uninstalled or user is logged out</u> in order to authenticate all API calls. It will be automatically stored encrypted within your application, but if you need to save it for your purposes you can obtain int through the listener or with the "action" mode inside the returned bundle with the key `MBApiPayloadKeys.key_jwt_token`.
 
 If you wish to logout an user just call
+
+```java
+Nooko3AuthTasks.clearAuthToken(getApplicationContext());
+```
+
+and make sure that your app UI will respond to the "logout" in a significative way.
+
+
+
+### Authenticate an user with social login
+
+You can login your user with Facebook or Google login and make it an user in your app, this will be considered like a "registration" +  "login" way because social login will replace a normal registration, this means an **user can't login with social then register with the same mail linked to the social**.
+
+To get started with social login please refer [this page](https://developers.facebook.com/docs/facebook-login/android) for Facebook authentication and [this page](https://developers.google.com/identity/sign-in/android/start) for Google authentication. Be aware that in both cases **you'll have to ask for email retrievement**.
+
+When you have a user token then you'll have to call this API:
+
+```java
+private NKAuthApiAuthenticateListener listener;
+private String token;
+
+private int social_type = MBAuthAsyncTask_AuthenticateSocial.SOCIAL_FACEBOOK;
+//or
+private int social_type = MBAuthAsyncTask_AuthenticateSocial.SOCIAL_GOOGLE;
+
+Nooko3AuthTasks.authenticateUserWithSocial(getApplicationContext(), 
+	listener, 			 //Listener for authentication
+	token,               //User social token
+	social_type);        /*Social type, identifies which social are you using, can be
+						 found in MBAuthAsyncTask_AuthenticateSocial as static value*/
+```
+
+Calling this API will result in immediate login, even if it's the first time the user ever logged in, so you will have the `jwt_token` that <u>will automatically be used in all subsequential calls until app is uninstalled or user is logged out</u>. Nothing changes for logging out, you should still need to call
 
 ```java
 Nooko3AuthTasks.clearAuthToken(getApplicationContext());

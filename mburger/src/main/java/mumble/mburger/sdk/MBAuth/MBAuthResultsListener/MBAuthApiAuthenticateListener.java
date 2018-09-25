@@ -11,6 +11,6 @@ import mumble.mburger.sdk.Common.MBConstants.MBConstants;
  * @version {@value MBConstants#version}
  */
 public interface MBAuthApiAuthenticateListener {
-    void onAuthenticationSuccess(String jwt_token);
+    void onAuthenticationSuccess(String jwt_token, boolean social);
     void onAuthenticationError(String error);
 }
