@@ -12,8 +12,8 @@ public class MBApiManagerConfig {
 
     public static String endpoint = "https://nooko2.mumbleserver.it";
     public static String SERVER_HOSTNAME = "nooko2.mumbleserver.it";
-    public static String endpoint_dev = "https://nooko2-dev.mumbleserver.it";
-    public static String SERVER_HOSTNAME_DEV = "nooko2-dev.mumbleserver.it";
+    public static String endpoint_dev = "https://dev.mburger.cloud";
+    public static String SERVER_HOSTNAME_DEV = "dev.mburger.cloud";
     public static final String endpoint_push = "https://push.mumbleserver.it";
     public static final String SERVER_HOSTNAME_PUSH = "push.mumbleserver.it";
 
