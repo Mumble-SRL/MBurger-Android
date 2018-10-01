@@ -26,6 +26,9 @@ public class MBConstants {
     /**Textarea type*/
     public static String type_textarea = "textarea";
 
+    /**Markdown type*/
+    public static String type_markdown = "markdown";
+
     /**Array images type*/
     public static String type_image = "image";
 

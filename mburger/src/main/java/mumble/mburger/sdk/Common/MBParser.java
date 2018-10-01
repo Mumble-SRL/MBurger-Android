@@ -261,7 +261,9 @@ public class MBParser {
         boolean found = false;
 
         try {
-            if (type.equals(MBConstants.type_text) || type.equals(MBConstants.type_textarea)) {
+            if (type.equals(MBConstants.type_text)
+                    || type.equals(MBConstants.type_textarea)
+                    || type.equals(MBConstants.type_markdown)) {
                 found = true;
                 nObj = new MBTextElement(id, name, (String) value);
             }
