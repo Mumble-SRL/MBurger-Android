@@ -10,8 +10,8 @@ import mumble.mburger.sdk.Common.MBConstants.MBConstants;
  */
 public class MBApiManagerConfig {
 
-    public static String endpoint = "https://nooko2.mumbleserver.it";
-    public static String SERVER_HOSTNAME = "nooko2.mumbleserver.it";
+    public static String endpoint = "https://mburger.cloud";
+    public static String SERVER_HOSTNAME = "mburger.cloud";
     public static String endpoint_dev = "https://dev.mburger.cloud";
     public static String SERVER_HOSTNAME_DEV = "dev.mburger.cloud";
     public static final String endpoint_push = "https://push.mumbleserver.it";
