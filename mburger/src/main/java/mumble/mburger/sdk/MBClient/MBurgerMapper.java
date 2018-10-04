@@ -56,9 +56,13 @@ public class MBurgerMapper {
                         MBImages nImages = (MBImages) sectionObject;
                         if (secondPart.equals(MBMappingArgs.mapping_first_image_media)) {
                             if (getSimpleValues) {
-                                objField.set(destinationObject, nImages.getFirstImage().getUrl());
+                                if (!nImages.getImages().isEmpty()) {
+                                    objField.set(destinationObject, nImages.getFirstImage().getUrl());
+                                }
                             } else {
-                                objField.set(destinationObject, nImages.getFirstImage());
+                                if (!nImages.getImages().isEmpty()) {
+                                    objField.set(destinationObject, nImages.getFirstImage());
+                                }
                             }
                         }
                     }
@@ -67,9 +71,13 @@ public class MBurgerMapper {
                         MBMediaElement nMedia = (MBMediaElement) sectionObject;
                         if (secondPart.equals(MBMappingArgs.mapping_first_image_media)) {
                             if (getSimpleValues) {
-                                objField.set(destinationObject, nMedia.getFirstMedia().getUrl());
+                                if (!nMedia.getFiles().isEmpty()) {
+                                    objField.set(destinationObject, nMedia.getFirstMedia().getUrl());
+                                }
                             } else {
-                                objField.set(destinationObject, nMedia.getFirstMedia());
+                                if (!nMedia.getFiles().isEmpty()) {
+                                    objField.set(destinationObject, nMedia.getFirstMedia());
+                                }
                             }
                         }
                     }
