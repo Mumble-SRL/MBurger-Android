@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.json.JSONArray;
+
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
@@ -61,6 +63,12 @@ public class MBAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
     private String phone;
 
     /**
+     * Contracts data
+     */
+    @Nullable
+    private JSONArray contracts;
+
+    /**
      * Auxiliar registration data
      */
     @Nullable
@@ -87,7 +95,7 @@ public class MBAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
     private Map<String, Object> map;
 
     public MBAuthAsyncTask_Register(Context context, String name, String surname, String phone, Uri image,
-                                    String email, String password, String data) {
+                                    String email, String password, JSONArray contracts, String data) {
         this.weakContext = new WeakReference<>(context);
         this.email = email;
         this.password = password;
@@ -96,10 +104,11 @@ public class MBAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
         this.phone = phone;
         this.image = image;
         this.data = data;
+        this.contracts = contracts;
     }
 
     public MBAuthAsyncTask_Register(Context context, String custom_action, String name, String surname,
-                                    String phone, Uri image, String email, String password, String data) {
+                                    String phone, Uri image, String email, String password, JSONArray contracts, String data) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.email = email;
@@ -109,10 +118,11 @@ public class MBAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
         this.phone = phone;
         this.image = image;
         this.data = data;
+        this.contracts = contracts;
     }
 
     public MBAuthAsyncTask_Register(Context context, MBAuthApiRegisterListener listener, String name, String surname,
-                                    String phone, Uri image, String email, String password, String data) {
+                                    String phone, Uri image, String email, String password, JSONArray contracts, String data) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
         this.email = email;
@@ -122,6 +132,7 @@ public class MBAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
         this.phone = phone;
         this.image = image;
         this.data = data;
+        this.contracts = contracts;
     }
 
     @Override
@@ -142,6 +153,7 @@ public class MBAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
                 error = MBCommonMethods.getErrorMessageFromResult(weakContext.get(), result);
             }
         }
+
         return null;
     }
 
@@ -168,6 +180,12 @@ public class MBAuthAsyncTask_Register extends AsyncTask<Void, Void, Void> {
 
         if (data != null) {
             values.put("data", data);
+        }
+
+        if(contracts != null){
+            if(contracts.length() != 0) {
+                values.put("contracts", contracts.toString());
+            }
         }
 
         map = MBAPIManager3.callApi(weakContext.get(), MBApiManagerConfig.API_REGISTER, values,

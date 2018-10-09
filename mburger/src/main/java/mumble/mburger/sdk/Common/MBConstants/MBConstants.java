@@ -9,7 +9,7 @@ package mumble.mburger.sdk.Common.MBConstants;
 public class MBConstants {
 
     /**Version*/
-    public static final String version = "2";
+    public static final String version = "1.2";
 
     //PROPERTIES
     public static String PROPERTY_FILE = "nk_prefs.xml";

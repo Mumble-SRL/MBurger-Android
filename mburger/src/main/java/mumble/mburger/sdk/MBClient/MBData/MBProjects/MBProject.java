@@ -1,11 +1,12 @@
 package mumble.mburger.sdk.MBClient.MBData.MBProjects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import mumble.mburger.sdk.Common.MBConstants.MBConstants;
 
 /**
- * Identifies a Nooko project, pretty much it's an abstraction of a Nooko app
+ * Identifies a MBurger project, pretty much it's an abstraction of a MBurger app
  *
  * @author Enrico Ori
  * @version {@value MBConstants#version}
@@ -55,11 +56,15 @@ public class MBProject implements Serializable {
     private long evidence_id, evidence_block_id, evidence_section_id;
     private String evidence_title, evidence_image;
 
+    /**
+     * Project has license contracts
+     */
+    private ArrayList<MBContract> contracts;
 
     public MBProject(long id, String name, boolean hasBeacons, boolean hasUsers, boolean hasMultilanguage,
                      boolean hasLiveMessages, boolean hasEvidence, boolean hasPush,
                      long evidence_id, long evidence_block_id, long evidence_section_id, String evidence_title,
-                     String evidence_image) {
+                     String evidence_image, ArrayList<MBContract> contracts) {
         this.id = id;
         this.name = name;
         this.hasBeacons = hasBeacons;
@@ -73,6 +78,7 @@ public class MBProject implements Serializable {
         this.evidence_section_id = evidence_section_id;
         this.evidence_title = evidence_title;
         this.evidence_image = evidence_image;
+        this.contracts = contracts;
     }
 
     /**

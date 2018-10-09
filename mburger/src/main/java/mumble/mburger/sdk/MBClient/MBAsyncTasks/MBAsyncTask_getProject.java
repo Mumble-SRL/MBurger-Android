@@ -109,6 +109,7 @@ public class MBAsyncTask_getProject extends AsyncTask<Void, Void, Void> {
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
+        values.put("include", "contracts");
         map = MBAPIManager3.callApi(weakContext.get(), MBApiManagerConfig.API_PROJECT, values,
                 MBApiManagerConfig.MODE_GET, true, false);
     }

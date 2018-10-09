@@ -10,11 +10,13 @@ public class MBAuthUser implements Serializable{
     private long id;
     private String name, surname, email, phone, image, gender, data, auth_mode;
     private ArrayList<MBStripeSubscription> subscriptions;
+    private ArrayList<MBContractsAccepted> contracts;
 
     public MBAuthUser(long id, String name, String surname,
                       String email, String phone, String image,
                       String gender, String data, String auth_mode,
-                      ArrayList<MBStripeSubscription> subscriptions) {
+                      ArrayList<MBStripeSubscription> subscriptions,
+                      ArrayList<MBContractsAccepted> contracts) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -25,6 +27,7 @@ public class MBAuthUser implements Serializable{
         this.data = data;
         this.auth_mode = auth_mode;
         this.subscriptions = subscriptions;
+        this.contracts = contracts;
     }
 
     public long getId() {
@@ -105,5 +108,13 @@ public class MBAuthUser implements Serializable{
 
     public void setSubscriptions(ArrayList<MBStripeSubscription> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    public ArrayList<MBContractsAccepted> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(ArrayList<MBContractsAccepted> contracts) {
+        this.contracts = contracts;
     }
 }

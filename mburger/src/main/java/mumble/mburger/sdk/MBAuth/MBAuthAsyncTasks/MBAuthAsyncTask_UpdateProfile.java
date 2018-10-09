@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,6 +61,12 @@ public class MBAuthAsyncTask_UpdateProfile extends AsyncTask<Void, Void, Void> {
     private String phone;
 
     /**
+     * Contracts data
+     */
+    @Nullable
+    private JSONArray contracts;
+
+    /**
      * Auxiliar registration data
      */
     @Nullable
@@ -91,7 +98,7 @@ public class MBAuthAsyncTask_UpdateProfile extends AsyncTask<Void, Void, Void> {
     private MBAuthUser user;
 
     public MBAuthAsyncTask_UpdateProfile(Context context, String name, String surname, String phone, Uri image,
-                                         String email, String data) {
+                                         String email, JSONArray contracts, String data) {
         this.weakContext = new WeakReference<>(context);
         this.email = email;
         this.name = name;
@@ -99,10 +106,11 @@ public class MBAuthAsyncTask_UpdateProfile extends AsyncTask<Void, Void, Void> {
         this.phone = phone;
         this.image = image;
         this.data = data;
+        this.contracts = contracts;
     }
 
     public MBAuthAsyncTask_UpdateProfile(Context context, String custom_action, String name, String surname,
-                                         String phone, Uri image, String email, String data) {
+                                         String phone, Uri image, String email, JSONArray contracts, String data) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.email = email;
@@ -111,10 +119,11 @@ public class MBAuthAsyncTask_UpdateProfile extends AsyncTask<Void, Void, Void> {
         this.phone = phone;
         this.image = image;
         this.data = data;
+        this.contracts = contracts;
     }
 
     public MBAuthAsyncTask_UpdateProfile(Context context, MBAuthApiProfileUpdateListener listener, String name, String surname,
-                                         String phone, Uri image, String email, String data) {
+                                         String phone, Uri image, String email, JSONArray contracts, String data) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
         this.email = email;
@@ -123,6 +132,7 @@ public class MBAuthAsyncTask_UpdateProfile extends AsyncTask<Void, Void, Void> {
         this.phone = phone;
         this.image = image;
         this.data = data;
+        this.contracts = contracts;
     }
 
     @Override
@@ -169,6 +179,12 @@ public class MBAuthAsyncTask_UpdateProfile extends AsyncTask<Void, Void, Void> {
 
         if (data != null) {
             values.put("data", data);
+        }
+
+        if(contracts != null){
+            if(contracts.length() != 0) {
+                values.put("contracts", contracts.toString());
+            }
         }
 
         map = MBAPIManager3.callApi(weakContext.get(), MBApiManagerConfig.API_PROFILE_UPDATE,

@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import mumble.mburger.sdk.Common.MBConstants.MBConstants;
+import mumble.mburger.sdk.MBAuth.MBAuthData.MBAuthUser;
+import mumble.mburger.sdk.MBAuth.MBAuthData.MBContractsAccepted;
 import mumble.mburger.sdk.MBClient.MBData.MBAtomic.MBClass;
 import mumble.mburger.sdk.MBClient.MBData.MBBlocks.MBBlock;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBAddressElement;
@@ -26,9 +28,9 @@ import mumble.mburger.sdk.MBClient.MBData.MBElements.MBSubElements.MBFile;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBSubElements.MBImage;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBTextElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBWYSIWYGElement;
+import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBContract;
 import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBProject;
 import mumble.mburger.sdk.MBClient.MBData.MBSections.MBSection;
-import mumble.mburger.sdk.MBAuth.MBAuthData.MBAuthUser;
 import mumble.mburger.sdk.MBPay.MBPayData.MBStripeCard;
 import mumble.mburger.sdk.MBPay.MBPayData.MBStripeSubscription;
 
@@ -57,6 +59,7 @@ public class MBParser {
         long evidence_section_id = -1;
         String evidence_title = null;
         String evidence_image = null;
+        ArrayList<MBContract> contracts = new ArrayList<>();
 
         try {
             if (MBCommonMethods.isJSONOk(jsonObject, "id")) {
@@ -107,12 +110,52 @@ public class MBParser {
                 evidence_image = jsonObject.getString("evidence_image");
             }
 
+            if (MBCommonMethods.isJSONOk(jsonObject, "contracts")) {
+                JSONArray jContracts = jsonObject.getJSONArray("contracts");
+                for (int i = 0; i < jContracts.length(); i++) {
+                    JSONObject jContract = jContracts.getJSONObject(i);
+                    long con_id = -1, con_created_at = -1, con_updated_at = -1;
+                    String con_name = null, con_link = null, con_text = null;
+                    boolean con_active = false;
+
+                    if (MBCommonMethods.isJSONOk(jContract, "id")) {
+                        con_id = jContract.getLong("id");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jContract, "name")) {
+                        con_name = jContract.getString("name");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jContract, "link")) {
+                        con_link = jContract.getString("link");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jContract, "text")) {
+                        con_text = jContract.getString("text");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jContract, "active")) {
+                        con_active = jContract.getBoolean("active");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jContract, "created_at")) {
+                        con_created_at = jContract.getLong("created_at");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jContract, "updated_at")) {
+                        con_updated_at = jContract.getLong("updated_at");
+                    }
+
+                    contracts.add(new MBContract(con_id, con_name, con_link, con_text, con_active, con_created_at, con_updated_at));
+                }
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return new MBProject(id, name, hasBeacons, hasUsers, hasMultilanguage, hasLiveMessages, hasEvidence, hasPush,
-                evidence_id, evidence_block_id, evidence_section_id, evidence_title, evidence_image);
+                evidence_id, evidence_block_id, evidence_section_id, evidence_title, evidence_image, contracts);
 
     }
 
@@ -465,7 +508,27 @@ public class MBParser {
                 }
             }
 
-            return new MBAuthUser(id, name, surname, email, phone, image, gender, data, auth_mode, subscriptions);
+            ArrayList<MBContractsAccepted> contracts = new ArrayList<>();
+            if (MBCommonMethods.isJSONOk(jUser, "contracts")) {
+                JSONArray jContracts = jUser.getJSONArray("contracts");
+                for (int i = 0; i < jContracts.length(); i++) {
+                    JSONObject jContract = jContracts.getJSONObject(i);
+                    long c_id = -1;
+                    boolean c_accepted = false;
+                    if (MBCommonMethods.isJSONOk(jContract, "id")) {
+                        c_id = jContract.getLong("id");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jContract, "accepted")) {
+                        c_accepted = jContract.getBoolean("accepted");
+                    }
+
+                    contracts.add(new MBContractsAccepted(c_id, c_accepted));
+                }
+            }
+
+
+            return new MBAuthUser(id, name, surname, email, phone, image, gender, data, auth_mode, subscriptions, contracts);
         } catch (JSONException e) {
             e.printStackTrace();
         }

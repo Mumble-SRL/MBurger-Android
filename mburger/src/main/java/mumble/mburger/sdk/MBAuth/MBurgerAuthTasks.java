@@ -3,6 +3,8 @@ package mumble.mburger.sdk.MBAuth;
 import android.content.Context;
 import android.net.Uri;
 
+import org.json.JSONArray;
+
 import mumble.mburger.R;
 import mumble.mburger.sdk.Common.MBCommonMethods;
 import mumble.mburger.sdk.Common.MBConstants.MBUserConstants;
@@ -95,9 +97,9 @@ public class MBurgerAuthTasks {
      * Register an user
      */
     public static void registerUser(Context context, String name, String surname, String phone, Uri image,
-                                    String email, String password, String data) {
+                                    String email, String password, JSONArray contracts, String data) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_Register(context, name, surname, phone, image, email, password, data).execute();
+            new MBAuthAsyncTask_Register(context, name, surname, phone, image, email, password, contracts, data).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -107,9 +109,9 @@ public class MBurgerAuthTasks {
      * Register an user with custom action callback
      */
     public static void registerUser(Context context, String custom_action, String name, String surname, String phone, Uri image,
-                                    String email, String password, String data) {
+                                    String email, String password, JSONArray contracts, String data) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_Register(context, custom_action, name, surname, phone, image, email, password, data).execute();
+            new MBAuthAsyncTask_Register(context, custom_action, name, surname, phone, image, email, password, contracts, data).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -119,9 +121,9 @@ public class MBurgerAuthTasks {
      * Register an user with listener callback
      */
     public static void registerUser(Context context, MBAuthApiRegisterListener listener, String name, String surname, String phone, Uri image,
-                                    String email, String password, String data) {
+                                    String email, String password, JSONArray contracts, String data) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_Register(context, listener, name, surname, phone, image, email, password, data).execute();
+            new MBAuthAsyncTask_Register(context, listener, name, surname, phone, image, email, password, contracts, data).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -230,9 +232,9 @@ public class MBurgerAuthTasks {
      * Update logged user profile an user
      */
     public static void updateProfile(Context context, String name, String surname, String phone, Uri image,
-                                     String email, String data) {
+                                     String email, JSONArray contracts, String data) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_UpdateProfile(context, name, surname, phone, image, email, data).execute();
+            new MBAuthAsyncTask_UpdateProfile(context, name, surname, phone, image, email, contracts, data).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -242,9 +244,9 @@ public class MBurgerAuthTasks {
      * Update logged user profile an user with custom action callback
      */
     public static void updateProfile(Context context, String custom_action, String name, String surname, String phone, Uri image,
-                                     String email, String data) {
+                                     String email, JSONArray contracts, String data) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_UpdateProfile(context, custom_action, name, surname, phone, image, email, data).execute();
+            new MBAuthAsyncTask_UpdateProfile(context, custom_action, name, surname, phone, image, email, contracts, data).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -254,9 +256,9 @@ public class MBurgerAuthTasks {
      * Register an user with listener callback
      */
     public static void updateProfile(Context context, MBAuthApiProfileUpdateListener listener, String name,
-                                     String surname, String phone, Uri image, String email, String data) {
+                                     String surname, String phone, Uri image, String email, JSONArray contracts, String data) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_UpdateProfile(context, listener, name, surname, phone, image, email, data).execute();
+            new MBAuthAsyncTask_UpdateProfile(context, listener, name, surname, phone, image, email, contracts, data).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
