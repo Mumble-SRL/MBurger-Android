@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,6 +47,12 @@ public class MBAuthAsyncTask_Authenticate extends AsyncTask<Void, Void, Void> {
     private String password;
 
     /**
+     * Contracts data
+     */
+    @Nullable
+    private JSONArray contracts;
+
+    /**
      * If you wish to change the action that accompanies the API result
      */
     private String action = MBAPIConstants.ACTION_AUTHENTICATE;
@@ -63,24 +71,27 @@ public class MBAuthAsyncTask_Authenticate extends AsyncTask<Void, Void, Void> {
     private String error;
     private Map<String, Object> map;
 
-    public MBAuthAsyncTask_Authenticate(Context context, String email, String password) {
+    public MBAuthAsyncTask_Authenticate(Context context, String email, String password, JSONArray contracts) {
         this.weakContext = new WeakReference<>(context);
         this.email = email;
         this.password = password;
+        this.contracts = contracts;
     }
 
-    public MBAuthAsyncTask_Authenticate(Context context, String custom_action, String email, String password) {
+    public MBAuthAsyncTask_Authenticate(Context context, String custom_action, String email, String password, JSONArray contracts) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.email = email;
         this.password = password;
+        this.contracts = contracts;
     }
 
-    public MBAuthAsyncTask_Authenticate(Context context, MBAuthApiAuthenticateListener listener, String email, String password) {
+    public MBAuthAsyncTask_Authenticate(Context context, MBAuthApiAuthenticateListener listener, String email, String password, JSONArray contracts) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
         this.email = email;
         this.password = password;
+        this.contracts = contracts;
     }
 
     @Override
@@ -110,6 +121,13 @@ public class MBAuthAsyncTask_Authenticate extends AsyncTask<Void, Void, Void> {
         values.put("email", email);
         values.put("password", password);
         values.put("mode", "email");
+
+        if(contracts != null){
+            if(contracts.length() != 0) {
+                values.put("contracts", contracts.toString());
+            }
+        }
+
         map = MBAPIManager3.callApi(weakContext.get(), MBApiManagerConfig.API_AUTHENTICATE, values,
                 MBApiManagerConfig.MODE_POST, true, false);
     }

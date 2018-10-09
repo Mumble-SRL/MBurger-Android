@@ -11,16 +11,16 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
-import mumble.mburger.sdk.Common.MBParser;
-import mumble.mburger.sdk.Common.MBConstants.MBConstants;
-import mumble.mburger.sdk.Common.MBConstants.MBAPIConstants;
-import mumble.mburger.sdk.Common.MBApiManager.MBApiManagerConfig;
 import mumble.mburger.sdk.Common.MBApiManager.MBAMActivityUtils;
 import mumble.mburger.sdk.Common.MBApiManager.MBAPIManager3;
+import mumble.mburger.sdk.Common.MBApiManager.MBApiManagerConfig;
 import mumble.mburger.sdk.Common.MBApiManager.MBApiManagerUtils;
 import mumble.mburger.sdk.Common.MBApiManager.MBApiPayloadKeys;
-import mumble.mburger.sdk.MBClient.MBApiResultsLIsteners.MBApiProjectResultListener;
 import mumble.mburger.sdk.Common.MBCommonMethods;
+import mumble.mburger.sdk.Common.MBConstants.MBAPIConstants;
+import mumble.mburger.sdk.Common.MBConstants.MBConstants;
+import mumble.mburger.sdk.Common.MBParser;
+import mumble.mburger.sdk.MBClient.MBApiResultsLIsteners.MBApiProjectResultListener;
 import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBProject;
 
 /**
@@ -38,6 +38,11 @@ public class MBAsyncTask_getProject extends AsyncTask<Void, Void, Void> {
     private WeakReference<Context> weakContext;
 
     /**
+     * If contracts are needed to be returned
+     */
+    private boolean include_contracts;
+
+    /**
      * If you wish to change the action that accompanies the API result
      */
     private String action = MBAPIConstants.ACTION_GET_PROJECT;
@@ -53,18 +58,21 @@ public class MBAsyncTask_getProject extends AsyncTask<Void, Void, Void> {
 
     private MBProject project;
 
-    public MBAsyncTask_getProject(Context context) {
+    public MBAsyncTask_getProject(Context context, boolean include_contracts) {
         this.weakContext = new WeakReference<>(context);
+        this.include_contracts = include_contracts;
     }
 
-    public MBAsyncTask_getProject(Context context, String custom_action) {
+    public MBAsyncTask_getProject(Context context, String custom_action, boolean include_contracts) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
+        this.include_contracts = include_contracts;
     }
 
-    public MBAsyncTask_getProject(Context context, MBApiProjectResultListener listener) {
+    public MBAsyncTask_getProject(Context context, MBApiProjectResultListener listener, boolean include_contracts) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
+        this.include_contracts = include_contracts;
     }
 
     @Override
@@ -109,7 +117,10 @@ public class MBAsyncTask_getProject extends AsyncTask<Void, Void, Void> {
 
     public void putValuesAndCall() {
         ContentValues values = new ContentValues();
-        values.put("include", "contracts");
+        if (include_contracts) {
+            values.put("include", "contracts");
+        }
+
         map = MBAPIManager3.callApi(weakContext.get(), MBApiManagerConfig.API_PROJECT, values,
                 MBApiManagerConfig.MODE_GET, true, false);
     }

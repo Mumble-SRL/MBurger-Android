@@ -30,9 +30,9 @@ public class MBurgerAuthTasks {
     /**
      * Authenticate an user
      */
-    public static void authenticateUser(Context context, String email, String password) {
+    public static void authenticateUser(Context context, String email, String password, JSONArray contracts) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_Authenticate(context, email, password).execute();
+            new MBAuthAsyncTask_Authenticate(context, email, password, contracts).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -41,9 +41,9 @@ public class MBurgerAuthTasks {
     /**
      * Authenticate an user with custom action callback
      */
-    public static void authenticateUser(Context context, String custom_action, String email, String password) {
+    public static void authenticateUser(Context context, String custom_action, String email, String password, JSONArray contracts) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_Authenticate(context, custom_action, email, password).execute();
+            new MBAuthAsyncTask_Authenticate(context, custom_action, email, password, contracts).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -52,9 +52,9 @@ public class MBurgerAuthTasks {
     /**
      * Authenticate an user with listener callback
      */
-    public static void authenticateUser(Context context, MBAuthApiAuthenticateListener listener, String email, String password) {
+    public static void authenticateUser(Context context, MBAuthApiAuthenticateListener listener, String email, String password, JSONArray contracts) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_Authenticate(context, listener, email, password).execute();
+            new MBAuthAsyncTask_Authenticate(context, listener, email, password, contracts).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -63,9 +63,9 @@ public class MBurgerAuthTasks {
     /**
      * Authenticate an user
      */
-    public static void authenticateUserWithSocial(Context context, String token, int social_type) {
+    public static void authenticateUserWithSocial(Context context, String token, int social_type, JSONArray contracts) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_AuthenticateSocial(context, token, social_type).execute();
+            new MBAuthAsyncTask_AuthenticateSocial(context, token, social_type, contracts).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -74,9 +74,9 @@ public class MBurgerAuthTasks {
     /**
      * Authenticate an user with custom action callback
      */
-    public static void authenticateUserWithSocial(Context context, String custom_action, String token, int social_type) {
+    public static void authenticateUserWithSocial(Context context, String custom_action, String token, int social_type, JSONArray contracts) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_AuthenticateSocial(context, custom_action, token, social_type).execute();
+            new MBAuthAsyncTask_AuthenticateSocial(context, custom_action, token, social_type, contracts).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -85,9 +85,9 @@ public class MBurgerAuthTasks {
     /**
      * Authenticate an user with listener callback
      */
-    public static void authenticateUserWithSocial(Context context, MBAuthApiAuthenticateListener listener, String token, int social_type) {
+    public static void authenticateUserWithSocial(Context context, MBAuthApiAuthenticateListener listener, String token, int social_type, JSONArray contracts) {
         if (MBUserConstants.apiKey != null) {
-            new MBAuthAsyncTask_AuthenticateSocial(context, listener, token, social_type).execute();
+            new MBAuthAsyncTask_AuthenticateSocial(context, listener, token, social_type, contracts).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }

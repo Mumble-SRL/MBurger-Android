@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,6 +47,12 @@ public class MBAuthAsyncTask_AuthenticateSocial extends AsyncTask<Void, Void, Vo
     private int social_type;
 
     /**
+     * Contracts data
+     */
+    @Nullable
+    private JSONArray contracts;
+
+    /**
      * If you wish to change the action that accompanies the API result
      */
     private String action = MBAPIConstants.ACTION_AUTHENTICATE;
@@ -63,20 +71,20 @@ public class MBAuthAsyncTask_AuthenticateSocial extends AsyncTask<Void, Void, Vo
     private String error;
     private Map<String, Object> map;
 
-    public MBAuthAsyncTask_AuthenticateSocial(Context context, String token, int social_type) {
+    public MBAuthAsyncTask_AuthenticateSocial(Context context, String token, int social_type, JSONArray contracts) {
         this.weakContext = new WeakReference<>(context);
         this.token = token;
         this.social_type = social_type;
     }
 
-    public MBAuthAsyncTask_AuthenticateSocial(Context context, String custom_action, String token, int social_type) {
+    public MBAuthAsyncTask_AuthenticateSocial(Context context, String custom_action, String token, int social_type, JSONArray contracts) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.token = token;
         this.social_type = social_type;
     }
 
-    public MBAuthAsyncTask_AuthenticateSocial(Context context, MBAuthApiAuthenticateListener listener, String token, int social_type) {
+    public MBAuthAsyncTask_AuthenticateSocial(Context context, MBAuthApiAuthenticateListener listener, String token, int social_type, JSONArray contracts) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
         this.token = token;
@@ -115,6 +123,13 @@ public class MBAuthAsyncTask_AuthenticateSocial extends AsyncTask<Void, Void, Vo
             values.put("google_token", token);
             values.put("mode", "google");
         }
+
+        if(contracts != null){
+            if(contracts.length() != 0) {
+                values.put("contracts", contracts.toString());
+            }
+        }
+
         map = MBAPIManager3.callApi(weakContext.get(), MBApiManagerConfig.API_AUTHENTICATE, values,
                 MBApiManagerConfig.MODE_POST, true, false);
     }

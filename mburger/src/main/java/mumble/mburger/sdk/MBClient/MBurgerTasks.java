@@ -37,9 +37,9 @@ public class MBurgerTasks {
     /**
      * Asks project data from API
      */
-    public static void askForProject(Context context) {
+    public static void askForProject(Context context, boolean include_contracts) {
         if (MBUserConstants.apiKey != null) {
-            new MBAsyncTask_getProject(context).execute();
+            new MBAsyncTask_getProject(context, include_contracts).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -48,9 +48,9 @@ public class MBurgerTasks {
     /**
      * Asks project data from API with custom action return
      */
-    public static void askForProject(Context context, String custom_action) {
+    public static void askForProject(Context context, String custom_action, boolean include_contracts) {
         if (MBUserConstants.apiKey != null) {
-            new MBAsyncTask_getProject(context, custom_action).execute();
+            new MBAsyncTask_getProject(context, custom_action, include_contracts).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -59,9 +59,9 @@ public class MBurgerTasks {
     /**
      * Asks project data from API with listener
      */
-    public static void askForProject(Context context, MBApiProjectResultListener listener) {
+    public static void askForProject(Context context, MBApiProjectResultListener listener, boolean include_contracts) {
         if (MBUserConstants.apiKey != null) {
-            new MBAsyncTask_getProject(context, listener).execute();
+            new MBAsyncTask_getProject(context, listener, include_contracts).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
