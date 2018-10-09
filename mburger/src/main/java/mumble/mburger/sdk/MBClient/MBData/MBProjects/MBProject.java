@@ -196,4 +196,12 @@ public class MBProject implements Serializable {
     public void setEvidence_image(String evidence_image) {
         this.evidence_image = evidence_image;
     }
+
+    public ArrayList<MBContract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(ArrayList<MBContract> contracts) {
+        this.contracts = contracts;
+    }
 }
