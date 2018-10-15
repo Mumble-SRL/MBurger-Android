@@ -75,6 +75,7 @@ public class MBAuthAsyncTask_AuthenticateSocial extends AsyncTask<Void, Void, Vo
         this.weakContext = new WeakReference<>(context);
         this.token = token;
         this.social_type = social_type;
+        this.contracts = contracts;
     }
 
     public MBAuthAsyncTask_AuthenticateSocial(Context context, String custom_action, String token, int social_type, JSONArray contracts) {
@@ -82,6 +83,7 @@ public class MBAuthAsyncTask_AuthenticateSocial extends AsyncTask<Void, Void, Vo
         this.action = custom_action;
         this.token = token;
         this.social_type = social_type;
+        this.contracts = contracts;
     }
 
     public MBAuthAsyncTask_AuthenticateSocial(Context context, MBAuthApiAuthenticateListener listener, String token, int social_type, JSONArray contracts) {
@@ -89,6 +91,7 @@ public class MBAuthAsyncTask_AuthenticateSocial extends AsyncTask<Void, Void, Vo
         this.listener = listener;
         this.token = token;
         this.social_type = social_type;
+        this.contracts = contracts;
     }
 
     @Override
