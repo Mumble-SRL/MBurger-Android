@@ -90,6 +90,9 @@ public class MBAPIConstants {
     /**Used with the API {@link MBAuthAsyncTask_UpdateProfile MBAuthAsyncTask_UpdateProfile}*/
     public static final String ACTION_UPDATE_PROFILE = "mumble.mburger.ACTION_UPDATE_PROFILE";
 
+    /**Used with the API {@link mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Logout MBAuthAsyncTask_Logout}*/
+    public static final String ACTION_LOGOUT = "mumble.mburger.ACTION_LOGOUT";
+
     /**Used with the API {@link MBPayAsyncTask_Subscribe MBPayAsyncTask_Subscribe}*/
     public static final String ACTION_SUBSCRIBE = "mumble.mburger.ACTION_SUBSCRIBE";
 

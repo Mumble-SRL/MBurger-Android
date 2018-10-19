@@ -49,12 +49,18 @@ public class MBApiManagerConfig {
     public static final String API_PROFILE = "/api/profile";
     public static final String API_PROFILE_DELETE = "/api/profile/delete";
     public static final String API_PROFILE_UPDATE = "/api/profile/update";
+
+    /**
+     * PAYMENT API
+     */
     public static final String API_SUBSCRIBE = "/api/subscriptions";
     public static final String API_SUBSCRIBE_CANCEL = "/api/subscriptions/cancel";
     public static final String API_SUBSCRIBE_RESUME = "/api/subscriptions/resume";
     public static final String API_CARDS = "/api/cards";
     public static final String API_DEFAULT_PART = "/default";
-    public static final String API_CUSTOMER = "/api/customer";
+    public static final String API_CUSTOMER = "/api/customers";
+    public static final String API_LOGOUT = "/api/logout";
+    public static final String API_CHECKOUT_SHOPIFY = "/api/shopify-checkout";
 
     /**
      * PUSH API

@@ -10,10 +10,12 @@ import mumble.mburger.sdk.Common.MBCommonMethods;
 import mumble.mburger.sdk.Common.MBConstants.MBUserConstants;
 import mumble.mburger.sdk.Common.MBExceptions.MBSDKInitializeException;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Authenticate;
+import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_AuthenticateShopify;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_AuthenticateSocial;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_ChangePassword;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_DeleteProfile;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_ForgotPassword;
+import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Logout;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Profile;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_Register;
 import mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks.MBAuthAsyncTask_UpdateProfile;
@@ -24,6 +26,7 @@ import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiForgotPasswordLi
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiProfileListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiProfileUpdateListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiRegisterListener;
+import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthLogoutListener;
 
 public class MBurgerAuthTasks {
 
@@ -88,6 +91,39 @@ public class MBurgerAuthTasks {
     public static void authenticateUserWithSocial(Context context, MBAuthApiAuthenticateListener listener, String token, int social_type, JSONArray contracts) {
         if (MBUserConstants.apiKey != null) {
             new MBAuthAsyncTask_AuthenticateSocial(context, listener, token, social_type, contracts).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Authenticate an user
+     */
+    public static void authenticateUserWithShopify(Context context, long shopify_id, JSONArray contracts) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_AuthenticateShopify(context, shopify_id, contracts).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Authenticate an user with custom action callback
+     */
+    public static void authenticateUserWithShopify(Context context, String custom_action, long shopify_id, JSONArray contracts) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_AuthenticateShopify(context, custom_action, shopify_id, contracts).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Authenticate an user with listener callback
+     */
+    public static void authenticateUserWithShopify(Context context, MBAuthApiAuthenticateListener listener, long shopify_id, JSONArray contracts) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_AuthenticateShopify(context, listener, shopify_id, contracts).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -292,6 +328,39 @@ public class MBurgerAuthTasks {
     public static void deleteProfile(Context context, MBAuthApiDeleteProfileListener listener) {
         if (MBUserConstants.apiKey != null) {
             new MBAuthAsyncTask_DeleteProfile(context, listener).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Logs out logged user
+     */
+    public static void logout(Context context) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_Logout(context).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Logs out logged user with custom action callback
+     */
+    public static void logout(Context context, String custom_action) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_Logout(context, custom_action).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Logs out logged user with listener callback
+     */
+    public static void logout(Context context, MBAuthLogoutListener listener) {
+        if (MBUserConstants.apiKey != null) {
+            new MBAuthAsyncTask_Logout(context, listener).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }

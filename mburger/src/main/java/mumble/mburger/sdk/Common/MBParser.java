@@ -31,6 +31,7 @@ import mumble.mburger.sdk.MBClient.MBData.MBElements.MBWYSIWYGElement;
 import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBContract;
 import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBProject;
 import mumble.mburger.sdk.MBClient.MBData.MBSections.MBSection;
+import mumble.mburger.sdk.MBClient.MBData.MBShopify.MBShopifyCollection;
 import mumble.mburger.sdk.MBPay.MBPayData.MBStripeCard;
 import mumble.mburger.sdk.MBPay.MBPayData.MBStripeSubscription;
 
@@ -54,12 +55,16 @@ public class MBParser {
         boolean hasLiveMessages = false;
         boolean hasEvidence = false;
         boolean hasPush = false;
+        boolean hasPayments = false;
+        boolean hasShopify = false;
+
         long evidence_id = -1;
         long evidence_block_id = -1;
         long evidence_section_id = -1;
         String evidence_title = null;
         String evidence_image = null;
         ArrayList<MBContract> contracts = new ArrayList<>();
+        ArrayList<MBShopifyCollection> collections = new ArrayList<>();
 
         try {
             if (MBCommonMethods.isJSONOk(jsonObject, "id")) {
@@ -110,6 +115,14 @@ public class MBParser {
                 evidence_image = jsonObject.getString("evidence_image");
             }
 
+            if (MBCommonMethods.isJSONOk(jsonObject, "has_payments")) {
+                hasPayments = jsonObject.getBoolean("has_payments");
+            }
+
+            if (MBCommonMethods.isJSONOk(jsonObject, "has_shopify")) {
+                hasShopify = jsonObject.getBoolean("has_shopify");
+            }
+
             if (MBCommonMethods.isJSONOk(jsonObject, "contracts")) {
                 JSONArray jContracts = jsonObject.getJSONArray("contracts");
                 for (int i = 0; i < jContracts.length(); i++) {
@@ -150,13 +163,22 @@ public class MBParser {
                 }
             }
 
+            if (MBCommonMethods.isJSONOk(jsonObject, "shopify_menu")) {
+                JSONArray jShopifyMenu = jsonObject.getJSONArray("shopify_menu");
+                collections = new ArrayList<>();
+                for (int i = 0; i < jShopifyMenu.length(); i++) {
+                    JSONObject jMenu = jShopifyMenu.getJSONObject(i);
+                    collections.add(parseShopifyMenu(jMenu));
+                }
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return new MBProject(id, name, hasBeacons, hasUsers, hasMultilanguage, hasLiveMessages, hasEvidence, hasPush,
-                evidence_id, evidence_block_id, evidence_section_id, evidence_title, evidence_image, contracts);
-
+                hasPayments, hasShopify, evidence_id, evidence_block_id, evidence_section_id, evidence_title, evidence_image,
+                contracts, collections);
     }
 
     /**
@@ -622,5 +644,48 @@ public class MBParser {
         }
 
         return cards;
+    }
+
+    public static MBShopifyCollection parseShopifyMenu(JSONObject jChild) {
+        long id = -1;
+        String text = null, href = null, icon = null, target = null, title = null, image = null;
+        ArrayList<MBShopifyCollection> children = null;
+
+        try {
+            if (MBCommonMethods.isJSONOk(jChild, "id")) {
+                id = jChild.getLong("id");
+            }
+            if (MBCommonMethods.isJSONOk(jChild, "text")) {
+                text = jChild.getString("text");
+            }
+            if (MBCommonMethods.isJSONOk(jChild, "href")) {
+                href = jChild.getString("href");
+            }
+            if (MBCommonMethods.isJSONOk(jChild, "icon")) {
+                icon = jChild.getString("icon");
+            }
+            if (MBCommonMethods.isJSONOk(jChild, "target")) {
+                target = jChild.getString("target");
+            }
+            if (MBCommonMethods.isJSONOk(jChild, "title")) {
+                title = jChild.getString("title");
+            }
+            if (MBCommonMethods.isJSONOk(jChild, "image")) {
+                image = jChild.getString("image");
+            }
+            if (MBCommonMethods.isJSONOk(jChild, "children")) {
+                children = new ArrayList<>();
+                JSONArray jChildren = jChild.getJSONArray("children");
+                for (int i = 0; i < jChildren.length(); i++) {
+                    JSONObject jSubChild = jChildren.getJSONObject(i);
+                    children.add(parseShopifyMenu(jSubChild));
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new MBShopifyCollection(id, text, href, icon, target, title, image, children);
     }
 }

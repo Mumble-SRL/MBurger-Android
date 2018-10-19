@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import mumble.mburger.sdk.Common.MBConstants.MBConstants;
+import mumble.mburger.sdk.MBClient.MBData.MBShopify.MBShopifyCollection;
 
 /**
  * Identifies a MBurger project, pretty much it's an abstraction of a MBurger app
@@ -53,6 +54,21 @@ public class MBProject implements Serializable {
      */
     private boolean hasPush;
 
+    /**
+     * If the project has payment with Stripe plugin
+     */
+    private boolean hasPayment;
+
+    /**
+     * If the project has Shopify plugin
+     */
+    private boolean hasShopify;
+
+    /**
+     * Shopify collections
+     */
+    private ArrayList<MBShopifyCollection> shopifyCollections;
+
     private long evidence_id, evidence_block_id, evidence_section_id;
     private String evidence_title, evidence_image;
 
@@ -62,9 +78,9 @@ public class MBProject implements Serializable {
     private ArrayList<MBContract> contracts;
 
     public MBProject(long id, String name, boolean hasBeacons, boolean hasUsers, boolean hasMultilanguage,
-                     boolean hasLiveMessages, boolean hasEvidence, boolean hasPush,
+                     boolean hasLiveMessages, boolean hasEvidence, boolean hasPush, boolean has_payments, boolean has_shopify,
                      long evidence_id, long evidence_block_id, long evidence_section_id, String evidence_title,
-                     String evidence_image, ArrayList<MBContract> contracts) {
+                     String evidence_image, ArrayList<MBContract> contracts, ArrayList<MBShopifyCollection> shopifyCollections) {
         this.id = id;
         this.name = name;
         this.hasBeacons = hasBeacons;
@@ -73,12 +89,15 @@ public class MBProject implements Serializable {
         this.hasLiveMessages = hasLiveMessages;
         this.hasEvidence = hasEvidence;
         this.hasPush = hasPush;
+        this.hasPayment = has_payments;
+        this.hasShopify = has_shopify;
         this.evidence_id = evidence_id;
         this.evidence_block_id = evidence_block_id;
         this.evidence_section_id = evidence_section_id;
         this.evidence_title = evidence_title;
         this.evidence_image = evidence_image;
         this.contracts = contracts;
+        this.shopifyCollections = shopifyCollections;
     }
 
     /**
@@ -203,5 +222,29 @@ public class MBProject implements Serializable {
 
     public void setContracts(ArrayList<MBContract> contracts) {
         this.contracts = contracts;
+    }
+
+    public boolean isHasPayment() {
+        return hasPayment;
+    }
+
+    public void setHasPayment(boolean hasPayment) {
+        this.hasPayment = hasPayment;
+    }
+
+    public boolean isHasShopify() {
+        return hasShopify;
+    }
+
+    public void setHasShopify(boolean hasShopify) {
+        this.hasShopify = hasShopify;
+    }
+
+    public ArrayList<MBShopifyCollection> getShopifyCollections() {
+        return shopifyCollections;
+    }
+
+    public void setShopifyCollections(ArrayList<MBShopifyCollection> shopifyCollections) {
+        this.shopifyCollections = shopifyCollections;
     }
 }
