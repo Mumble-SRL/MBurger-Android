@@ -60,7 +60,8 @@ public class MBApiManagerConfig {
     public static final String API_DEFAULT_PART = "/default";
     public static final String API_CUSTOMER = "/api/customers";
     public static final String API_LOGOUT = "/api/logout";
-    public static final String API_CHECKOUT_SHOPIFY = "/api/shopify-checkout";
+    public static final String API_CHECKOUT_SHOPIFY = "/api/shopify/checkout";
+    public static final String API_CHECKOUT_SHOPIFY_SHIPPINGS = "/api/shopify/shipping";
 
     /**
      * PUSH API

@@ -96,6 +96,12 @@ public class MBAPIConstants {
     /**Used with the API {@link MBPayAsyncTask_Subscribe MBPayAsyncTask_Subscribe}*/
     public static final String ACTION_SUBSCRIBE = "mumble.mburger.ACTION_SUBSCRIBE";
 
+    /**Used with the API {@link mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_ShopifyCheckout MBPayAsyncTask_ShopifyCheckout}*/
+    public static final String ACTION_SHOPIFY_CHECKOUT = "mumble.mburger.ACTION_SHOPIFY_CHECKOUT";
+
+    /**Used with the API {@link mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_ShopifyCheckout MBPayAsyncTask_ShopifyCheckout}*/
+    public static final String ACTION_SHOPIFY_SHIPPING = "mumble.mburger.ACTION_SHOPIFY_CHECKOUT";
+
     /**Used with the API {@link MBPayAsyncTask_CancelSubscription MBPayAsyncTask_CancelSubscription}*/
     public static final String ACTION_CANCEL_SUBSCRIPTION = "mumble.mburger.ACTION_CANCEL_SUBSCRIPTION";
 

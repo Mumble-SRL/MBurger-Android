@@ -8,13 +8,15 @@ public class MBStripeCard implements Serializable{
     private String last4;
     private String brand;
     private int exp_month, exp_year;
+    private boolean isDefault = false;
 
-    public MBStripeCard(String stripe_id, String last4, String brand, int exp_month, int exp_year) {
+    public MBStripeCard(String stripe_id, String last4, String brand, int exp_month, int exp_year, boolean isDefault) {
         this.stripe_id = stripe_id;
         this.last4 = last4;
         this.brand = brand;
         this.exp_month = exp_month;
         this.exp_year = exp_year;
+        this.isDefault = isDefault;
     }
 
     public String getStripe_id() {
@@ -55,5 +57,13 @@ public class MBStripeCard implements Serializable{
 
     public void setExp_year(int exp_year) {
         this.exp_year = exp_year;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
     }
 }

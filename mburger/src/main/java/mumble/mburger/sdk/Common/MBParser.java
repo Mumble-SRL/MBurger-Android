@@ -32,6 +32,8 @@ import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBContract;
 import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBProject;
 import mumble.mburger.sdk.MBClient.MBData.MBSections.MBSection;
 import mumble.mburger.sdk.MBClient.MBData.MBShopify.MBShopifyCollection;
+import mumble.mburger.sdk.MBPay.MBPayData.MBShopifyShipping;
+import mumble.mburger.sdk.MBPay.MBPayData.MBShopifyShippingMethods;
 import mumble.mburger.sdk.MBPay.MBPayData.MBStripeCard;
 import mumble.mburger.sdk.MBPay.MBPayData.MBStripeSubscription;
 
@@ -637,7 +639,8 @@ public class MBParser {
                 String last4 = jObj.getString("last4");
                 int exp_month = jObj.getInt("exp_month");
                 int exp_year = jObj.getInt("exp_year");
-                cards.add(new MBStripeCard(id, last4, brand, exp_month, exp_year));
+                boolean isDeafult = jObj.getBoolean("default");
+                cards.add(new MBStripeCard(id, last4, brand, exp_month, exp_year, isDeafult));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -687,5 +690,58 @@ public class MBParser {
         }
 
         return new MBShopifyCollection(id, text, href, icon, target, title, image, children);
+    }
+
+    public static MBShopifyShippingMethods parseShippingMethods(JSONObject jChild) {
+        ArrayList<MBShopifyShipping> weights = new ArrayList<>();
+        ArrayList<MBShopifyShipping> prices = new ArrayList<>();
+
+        try {
+            if (MBCommonMethods.isJSONOk(jChild, "weights")) {
+                JSONArray jWeights = jChild.getJSONArray("weights");
+                for (int i = 0; i < jWeights.length(); i++) {
+                    JSONObject jWeight = jWeights.getJSONObject(i);
+                    weights.add(parseShipping(jWeight));
+                }
+            }
+            if (MBCommonMethods.isJSONOk(jChild, "prices")) {
+                JSONArray jPrices = jChild.getJSONArray("prices");
+                for (int i = 0; i < jPrices.length(); i++) {
+                    JSONObject jPrice = jPrices.getJSONObject(i);
+                    prices.add(parseShipping(jPrice));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new MBShopifyShippingMethods(weights, prices);
+    }
+
+    public static MBShopifyShipping parseShipping(JSONObject jChild) {
+        long id = -1, shipping_zone_id = -1;
+        String name = null, price = null;
+
+        try {
+            if (MBCommonMethods.isJSONOk(jChild, "id")) {
+                id = jChild.getLong("id");
+            }
+
+            if (MBCommonMethods.isJSONOk(jChild, "name")) {
+                name = jChild.getString("name");
+            }
+
+            if (MBCommonMethods.isJSONOk(jChild, "price")) {
+                price = jChild.getString("price");
+            }
+
+            if (MBCommonMethods.isJSONOk(jChild, "shipping_zone_id")) {
+                shipping_zone_id = jChild.getLong("shipping_zone_id");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new MBShopifyShipping(id, name, price, shipping_zone_id);
     }
 }

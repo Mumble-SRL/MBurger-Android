@@ -9,10 +9,12 @@ import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_AddCard;
 import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_CancelSubscription;
 import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_ChangeDefaultCard;
 import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_CreateCustomer;
+import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_DeleteCard;
 import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_GetCards;
 import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_ResumeSubscription;
+import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_ShopifyCheckout;
+import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_ShopifyShipping;
 import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_Subscribe;
-import mumble.mburger.sdk.MBPay.MBPayAsyncTasks.MBPayAsyncTask_DeleteCard;
 import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiAddCardListener;
 import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiCancelSubscriptionListener;
 import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiCardsListener;
@@ -20,6 +22,8 @@ import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiChangeDefaultCardLi
 import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiCreateCustomerListener;
 import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiDeleteCardListener;
 import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiResumeSubscriptionListener;
+import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiShopifyCheckoutistener;
+import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiShopifyShippingMethods;
 import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiSubscribeListener;
 
 public class MBurgerPayTasks {
@@ -40,7 +44,7 @@ public class MBurgerPayTasks {
      * Subscribe to a Stripe™ plan with custom action callback
      */
     public static void subscribeToPlan(Context context, String custom_action, String subscription, String token,
-                                        String discount_code, String meta, int quantity, int trial_days) {
+                                       String discount_code, String meta, int quantity, int trial_days) {
         if (MBUserConstants.apiKey != null) {
             new MBPayAsyncTask_Subscribe(context, custom_action, subscription, token, discount_code, meta, quantity,
                     trial_days).execute();
@@ -288,6 +292,72 @@ public class MBurgerPayTasks {
     public static void deleteCard(Context context, MBPayApiDeleteCardListener listener, String card_id) {
         if (MBUserConstants.apiKey != null) {
             new MBPayAsyncTask_DeleteCard(context, listener, card_id).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Do Shopify checkout
+     */
+    public static void shopifyCheckout(Context context, long order_id, String payment_token) {
+        if (MBUserConstants.apiKey != null) {
+            new MBPayAsyncTask_ShopifyCheckout(context, order_id, payment_token).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Do Shopify checkout with custom action callback
+     */
+    public static void shopifyCheckout(Context context, String custom_action, long order_id, String payment_token) {
+        if (MBUserConstants.apiKey != null) {
+            new MBPayAsyncTask_ShopifyCheckout(context, custom_action, order_id, payment_token).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Do Shopify checkout with listener callback
+     */
+    public static void shopifyCheckout(Context context, MBPayApiShopifyCheckoutistener listener, long order_id, String payment_token) {
+        if (MBUserConstants.apiKey != null) {
+            new MBPayAsyncTask_ShopifyCheckout(context, listener, order_id, payment_token).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Get Shopify shipping methods
+     */
+    public static void shopifyShippingMethods(Context context, double price, double weight, String country) {
+        if (MBUserConstants.apiKey != null) {
+            new MBPayAsyncTask_ShopifyShipping(context, price, weight, country).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Get Shopify shipping methods with custom action callback
+     */
+    public static void shopifyShippingMethods(Context context, String custom_action, double price, double weight, String country) {
+        if (MBUserConstants.apiKey != null) {
+            new MBPayAsyncTask_ShopifyShipping(context, custom_action, price, weight, country).execute();
+        } else {
+            throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
+        }
+    }
+
+    /**
+     * Get Shopify shipping methods with listener callback
+     */
+    public static void shopifyShippingMethods(Context context, MBPayApiShopifyShippingMethods listener, double price, double weight, String country) {
+        if (MBUserConstants.apiKey != null) {
+            new MBPayAsyncTask_ShopifyShipping(context, listener, price, weight, country).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
