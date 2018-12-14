@@ -25,6 +25,7 @@ import mumble.mburger.R;
 import mumble.mburger.sdk.Common.MBApiManager.MBApiManagerConfig;
 import mumble.mburger.sdk.Common.MBConstants.MBConstants;
 import mumble.mburger.sdk.MBClient.MBApiFilters.MBGeneralParameter;
+import mumble.mburger.sdk.MBClient.MBApiFilters.MBLocaleParameter;
 import mumble.mburger.sdk.MBClient.MBApiFilters.MBPaginationParameter;
 import mumble.mburger.sdk.MBClient.MBApiFilters.MBSortParameter;
 import mumble.mburger.sdk.MBClient.MBApiFilters.MBFilterParameter;
@@ -103,6 +104,11 @@ public class MBCommonMethods {
                     MBPaginationParameter pageParameter = (MBPaginationParameter) object;
                     values.put("skip", Integer.toString(pageParameter.getSkip()));
                     values.put("take", Integer.toString(pageParameter.getTake()));
+                }
+
+                if (object instanceof MBLocaleParameter) {
+                    MBLocaleParameter localeParameter = (MBLocaleParameter) object;
+                    values.put("locale", localeParameter.getLocale());
                 }
 
                 if (object instanceof MBGeneralParameter) {
