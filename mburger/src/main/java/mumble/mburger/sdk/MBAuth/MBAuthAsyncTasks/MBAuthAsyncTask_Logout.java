@@ -3,12 +3,10 @@ package mumble.mburger.sdk.MBAuth.MBAuthAsyncTasks;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +21,6 @@ import mumble.mburger.sdk.Common.MBCommonMethods;
 import mumble.mburger.sdk.Common.MBConstants.MBAPIConstants;
 import mumble.mburger.sdk.Common.MBParser;
 import mumble.mburger.sdk.MBAuth.MBAuthData.MBAuthUser;
-import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthApiProfileUpdateListener;
 import mumble.mburger.sdk.MBAuth.MBAuthResultsListener.MBAuthLogoutListener;
 
 /**

@@ -20,12 +20,12 @@ maven {
 Then add to your dependencies:
 
 ```
-implementation 'mumble.mburger:android:1.4'
+implementation 'mumble.mburger:android:1.5'
 ```
 
 If you want you can also download or clone this repo, you will find a `MBurger` directory, which contains the client SDK to use MBurger. 
 
-Note that MBurger requires at least Android Studio 3.1.4 and your project should target, at least, Android Version 27, with minimum SDK version 17, also your project would need these permissions:
+Note that MBurger requires at least Android Studio 3.3.2 and your project should target, at least, Android Version 28, with minimum SDK version 16 also your project would need these permissions:
 
 ```xml
 //To gather data from MBurger API
@@ -35,7 +35,7 @@ Note that MBurger requires at least Android Studio 3.1.4 and your project should
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
 
-Import `MBurger` library inside your Android Studio project and include it adding to your `settings.gradle` file, then import into your app adding to your app module `build.gradle` file
+You can also import `MBurger` library inside your Android Studio project and include it adding to your `settings.gradle` file, then import into your app adding to your app module `build.gradle` file
 
 ```java
 implementation project(':mburger')
@@ -45,20 +45,24 @@ Pay attention that this SDK implements
 
 ```java
 //In order to support some components on older Android versions
-implementation 'com.android.support:support-v4:27.1.1'
+implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     
 //For installing https certificates on older Android versions
-implementation 'com.google.android.gms:play-services-base:15.0.1'
+implementation 'com.google.android.gms:play-services-base:16.1.0'
     
 //For logging API error via Logcat
 implementation 'com.github.omegasoft7.FSLogger:fslogger:1.9.1@aar'
     
 //For Admin API support
-implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+implementation 'com.squareup.okhttp3:okhttp:3.14.0'
     
 //For storing auth token
 implementation 'com.scottyab:aescrypt:0.0.1'
 ```
+
+The library is also fully working on a project developed on <u>Kotlin</u> but the SDK is fully written in <u>Java</u>.
+
+**Warning**: From version `1.5` on, MBurger uses <u>Android X</u> dependencies, if your project does not target Android Sdk Version 28 or has still the "support.appcompat" dependecies use the `1.4` version, be aware that it is <u>not officially supported</u>.
 
 
 

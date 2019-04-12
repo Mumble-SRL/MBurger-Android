@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -17,7 +17,6 @@ import mumble.mburger.sdk.Common.MBApiManager.MBApiManagerUtils;
 import mumble.mburger.sdk.Common.MBCommonMethods;
 import mumble.mburger.sdk.Common.MBConstants.MBAPIConstants;
 import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiShopifyCheckoutistener;
-import mumble.mburger.sdk.MBPay.MBPayResultsListener.MBPayApiSubscribeListener;
 
 /**
  * Created by Enrico on 29/08/2016.

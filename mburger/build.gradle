@@ -21,7 +21,7 @@ ext {
     siteUrl = 'https://github.com/Mumble-SRL/MBurger-Android'
     gitUrl = 'https://github.com/Mumble-SRL/MBurger-Android.git'
 
-    libraryVersion = '1.4'
+    libraryVersion = '1.5'
 
     developerId = 'MBurger-Android'
     developerName = 'Mumble'
@@ -33,30 +33,30 @@ ext {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.google.android.gms:play-services-base:15.0.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.gms:play-services-base:16.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.0'
     implementation 'com.github.omegasoft7.FSLogger:fslogger:1.9.1@aar'
     implementation 'com.scottyab:aescrypt:0.0.1'
 
     //TEST
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.6.3'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
+    androidTestImplementation 'androidx.annotation:annotation:1.1.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
 }
 
 apply from: 'https://raw.githubusercontent.com/Mumble-SRL/JCenter/master/script.gradle'
