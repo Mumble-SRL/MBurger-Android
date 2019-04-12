@@ -430,15 +430,15 @@ For example, for a simple "News" class with title and MBurger image
 ```java
 public class News implements Serializable {
 
-    private String tit;
+    private String titl;
     private NKImage img;
 
-    public String getTit() {
-        return tit;
+    public String getTitl() {
+        return titl;
     }
 
-    public void setTit(String tit) {
-        this.tit = tit;
+    public void setTitl(String titl) {
+        this.titl = titl;
     }
 
     public NKImage getImg() {
@@ -456,8 +456,8 @@ Can be mapped this way:
 ```java
 NKFieldsMapping fieldsMapping = new NKFieldsMapping();
 
-//"tit" is my custom object element, "Title" is the name of the Element we want to map from the section
-fieldsMapping.putMap("tit", "Title");
+//"titl" is my custom object element, "Title" is the name of the Element we want to map from the section
+fieldsMapping.putMap("titl", "Title");
 
 //"img" is my custom object element, "Images" is the name of the Element we want to map from the section, we add "imageArguments" which tells to take only the first image from the array.
 String[] imageArguments = {NKMappingArgs.mapping_first_image_media};
