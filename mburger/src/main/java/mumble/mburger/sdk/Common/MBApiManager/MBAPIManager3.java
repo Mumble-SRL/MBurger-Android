@@ -363,6 +363,7 @@ public class MBAPIManager3 {
      */
     private static void addNecessaryPostData(Context context, ContentValues postData) {
         postData.put("device_id", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
+        postData.put("os", "android");
     }
 
 }
