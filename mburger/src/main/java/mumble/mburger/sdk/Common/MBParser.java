@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import mumble.mburger.sdk.Common.MBConstants.MBConstants;
 import mumble.mburger.sdk.MBAuth.MBAuthData.MBAuthUser;
 import mumble.mburger.sdk.MBAuth.MBAuthData.MBContractsAccepted;
+import mumble.mburger.sdk.MBAuth.MBAuthData.MBUserSection;
 import mumble.mburger.sdk.MBClient.MBData.MBAtomic.MBClass;
 import mumble.mburger.sdk.MBClient.MBData.MBBlocks.MBBlock;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBAddressElement;
@@ -551,8 +552,44 @@ public class MBParser {
                 }
             }
 
+            ArrayList<MBUserSection> userSections = new ArrayList<>();
+            if (MBCommonMethods.isJSONOk(jUser, "published_sections")) {
+                JSONArray jPSections = jUser.getJSONArray("published_sections");
+                for (int i = 0; i < jPSections.length(); i++) {
+                    JSONObject jPS = jPSections.getJSONObject(i);
+                    long s_id = -1, s_block_id = -1, s_available_at = -1, s_updated_at = -1;
+                    int s_order = -1;
+                    boolean s_visible = false;
 
-            return new MBAuthUser(id, name, surname, email, phone, image, gender, data, auth_mode, subscriptions, contracts);
+                    if (MBCommonMethods.isJSONOk(jPS, "id")) {
+                        s_id = jPS.getLong("id");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jPS, "order")) {
+                        s_order = jPS.getInt("order");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jPS, "visible")) {
+                        s_visible = jPS.getBoolean("visible");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jPS, "available_at")) {
+                        s_available_at = jPS.getLong("available_at");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jPS, "updated_at")) {
+                        s_updated_at = jPS.getLong("updated_at");
+                    }
+
+                    if (MBCommonMethods.isJSONOk(jPS, "block_id")) {
+                        s_block_id = jPS.getLong("block_id");
+                    }
+
+                    userSections.add(new MBUserSection(s_id, s_block_id, s_order, s_visible, s_available_at, s_updated_at));
+                }
+            }
+
+            return new MBAuthUser(id, name, surname, email, phone, image, gender, data, auth_mode, subscriptions, contracts, userSections);
         } catch (JSONException e) {
             e.printStackTrace();
         }
