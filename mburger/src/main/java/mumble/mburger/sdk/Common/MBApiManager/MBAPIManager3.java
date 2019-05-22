@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -74,7 +75,7 @@ public class MBAPIManager3 {
                         try {
                             JSONTokener tokener = new JSONTokener(res3);
                             JSONObject jObj = new JSONObject(tokener);
-                            setResponseInMap(jObj, map, payload);
+                            setResponseInMap(jObj, map, 200, payload);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -192,7 +193,7 @@ public class MBAPIManager3 {
             String s = builder.toString().trim();
             JSONTokener tokener = new JSONTokener(s);
             JSONObject jObj = new JSONObject(tokener);
-            setResponseInMap(jObj, map, payload);
+            setResponseInMap(jObj, map, iResponse, payload);
         } else {
             map.put(MBApiManagerConfig.AM_RESULT, iResponse);
         }
@@ -201,17 +202,30 @@ public class MBAPIManager3 {
         return map;
     }
 
-    private static void setResponseInMap(JSONObject jResp, Map<String, Object> map, boolean payload) throws JSONException {
-        int status_code = jResp.getJSONObject("response").getInt("status_code");
-        if (status_code == MBApiManagerConfig.STATUS_CODE_OK) {
+    private static void setResponseInMap(JSONObject jResp, Map<String, Object> map, int status_code, boolean payload) throws JSONException {
+        if (status_code == 200) {
             map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.RESULT_OK);
             if (payload) {
                 map.put(MBApiManagerConfig.AM_PAYLOAD, jResp.getJSONObject("response").toString());
             }
         } else {
-            String error = jResp.getJSONObject("response").getString("message_localized");
+            JSONObject jErrors = jResp.getJSONObject("errors");
+            StringBuilder error = new StringBuilder();
+            Iterator<String> iter = jErrors.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                try {
+                    String value = jErrors.getJSONArray(key).getString(0);
+                    error.append(value);
+                    if(iter.hasNext()){
+                        error.append("\n");
+                    }
+                } catch (JSONException e) {
+                }
+            }
+
             map.put(MBApiManagerConfig.AM_RESULT, status_code);
-            map.put(MBApiManagerConfig.AM_ERROR, error);
+            map.put(MBApiManagerConfig.AM_ERROR, error.toString());
         }
     }
 
