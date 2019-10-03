@@ -88,7 +88,7 @@ public class MBCommonMethods {
 
                 if (object instanceof MBFilterParameter) {
                     MBFilterParameter filterParameter = (MBFilterParameter) object;
-                    values.put("filter[elements.value]", filterParameter.getValue());
+                    values.put("filter[elements.value]", filterParameter.getKey() + "|" + filterParameter.getValue());
                 }
 
                 if (object instanceof MBSortParameter) {
