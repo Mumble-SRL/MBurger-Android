@@ -30,6 +30,7 @@ import mumble.mburger.sdk.MBClient.MBData.MBElements.MBSubElements.MBImage;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBTextElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBWYSIWYGElement;
 import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBContract;
+import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBEvidenceObject;
 import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBProject;
 import mumble.mburger.sdk.MBClient.MBData.MBSections.MBSection;
 import mumble.mburger.sdk.MBClient.MBData.MBShopify.MBShopifyCollection;
@@ -61,11 +62,7 @@ public class MBParser {
         boolean hasPayments = false;
         boolean hasShopify = false;
 
-        long evidence_id = -1;
-        long evidence_block_id = -1;
-        long evidence_section_id = -1;
-        String evidence_title = null;
-        String evidence_image = null;
+        MBEvidenceObject evidenceObject = null;
         ArrayList<MBContract> contracts = new ArrayList<>();
         ArrayList<MBShopifyCollection> collections = new ArrayList<>();
 
@@ -99,24 +96,33 @@ public class MBParser {
             }
 
             if (MBCommonMethods.isJSONOk(jsonObject, "evidence_id")) {
-                evidence_id = jsonObject.getLong("evidence_id");
+                long evidence_block_id = -1;
+                long evidence_section_id = -1;
+                String evidence_title = null;
+                String evidence_image = null;
+
+                long evidence_id = jsonObject.getLong("evidence_id");
+
+                if (MBCommonMethods.isJSONOk(jsonObject, "evidence_block_id")) {
+                    evidence_block_id = jsonObject.getLong("evidence_block_id");
+                }
+
+                if (MBCommonMethods.isJSONOk(jsonObject, "evidence_section_id")) {
+                    evidence_section_id = jsonObject.getLong("evidence_section_id");
+                }
+
+                if (MBCommonMethods.isJSONOk(jsonObject, "evidence_title")) {
+                    evidence_title = jsonObject.getString("evidence_title");
+                }
+
+                if (MBCommonMethods.isJSONOk(jsonObject, "evidence_image")) {
+                    evidence_image = jsonObject.getString("evidence_image");
+                }
+
+                evidenceObject = new MBEvidenceObject(evidence_id, evidence_block_id, evidence_section_id,
+                        evidence_title, evidence_image);
             }
 
-            if (MBCommonMethods.isJSONOk(jsonObject, "evidence_block_id")) {
-                evidence_block_id = jsonObject.getLong("evidence_block_id");
-            }
-
-            if (MBCommonMethods.isJSONOk(jsonObject, "evidence_section_id")) {
-                evidence_section_id = jsonObject.getLong("evidence_section_id");
-            }
-
-            if (MBCommonMethods.isJSONOk(jsonObject, "evidence_title")) {
-                evidence_title = jsonObject.getString("evidence_title");
-            }
-
-            if (MBCommonMethods.isJSONOk(jsonObject, "evidence_image")) {
-                evidence_image = jsonObject.getString("evidence_image");
-            }
 
             if (MBCommonMethods.isJSONOk(jsonObject, "has_payments")) {
                 hasPayments = jsonObject.getBoolean("has_payments");
@@ -180,8 +186,7 @@ public class MBParser {
         }
 
         return new MBProject(id, name, hasBeacons, hasUsers, hasMultilanguage, hasLiveMessages, hasEvidence, hasPush,
-                hasPayments, hasShopify, evidence_id, evidence_block_id, evidence_section_id, evidence_title, evidence_image,
-                contracts, collections);
+                hasPayments, hasShopify, evidenceObject, contracts, collections);
     }
 
     /**

@@ -69,8 +69,7 @@ public class MBProject implements Serializable {
      */
     private ArrayList<MBShopifyCollection> shopifyCollections;
 
-    private long evidence_id, evidence_block_id, evidence_section_id;
-    private String evidence_title, evidence_image;
+    private MBEvidenceObject evidenceObject;
 
     /**
      * Project has license contracts
@@ -79,8 +78,7 @@ public class MBProject implements Serializable {
 
     public MBProject(long id, String name, boolean hasBeacons, boolean hasUsers, boolean hasMultilanguage,
                      boolean hasLiveMessages, boolean hasEvidence, boolean hasPush, boolean has_payments, boolean has_shopify,
-                     long evidence_id, long evidence_block_id, long evidence_section_id, String evidence_title,
-                     String evidence_image, ArrayList<MBContract> contracts, ArrayList<MBShopifyCollection> shopifyCollections) {
+                     MBEvidenceObject evidenceObject, ArrayList<MBContract> contracts, ArrayList<MBShopifyCollection> shopifyCollections) {
         this.id = id;
         this.name = name;
         this.hasBeacons = hasBeacons;
@@ -91,11 +89,7 @@ public class MBProject implements Serializable {
         this.hasPush = hasPush;
         this.hasPayment = has_payments;
         this.hasShopify = has_shopify;
-        this.evidence_id = evidence_id;
-        this.evidence_block_id = evidence_block_id;
-        this.evidence_section_id = evidence_section_id;
-        this.evidence_title = evidence_title;
-        this.evidence_image = evidence_image;
+        this.evidenceObject = evidenceObject;
         this.contracts = contracts;
         this.shopifyCollections = shopifyCollections;
     }
@@ -176,44 +170,12 @@ public class MBProject implements Serializable {
         this.hasPush = hasPush;
     }
 
-    public long getEvidence_id() {
-        return evidence_id;
+    public MBEvidenceObject getEvidenceObject() {
+        return evidenceObject;
     }
 
-    public void setEvidence_id(long evidence_id) {
-        this.evidence_id = evidence_id;
-    }
-
-    public long getEvidence_block_id() {
-        return evidence_block_id;
-    }
-
-    public void setEvidence_block_id(long evidence_block_id) {
-        this.evidence_block_id = evidence_block_id;
-    }
-
-    public long getEvidence_section_id() {
-        return evidence_section_id;
-    }
-
-    public void setEvidence_section_id(long evidence_section_id) {
-        this.evidence_section_id = evidence_section_id;
-    }
-
-    public String getEvidence_title() {
-        return evidence_title;
-    }
-
-    public void setEvidence_title(String evidence_title) {
-        this.evidence_title = evidence_title;
-    }
-
-    public String getEvidence_image() {
-        return evidence_image;
-    }
-
-    public void setEvidence_image(String evidence_image) {
-        this.evidence_image = evidence_image;
+    public void setEvidenceObject(MBEvidenceObject evidenceObject) {
+        this.evidenceObject = evidenceObject;
     }
 
     public ArrayList<MBContract> getContracts() {
