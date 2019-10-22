@@ -24,6 +24,7 @@ import mumble.mburger.sdk.MBClient.MBData.MBElements.MBGenericElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBImages;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBMediaElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBPollAnswers;
+import mumble.mburger.sdk.MBClient.MBData.MBElements.MBRelationElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBSubElements.MBAnswer;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBSubElements.MBFile;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBSubElements.MBImage;
@@ -446,6 +447,21 @@ public class MBParser {
             if (type.equals(MBConstants.type_dropdown)) {
                 found = true;
                 nObj = new MBDropdownElement(id, name, (String) value);
+            }
+
+            if (type.equals(MBConstants.type_relation)) {
+                JSONObject jRelation = (JSONObject) value;
+                long block_id = -1, section_id = -1;
+                found = true;
+
+                if (MBCommonMethods.isJSONOk(jRelation, "block_id")) {
+                    block_id = jRelation.getLong("block_id");
+                }
+                if (MBCommonMethods.isJSONOk(jRelation, "section_id")) {
+                    section_id = jRelation.getLong("section_id");
+                }
+
+                nObj = new MBRelationElement(id, name, block_id, section_id);
             }
 
             if (type.equals(MBConstants.type_poll)) {

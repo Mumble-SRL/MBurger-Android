@@ -14,6 +14,7 @@ import mumble.mburger.sdk.MBClient.MBData.MBElements.MBGenericElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBImages;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBMediaElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBPollAnswers;
+import mumble.mburger.sdk.MBClient.MBData.MBElements.MBRelationElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBTextElement;
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBWYSIWYGElement;
 import mumble.mburger.sdk.MBClient.MBData.MBSections.MBSection;
@@ -156,6 +157,11 @@ public class MBurgerMapper {
                     if (sectionObject instanceof MBPollAnswers) {
                         MBPollAnswers nPollAnswers = (MBPollAnswers) sectionObject;
                         objField.set(destinationObject, nPollAnswers);
+                    }
+
+                    if (sectionObject instanceof MBRelationElement) {
+                        MBRelationElement mbRelationElement = (MBRelationElement) sectionObject;
+                        objField.set(destinationObject, mbRelationElement);
                     }
 
                     if (sectionObject instanceof MBGenericElement) {
