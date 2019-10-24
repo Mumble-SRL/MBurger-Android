@@ -44,7 +44,7 @@ You will need to have an user logged in on your application in order to create a
 After that you can just create a new customer or create a customer and already start the new subscribe plan. In order to do the first you have just to call
 
 ```java
-Nooko3PayTasks.createCustomer(context);
+MBurgerPayTasks.createCustomer(context);
 ```
 
 Then next time you call the "profile" API you will have new informations about the customer logged in.
@@ -70,7 +70,7 @@ int quantity = 1;
 //If your plan provides trial days, you can set them, otherwise, set as -1
 int trial_days = 30;
 
-Nooko3PayTasks.subscribeToPlan(getApplicationContext(), new NKPayApiSubscribeListener() {
+MBurgerPayTasks.subscribeToPlan(getApplicationContext(), new MBPayApiSubscribeListener() {
             @Override
             public void onSubscriptionSuccess() {
                 //DO SOMETHING
@@ -95,7 +95,7 @@ Automatically Stripe will charge an user with the inserted card, if there is not
 To **retrieve the cards** associated with a customer, you should call the API
 
 ```java
-Nooko3PayTasks.getCards()
+MBurgerPayTasks.getCards()
 ```
 
 which will return an array of `MBStripeCard`, that represent a credit card associated with the customer.
@@ -104,7 +104,7 @@ Stripe secures the card data so you can not read the complete number (only the l
 You can **add a new card** by using the API
 
 ```java
-Nooko3PayTasks.addCard(context, token)
+MBurgerPayTasks.addCard(context, token)
 ```
 
 Where the token is a new Stripe token generated from the Android SDK.
@@ -113,13 +113,13 @@ Pay attention that each token can be used only one time, so if you need to do mu
 In order to **delete an existing customer card**, you will need a `card_id` which can be gathered from the `getCards()` API.
 
 ```java
-Nooko3PayTasks.deleteCard(context, card_id)
+MBurgerPayTasks.deleteCard(context, card_id)
 ```
 
 When you add a new card, it becomes automatically the default one, so the one Stripe will use to charge the customer once the current period ends. In order to **change the default card** you should call the API:
 
 ```java
-Nooko3PayTasks.changeDefaultCard(context, card_id)
+MBurgerPayTasks.changeDefaultCard(context, card_id)
 ```
 
 
@@ -129,14 +129,14 @@ Nooko3PayTasks.changeDefaultCard(context, card_id)
 To **cancel a running subscription** you should call the API
 
 ```java
-Nooko3PayTasks.cancelPlan(context, subscription_plan)
+MBurgerPayTasks.cancelPlan(context, subscription_plan)
 ```
 
 Where subscription_plan is the subscription plan id from the Stripe dashboard.
 Pay attention, though, if you cancel a subscription, it will be in a "<u>grace</u>" period (which usually it's the time left before the next payment period starts), in which can be **resumed** without any problem calling the API.
 
 ```java
-Nooko3PayTasks.resumePlan(context, subscription_plan)
+MBurgerPayTasks.resumePlan(context, subscription_plan)
 ```
 
 If you try to resume a subscription after the "<u>grace</u>" period, it will result in an error.

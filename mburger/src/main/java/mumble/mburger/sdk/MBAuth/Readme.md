@@ -26,13 +26,13 @@ Where Auxiliar data is an arbitrary array you can pass while registering an user
 Registration of an user will be like:
 
 ```java
-private NKAuthApiRegisterListener listener;
+private MBAuthApiRegisterListener listener;
 private EditText edt_name, edt_surname, edt_email, edt_password;
 private String phone;
 private Uri img_uri;
 private String auxiliar_data;
 
-Nooko3AuthTasks.registerUser(getApplicationContext(),
+MBurgerAuthTasks.registerUser(getApplicationContext(),
 	listener,                             //Listener for registration
     edt_name.getText().toString(),        //Name, REQUIRED
     edt_surname.getText().toString(),     //Surname, REQUIRED
@@ -52,10 +52,10 @@ This method won't return anything less than an error if the email is already tak
 After a successfull registration you would probably need to authenticate your user by using the registration email and password, so you will need to call:
 
 ```java
-private NKAuthApiAuthenticateListener listener;
+private MBAuthApiAuthenticateListener listener;
 private String email, password;
 
-Nooko3AuthTasks.authenticateUser(getApplicationContext(), 
+MBurgerAuthTasks.authenticateUser(getApplicationContext(), 
 	listener, 			 //Listener for authentication
 	email,               //Email of the user
 	password);           //Password of the user
@@ -66,7 +66,7 @@ This method will return the `jwt_token` that <u>will automatically be used in al
 If you wish to logout an user just call
 
 ```java
-Nooko3AuthTasks.clearAuthToken(getApplicationContext());
+MBurgerAuthTasks.clearAuthToken(getApplicationContext());
 ```
 
 and make sure that your app UI will respond to the "logout" in a significative way.
@@ -89,7 +89,7 @@ private int social_type = MBAuthAsyncTask_AuthenticateSocial.SOCIAL_FACEBOOK;
 //or
 private int social_type = MBAuthAsyncTask_AuthenticateSocial.SOCIAL_GOOGLE;
 
-Nooko3AuthTasks.authenticateUserWithSocial(getApplicationContext(), 
+MBurgerAuthTasks.authenticateUserWithSocial(getApplicationContext(), 
 	listener, 			 //Listener for authentication
 	token,               //User social token
 	social_type);        /*Social type, identifies which social are you using, can be
@@ -99,7 +99,7 @@ Nooko3AuthTasks.authenticateUserWithSocial(getApplicationContext(),
 Calling this API will result in immediate login, even if it's the first time the user ever logged in, so you will have the `jwt_token` that <u>will automatically be used in all subsequential calls until app is uninstalled or user is logged out</u>. Nothing changes for logging out, you should still need to call
 
 ```java
-Nooko3AuthTasks.clearAuthToken(getApplicationContext());
+MBurgerAuthTasks.clearAuthToken(getApplicationContext());
 ```
 
 and make sure that your app UI will respond to the "logout" in a significative way.
@@ -113,7 +113,7 @@ When an user is authenticated you can see his data on the dashboard, you can als
 ```java
 private NKAuthApiProfileListener listener;
 
-Nooko3AuthTasks.getLoggedUserProfile(getApplicationContext(), listener);
+MBurgerAuthTasks.getLoggedUserProfile(getApplicationContext(), listener);
 ```
 
 This API call will return the profile of the actual authenticated user in the form of a `MBAuthUser`.
@@ -130,7 +130,7 @@ You can add a "password lost" feature by calling the API:
 
 ```java
 String email = edt_email.getText().toString();
-Nooko3AuthTasks.requestPasswordRecovery(getApplicationContext(), 
+MBurgerAuthTasks.requestPasswordRecovery(getApplicationContext(), 
                                              new NKAuthApiForgotPasswordListener() {
                     @Override
                     public void onForgotPasswordRequested() {
@@ -156,7 +156,7 @@ You can add a "edit password" feature in your app by calling the API:
 String old_password = edt_old_password.getText().toString();
 String new_password = edt_new_password.getText().toString();
 
-Nooko3AuthTasks.changePassword(getApplicationContext(), new NKAuthApiChangePasswordListener() {
+MBurgerAuthTasks.changePassword(getApplicationContext(), new NKAuthApiChangePasswordListener() {
                     @Override
                     public void onPasswordChanged() {
                     	//TODO show an alert

@@ -42,7 +42,7 @@ public void onNewToken(String token) {
 ```java
 @Override
 public void onNewToken(String token) {
-    Nooko3PushTasks.sendToken(getApplicationContext(), getDeviceID(), token);
+    MBurgerPushTasks.sendToken(getApplicationContext(), getDeviceID(), token);
 }
 ```
 
@@ -61,7 +61,7 @@ JSONArray topics = new JSONArray();
 //You can decide whatever name you wish for the topics.
 topics.put("topic1");
 
-Nooko3PushTasks.registerTopics(context, getDeviceID(), topics);
+MBurgerPushTasks.registerTopics(context, getDeviceID(), topics);
 ```
 
 From the `MBurger Push dashboard` then you can send push notification only to some topics of make an app send push notifications to a specific topic. While it's not necessary to subscribe to topics at every startup, it can be useful to resubscribe anytime your `InstanceID` changes in order to mantain data coherence.
@@ -99,7 +99,7 @@ To unsubscribe from a push topic you'll need to call the **unregisterTopics**() 
 You can also unsubscribe to all topics you subscribed by calling:
 
 ```java
-Nooko3PushTasks.unregisterAllTopics(context, getDeviceId())
+MBurgerPushTasks.unregisterAllTopics(context, getDeviceId())
 ```
 
 This way you'll no more receive push messages from any topic you registered the device before.

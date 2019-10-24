@@ -61,20 +61,20 @@ public class MBApiManagerOKHTTPPost {
         try {
             response = call.execute();
             if (response.isSuccessful()) {
-                MBApiManagerUtils.doLogging("NOOKO3 RESPONSE " + Integer.toString(response.code()));
-                MBApiManagerUtils.doLogging("NOOKO3 RESPONSE " + response.body().toString());
+                MBApiManagerUtils.doLogging("MBurger RESPONSE " + Integer.toString(response.code()));
+                MBApiManagerUtils.doLogging("MBurger RESPONSE " + response.body().toString());
                 map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.RESULT_OK);
                 JSONTokener tokener = new JSONTokener(response.body().string());
                 JSONObject jObj = new JSONObject(tokener);
                 setResponseInMap(jObj, map, payload);
             } else {
                 String body = response.body().string();
-                MBApiManagerUtils.doLogging("NOOKO3 ERROR" + body);
+                MBApiManagerUtils.doLogging("MBurger ERROR" + body);
                 map.put(MBApiManagerConfig.AM_ERROR, context.getString(R.string.internal_error));
                 map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.COMMON_INTERNAL_ERROR);
             }
         } catch (IOException e) {
-            MBApiManagerUtils.doLogging("NOOKO3 " + e.getStackTrace().toString());
+            MBApiManagerUtils.doLogging("MBurger " + e.getStackTrace().toString());
             map.put(MBApiManagerConfig.AM_ERROR, context.getString(R.string.internal_error));
             map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.COMMON_INTERNAL_ERROR);
             e.printStackTrace();

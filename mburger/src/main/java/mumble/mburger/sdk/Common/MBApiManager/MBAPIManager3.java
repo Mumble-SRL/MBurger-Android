@@ -132,7 +132,7 @@ public class MBAPIManager3 {
             map = parseResponse(urlConnection, builder, payload);
         } catch (SocketTimeoutException e) {
             map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.COMMON_TIMEOUT);
-            MBApiManagerUtils.doLogging("NOOKO3 " + e.getStackTrace().toString());
+            MBApiManagerUtils.doLogging("MBurger " + e.getStackTrace().toString());
             e.printStackTrace();
         } catch (IOException e) {
             try {
@@ -148,7 +148,7 @@ public class MBAPIManager3 {
                         }
 
                         map = new HashMap<>();
-                        MBApiManagerUtils.doLogging("NOOKO3 ERROR" + builder);
+                        MBApiManagerUtils.doLogging("MBurger ERROR" + builder);
                         map.put(MBApiManagerConfig.AM_ERROR, context.getString(R.string.internal_error));
                         map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.COMMON_INTERNAL_ERROR);
 
@@ -156,17 +156,17 @@ public class MBAPIManager3 {
                             map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.RESULT_REFRESH);
                         } else {
                             map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.COMMON_INTERNAL_ERROR);
-                            MBApiManagerUtils.doLogging("NOOKO3 " + e.getStackTrace().toString());
+                            MBApiManagerUtils.doLogging("MBurger " + e.getStackTrace().toString());
                             e.printStackTrace();
                         }
                     } else {
                         map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.COMMON_INTERNAL_ERROR);
-                        MBApiManagerUtils.doLogging("NOOKO3 " + e.getStackTrace().toString());
+                        MBApiManagerUtils.doLogging("MBurger " + e.getStackTrace().toString());
                         e.printStackTrace();
                     }
                 } else {
                     map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.COMMON_INTERNAL_ERROR);
-                    MBApiManagerUtils.doLogging("NOOKO3 " + e.getStackTrace().toString());
+                    MBApiManagerUtils.doLogging("MBurger " + e.getStackTrace().toString());
                     e.printStackTrace();
                 }
             } catch (IOException e1) {
@@ -174,7 +174,7 @@ public class MBAPIManager3 {
             }
         } catch (JSONException e) {
             map.put(MBApiManagerConfig.AM_RESULT, MBApiManagerConfig.COMMON_INTERNAL_ERROR);
-            MBApiManagerUtils.doLogging("NOOKO3 " + e.getStackTrace().toString());
+            MBApiManagerUtils.doLogging("MBurger " + e.getStackTrace().toString());
             e.printStackTrace();
         }
         return map;
@@ -187,8 +187,8 @@ public class MBAPIManager3 {
                                                      boolean payload) throws IOException, JSONException {
         Map<String, Object> map = new HashMap<>();
         int iResponse = urlConnection.getResponseCode();
-        MBApiManagerUtils.doLogging("NOOKO3 RESPONSE " + Integer.toString(iResponse));
-        MBApiManagerUtils.doLogging("NOOKO3 RESPONSE " + builder.toString());
+        MBApiManagerUtils.doLogging("MBurger RESPONSE " + Integer.toString(iResponse));
+        MBApiManagerUtils.doLogging("MBurger RESPONSE " + builder.toString());
         if (MBApiManagerUtils.checkResponse(iResponse)) {
             String s = builder.toString().trim();
             JSONTokener tokener = new JSONTokener(s);

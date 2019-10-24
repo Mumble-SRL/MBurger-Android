@@ -13,7 +13,7 @@ If you are also using editing and creating features ("ADMIN" features) within yo
 In order to <u>delete a specific section</u> you will need to obtain the `id` from the `MBSection` objects you will retrieve through APIs. Then you will just have to call the static method
 
 ```java
-Nooko3AdminTasks.deleteSection(this, section_id);
+MBurgerAdminTasks.deleteSection(this, section_id);
 ```
 
 which will return back the section_id, with the listener `MBAdminApiDeleteSectionListener` and from the callback bundle in "action" mode using the `MBApiPayloadKeys.key_section_id`.
@@ -21,7 +21,7 @@ which will return back the section_id, with the listener `MBAdminApiDeleteSectio
 <u>Deleting a media</u> from a section is pretty similar:
 
 ```java
-Nooko3AdminTasks.deleteMedia(this, media_id);
+MBurgerAdminTasks.deleteMedia(this, media_id);
 ```
 
 where `media_id` is the id of the media element you wish to delete, it can be used with both files and images.
@@ -36,7 +36,7 @@ Before creating a new section please take not of the names of the elements the s
 Then you will need to use the static method
 
 ```java
-Nooko3AdminTasks.addSection(getApplicationContext(), block_id, params, params_file, Locale.getDefault().getLanguage());
+MBurgerAdminTasks.addSection(getApplicationContext(), block_id, params, params_file, Locale.getDefault().getLanguage());
 ```
 
 Where **params** is an ArrayList of `MBAdminParameter` and **params_file** is an ArrayList of `MBAdminParameterFile` . You will also need to provide the `Locale` (in "it" like form) for multilanguage sake support, please note that if the locale you'll provide is not supported the API will return an error.
