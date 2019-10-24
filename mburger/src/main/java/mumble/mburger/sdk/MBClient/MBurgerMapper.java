@@ -22,7 +22,7 @@ import mumble.mburger.sdk.MBClient.MBMapper.MBFieldsMapping;
 import mumble.mburger.sdk.MBClient.MBMapper.MBMappingArgs;
 
 /**
- * Class to map custom user objects from a Nooko section. Only works with Classes with values or Nooko objects,
+ * Class to map custom user objects from a MBurger section. Only works with Classes with values or MBurger objects,
  * not with user innested objects
  */
 public class MBurgerMapper {
@@ -30,7 +30,7 @@ public class MBurgerMapper {
     /**
      * Maps a section into a custom user object. You must provide a Map of "section keys" -> "object fields" in order to do a correct
      * matching with the section data, make also sure that all the fields are the same type as the matching field.
-     * You should not make objects with objects inside (a part from the Nooko classes) with this method.
+     * You should not make objects with objects inside (a part from the MBurger classes) with this method.
      *
      * @param section           is the section you wish to map
      * @param fieldsMap         is a map which contains the user object fields as keys and the section key as value,

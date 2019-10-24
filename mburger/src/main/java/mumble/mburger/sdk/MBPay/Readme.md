@@ -11,7 +11,7 @@ You will need to check the `MBurgerPayTasks` class, where you will find all stat
 
 ### Before you start
 
-The pay api, uses Stripe to process payments and subscriptions, so, before you start, you should create a Stripe account from [here](https://dashboard.stripe.com/login). Then you should provide the Nooko dashboard with the secret key you will find inside the "Developers -> API Keys" section if your Stripe dashboard.
+The pay api, uses Stripe to process payments and subscriptions, so, before you start, you should create a Stripe account from [here](https://dashboard.stripe.com/login). Then you should provide the MBurger dashboard with the secret key you will find inside the "Developers -> API Keys" section if your Stripe dashboard.
 
 ![Stripe™ Api Keys](https://raw.githubusercontent.com/Mumble-SRL/MBurger/develop/Images/stripe_dashboard_keys.JPG?token=ATfTHckVNUbXF1p62fx4FUrbjbarAfUBks5bml8hwA%3D%3D)
 
@@ -141,5 +141,5 @@ MBurgerPayTasks.resumePlan(context, subscription_plan)
 
 If you try to resume a subscription after the "<u>grace</u>" period, it will result in an error.
 
-**In order to restore a plan you should call the "subscribe" API again**, but without providing a Stripe token (null), in this way the current customer associated with the Nooko user will have a new subscription running.
+**In order to restore a plan you should call the "subscribe" API again**, but without providing a Stripe token (null), in this way the current customer associated with the MBurger user will have a new subscription running.
 

@@ -9,7 +9,7 @@ import mumble.mburger.sdk.Common.MBConstants.MBConstants;
 import mumble.mburger.sdk.MBClient.MBData.MBAtomic.MBClass;
 
 /**
- * Identifies a Nooko section, eg. a simple news.
+ * Identifies a MBurger section, eg. a simple news.
  *
  * @author  Enrico Ori
  * @version {@value MBConstants#version}

@@ -169,7 +169,7 @@ public class MBurgerApiActionInitializer {
     /**
      * Initialize an activity/fragment to receive callback for password change API
      */
-    public static BroadcastReceiver initializeNookoReceiverForPasswordChange(Activity activity, MBGenericApiResultListener listener) {
+    public static BroadcastReceiver initializeMBurgerReceiverForPasswordChange(Activity activity, MBGenericApiResultListener listener) {
         if (MBUserConstants.apiKey != null) {
             String[] receivers = new String[]{MBAPIConstants.ACTION_CHANGE_PASSWORD};
             return MBAMActivityUtils.initializeReceiverForApiManager(activity, listener, receivers);

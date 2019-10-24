@@ -24,7 +24,7 @@ import mumble.mburger.sdk.MBClient.MBApiResultsLIsteners.MBApiProjectResultListe
 import mumble.mburger.sdk.MBClient.MBData.MBProjects.MBProject;
 
 /**
- * Task which returns the basic Nooko project data
+ * Task which returns the basic MBurger project data
  * Bundle will return object "project" which is {@link mumble.mburger.sdk.MBClient.MBData.MBProjects.MBProject MBProject}
  *
  * @author Enrico Ori

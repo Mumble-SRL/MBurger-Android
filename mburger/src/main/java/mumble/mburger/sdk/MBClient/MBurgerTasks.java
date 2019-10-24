@@ -27,7 +27,7 @@ import mumble.mburger.sdk.MBClient.MBApiResultsLIsteners.MBApiSendLiveMessageLis
 import mumble.mburger.sdk.MBClient.MBData.MBElements.MBSubElements.MBAnswer;
 
 /**
- * Commodity list of tasks for obtaining Nooko data from MBurger API
+ * Commodity list of tasks for obtaining MBurger data from MBurger API
  *
  * @author Enrico Ori
  * @version {@value MBConstants#version}

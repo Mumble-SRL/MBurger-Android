@@ -10,7 +10,7 @@ You will need to check the `MBurgerAuthTasks` class, where you will find all sta
 ### Register a new user
 
 If you wish to register a new user you will have to call the `MBurgerAuthTasks.registerUser(...)` method. 
-Be aware that a Nooko user contains these fields, some required, some unrequired, some autofilled when registering:
+Be aware that a MBurger user contains these fields, some required, some unrequired, some autofilled when registering:
 
 - (Auto-filled) **ID**
 - (Required) **Name**

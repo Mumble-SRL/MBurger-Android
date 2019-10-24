@@ -327,7 +327,7 @@ public class MBParser {
     }
 
     /**
-     * Gets a single Nooko class from type working with the value, if a known type is not found, a generic element will be created, which
+     * Gets a single MBurger class from type working with the value, if a known type is not found, a generic element will be created, which
      * has the value of a basic object
      */
     private static MBClass getNClassFromElem(Object value, long id, String name, String type) {
