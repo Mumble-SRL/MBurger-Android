@@ -74,44 +74,50 @@ public class MBAsyncTask_getBlock extends AsyncTask<Void, Void, Void> {
 
     private MBBlock block;
 
-    public MBAsyncTask_getBlock(Context context, long block_id, boolean getSections) {
+    public MBAsyncTask_getBlock(Context context, ArrayList<Object> filters, long block_id, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
         this.block_id = block_id;
+        this.filters = filters;
         this.getSections = getSections;
     }
 
-    public MBAsyncTask_getBlock(Context context, long block_id, boolean getSections, boolean getElements) {
+    public MBAsyncTask_getBlock(Context context, ArrayList<Object> filters, long block_id, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.getSections = getSections;
+        this.filters = filters;
         this.block_id = block_id;
         this.getElements = getElements;
     }
 
-    public MBAsyncTask_getBlock(Context context, long block_id, String custom_action, boolean getSections) {
+    public MBAsyncTask_getBlock(Context context, ArrayList<Object> filters, long block_id, String custom_action, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
+        this.filters = filters;
         this.block_id = block_id;
         this.getSections = getSections;
     }
 
-    public MBAsyncTask_getBlock(Context context, long block_id, String custom_action, boolean getSections, boolean getElements) {
+    public MBAsyncTask_getBlock(Context context, ArrayList<Object> filters, long block_id, String custom_action, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
+        this.filters = filters;
         this.block_id = block_id;
         this.getSections = getSections;
         this.getElements = getElements;
     }
 
-    public MBAsyncTask_getBlock(Context context, long block_id, MBApiBlockResultListener listener, boolean getSections) {
+    public MBAsyncTask_getBlock(Context context, ArrayList<Object> filters, long block_id, MBApiBlockResultListener listener, boolean getSections) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
+        this.filters = filters;
         this.block_id = block_id;
         this.getSections = getSections;
     }
 
-    public MBAsyncTask_getBlock(Context context, long block_id, MBApiBlockResultListener listener, boolean getSections, boolean getElements) {
+    public MBAsyncTask_getBlock(Context context, ArrayList<Object> filters, long block_id, MBApiBlockResultListener listener, boolean getSections, boolean getElements) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
+        this.filters = filters;
         this.block_id = block_id;
         this.getSections = getSections;
         this.getElements = getElements;
@@ -169,7 +175,9 @@ public class MBAsyncTask_getBlock extends AsyncTask<Void, Void, Void> {
         }
 
         if (getSections) {
-            MBCommonMethods.addFilters(values, filters);
+            if(filters != null) {
+                MBCommonMethods.addFilters(values, filters);
+            }
         }
 
         map = MBAPIManager3.callApi(weakContext.get(), api, values, MBApiManagerConfig.MODE_GET, true, false);

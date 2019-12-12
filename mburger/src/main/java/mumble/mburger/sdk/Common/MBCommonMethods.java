@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import mumble.mburger.R;
 import mumble.mburger.sdk.Common.MBApiManager.MBApiManagerConfig;
 import mumble.mburger.sdk.Common.MBConstants.MBConstants;
+import mumble.mburger.sdk.MBClient.MBApiFilters.MBFilterEmail;
+import mumble.mburger.sdk.MBClient.MBApiFilters.MBFilterIds;
 import mumble.mburger.sdk.MBClient.MBApiFilters.MBGeneralParameter;
 import mumble.mburger.sdk.MBClient.MBApiFilters.MBLocaleParameter;
 import mumble.mburger.sdk.MBClient.MBApiFilters.MBPaginationParameter;
@@ -44,9 +46,7 @@ public class MBCommonMethods {
      */
     public static boolean isJSONOk(JSONObject json, String key) {
         if (json.has(key)) {
-            if (!json.isNull(key)) {
-                return true;
-            }
+            return !json.isNull(key);
         }
 
         return false;
@@ -80,10 +80,10 @@ public class MBCommonMethods {
                 if (object instanceof MBGeofenceParameter) {
                     MBGeofenceParameter gfParameter = (MBGeofenceParameter) object;
                     values.put("filter[elements.geofence]",
-                            Double.toString(gfParameter.getLatitudeNE()) + ","
-                                    + Double.toString(gfParameter.getLatitudeSW()) + ","
-                                    + Double.toString(gfParameter.getLongitudeNE()) + ","
-                                    + Double.toString(gfParameter.getLongitudeSW()));
+                            gfParameter.getLatitudeNE() + ","
+                                    + gfParameter.getLatitudeSW() + ","
+                                    + gfParameter.getLongitudeNE() + ","
+                                    + gfParameter.getLongitudeSW());
                 }
 
                 if (object instanceof MBFilterParameter) {
@@ -114,6 +114,23 @@ public class MBCommonMethods {
                 if (object instanceof MBGeneralParameter) {
                     MBGeneralParameter generalParameter = (MBGeneralParameter) object;
                     values.put(generalParameter.getKey(), generalParameter.getValue());
+                }
+
+                if (object instanceof MBFilterEmail) {
+                    MBFilterEmail filterParameter = (MBFilterEmail) object;
+                    values.put("filter[value]", "email|" + filterParameter.getValue());
+                }
+
+                if (object instanceof MBFilterIds) {
+                    MBFilterIds filterParameter = (MBFilterIds) object;
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < filterParameter.getValue().size(); i++) {
+                        builder.append(filterParameter.getValue().get(i));
+                        if ((i + 1) < filterParameter.getValue().size()) {
+                            builder.append(",");
+                        }
+                    }
+                    values.put("filter[id]", builder.toString());
                 }
             }
         }
@@ -207,7 +224,7 @@ public class MBCommonMethods {
             // Create MD5 Hash
             MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
             digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
+            byte[] messageDigest = digest.digest();
 
             // Create Hex String
             StringBuffer hexString = new StringBuffer();

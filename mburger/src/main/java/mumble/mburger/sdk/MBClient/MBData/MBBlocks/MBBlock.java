@@ -39,12 +39,18 @@ public class MBBlock implements Serializable {
      */
     private int order;
 
-    public MBBlock(long id, String title, String subtitle, ArrayList<MBSection> sections, int order) {
+    /**
+     * Structure of the block, may be null
+     */
+    private String jArrStructure;
+
+    public MBBlock(long id, String title, String subtitle, ArrayList<MBSection> sections, int order, String jArrStructure) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.sections = sections;
         this.order = order;
+        this.jArrStructure = jArrStructure;
     }
 
     /**
@@ -115,5 +121,13 @@ public class MBBlock implements Serializable {
      */
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
+    }
+
+    public String getjArrStructure() {
+        return jArrStructure;
+    }
+
+    public void setjArrStructure(String jArrStructure) {
+        this.jArrStructure = jArrStructure;
     }
 }

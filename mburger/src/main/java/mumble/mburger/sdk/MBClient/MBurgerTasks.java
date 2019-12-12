@@ -202,9 +202,9 @@ public class MBurgerTasks {
     /**
      * Asks blocks data from API with or without sections
      */
-    public static void askForBlock(Context context, long block_id, boolean getSections) {
+    public static void askForBlock(Context context, ArrayList<Object> filters, long block_id, boolean getSections) {
         if (MBUserConstants.apiKey != null) {
-            new MBAsyncTask_getBlock(context, block_id, getSections).execute();
+            new MBAsyncTask_getBlock(context, filters, block_id, getSections).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -213,9 +213,9 @@ public class MBurgerTasks {
     /**
      * Asks blocks data from API with or without sections and elements
      */
-    public static void askForBlock(Context context, long block_id, boolean getSections, boolean getElements) {
+    public static void askForBlock(Context context, ArrayList<Object> filters, long block_id, boolean getSections, boolean getElements) {
         if (MBUserConstants.apiKey != null) {
-            new MBAsyncTask_getBlock(context, block_id, getSections, getElements).execute();
+            new MBAsyncTask_getBlock(context, filters, block_id, getSections, getElements).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -224,9 +224,9 @@ public class MBurgerTasks {
     /**
      * Asks blocks data from API with or without sections with a custom action return
      */
-    public static void askForBlock(Context context, long block_id, boolean getSections, String custom_action) {
+    public static void askForBlock(Context context, ArrayList<Object> filters, long block_id, boolean getSections, String custom_action) {
         if (MBUserConstants.apiKey != null) {
-            new MBAsyncTask_getBlock(context, block_id, custom_action, getSections).execute();
+            new MBAsyncTask_getBlock(context, filters, block_id, custom_action, getSections).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -235,9 +235,9 @@ public class MBurgerTasks {
     /**
      * Asks blocks data from API with or without sections with listener
      */
-    public static void askForBlock(Context context, long block_id, boolean getSections, MBApiBlockResultListener listener) {
+    public static void askForBlock(Context context, ArrayList<Object> filters, long block_id, boolean getSections, MBApiBlockResultListener listener) {
         if (MBUserConstants.apiKey != null) {
-            new MBAsyncTask_getBlock(context, block_id, listener, getSections).execute();
+            new MBAsyncTask_getBlock(context, filters, block_id, listener, getSections).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -246,9 +246,9 @@ public class MBurgerTasks {
     /**
      * Asks blocks data from API with or without sections and elements with a custom action return
      */
-    public static void askForBlock(Context context, long block_id, boolean getSections, boolean getElements, String custom_action) {
+    public static void askForBlock(Context context, ArrayList<Object> filters, long block_id, boolean getSections, boolean getElements, String custom_action) {
         if (MBUserConstants.apiKey != null) {
-            new MBAsyncTask_getBlock(context, block_id, custom_action, getSections, getElements).execute();
+            new MBAsyncTask_getBlock(context, filters, block_id, custom_action, getSections, getElements).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }
@@ -257,9 +257,9 @@ public class MBurgerTasks {
     /**
      * Asks blocks data from API with or without sections and elements with listener
      */
-    public static void askForBlock(Context context, long block_id, boolean getSections, boolean getElements, MBApiBlockResultListener listener) {
+    public static void askForBlock(Context context, ArrayList<Object> filters, long block_id, boolean getSections, boolean getElements, MBApiBlockResultListener listener) {
         if (MBUserConstants.apiKey != null) {
-            new MBAsyncTask_getBlock(context, block_id, listener, getSections, getElements).execute();
+            new MBAsyncTask_getBlock(context, filters, block_id, listener, getSections, getElements).execute();
         } else {
             throw new MBSDKInitializeException(context.getString(R.string.exception_sdk_not_initialized));
         }

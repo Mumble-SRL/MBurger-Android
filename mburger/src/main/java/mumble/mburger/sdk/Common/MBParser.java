@@ -198,6 +198,7 @@ public class MBParser {
         String title = null, subtitle = null;
         int order = 0;
         ArrayList<MBSection> sections = null;
+        String jArrStructure = null;
 
         try {
             if (MBCommonMethods.isJSONOk(jsonObject, "id")) {
@@ -221,11 +222,15 @@ public class MBParser {
                     sections = parseSections(jsonObject.getJSONArray("sections"), getElements);
                 }
             }
+
+            if(MBCommonMethods.isJSONOk(jsonObject, "structure")){
+                jArrStructure = jsonObject.getString("structure");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return new MBBlock(id, title, subtitle, sections, order);
+        return new MBBlock(id, title, subtitle, sections, order, jArrStructure);
     }
 
     /**
